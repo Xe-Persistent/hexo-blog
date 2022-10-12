@@ -79,7 +79,7 @@ tag_map:
   Git: git
   Java: java
   Lambda: lambda
-  MyBatis-Plus: mybatis-plus
+  数据库: database
   SSH: ssh
   Stream: stream
 
@@ -137,7 +137,7 @@ bangumi:
   show: 1
   lazyload: true
   loading:
-  metaColor: '#49B1F5'
+  metaColor: '#49b1f5'
   color:
   webp: true
   progress: true
@@ -156,7 +156,7 @@ cinema:
   show: 1
   lazyload: true
   loading:
-  metaColor: '#49B1F5'
+  metaColor: '#49b1f5'
   color:
   webp: true
   progress: true
