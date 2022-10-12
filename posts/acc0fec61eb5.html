@@ -234,13 +234,13 @@
 <tbody><tr>
 <td align="left">GitHub</td>
 <td align="left">personal</td>
-<td align="left"><a href="mailto:&#x70;&#x65;&#x72;&#x73;&#111;&#110;&#97;&#x6c;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;">&#x70;&#x65;&#x72;&#x73;&#111;&#110;&#97;&#x6c;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;</a></td>
+<td align="left"><a href="mailto:&#x70;&#x65;&#x72;&#x73;&#111;&#x6e;&#97;&#x6c;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#x70;&#x65;&#x72;&#x73;&#111;&#x6e;&#97;&#x6c;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a></td>
 <td align="left">个人邮箱</td>
 </tr>
 <tr>
 <td align="left">公司服务器</td>
 <td align="left">company</td>
-<td align="left"><a href="mailto:&#99;&#x6f;&#x6d;&#x70;&#97;&#110;&#x79;&#x40;&#x63;&#x6f;&#109;&#x70;&#x61;&#x6e;&#121;&#x2e;&#99;&#110;">&#99;&#x6f;&#x6d;&#x70;&#97;&#110;&#x79;&#x40;&#x63;&#x6f;&#109;&#x70;&#x61;&#x6e;&#121;&#x2e;&#99;&#110;</a></td>
+<td align="left"><a href="mailto:&#x63;&#111;&#x6d;&#112;&#97;&#110;&#121;&#64;&#99;&#111;&#109;&#112;&#97;&#110;&#x79;&#46;&#99;&#110;">&#x63;&#111;&#x6d;&#112;&#97;&#110;&#121;&#64;&#99;&#111;&#109;&#112;&#97;&#110;&#x79;&#46;&#99;&#110;</a></td>
 <td align="left">公司邮箱</td>
 </tr>
 </tbody></table>
@@ -300,7 +300,7 @@
   const init = () => {
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
-      envId: 'https://twikoo-comment-lime.vercel.app',
+      envId: 'https://twikoo.dongzhenxian.com',
       region: '',
       onCommentLoaded: function () {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
@@ -312,7 +312,7 @@
     const countELement = document.getElementById('twikoo-count')
     if(!countELement) return
     twikoo.getCommentsCount({
-      envId: 'https://twikoo-comment-lime.vercel.app',
+      envId: 'https://twikoo.dongzhenxian.com',
       region: '',
       urls: [window.location.pathname],
       includeReply: false
