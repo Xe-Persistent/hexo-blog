@@ -344,7 +344,7 @@ facebook_comments:
 # Twikoo
 # https://github.com/imaegoo/twikoo
 twikoo:
-  envId: https://twikoo-comment-lime.vercel.app
+  envId: https://twikoo.dongzhenxian.com
   region:
   visitor: false
   option:
