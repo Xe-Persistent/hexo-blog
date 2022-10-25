@@ -3309,11 +3309,8 @@ h1.page-title + .tag-cloud-list {
   --waline-theme-color: #49b1f5;
   --waline-active-color: #ff7242;
 }
-#waline-wrap .vuser {
-  transition: all 0.5s;
-}
-#waline-wrap .vuser:hover {
-  transform: rotate(360deg);
+#waline-wrap .wl-comment-actions > button:not(last-child) {
+  padding-right: 4px;
 }
 .fireworks {
   position: fixed;
