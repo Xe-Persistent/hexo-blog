@@ -130,36 +130,21 @@ search:
 bangumi:
   enable: true
   source: bili
-  path:
   vmid: 110492147
   title: '我的番剧收藏'
   quote: '生命不息，追番不止！'
   show: 1
   lazyload: true
-  loading:
   metaColor: '#49b1f5'
-  color:
   webp: true
   progress: true
-  extraOrder:
-  proxy:
-    host: '代理host'
-    port: '代理端口'
-  extra_options:
-    key: value
 cinema:
   enable: true
-  path:
   vmid: 110492147
   title: '我的影视收藏'
   quote: '生命不息，追剧不止！'
   show: 1
   lazyload: true
-  loading:
   metaColor: '#49b1f5'
-  color:
   webp: true
   progress: true
-  extraOrder:
-  extra_options:
-    key: value
