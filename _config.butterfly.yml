@@ -931,7 +931,7 @@ CDN:
     # valine:
     # disqusjs:
     # disqusjs_css:
-    twikoo: https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.7/twikoo.all.min.js
+    twikoo: https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.8/twikoo.all.min.js
     # waline_js:
     # waline_css:
     # sharejs:
@@ -956,7 +956,7 @@ CDN:
     # fireworks:
     # click_heart:
     # ClickShowText:
-    fontawesomeV6: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css
+    fontawesomeV6: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css
     # flickr_justified_gallery_js:
     # flickr_justified_gallery_css:
     # aplayer_css:
