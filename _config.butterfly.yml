@@ -17,6 +17,11 @@ menu:
   留言板: /comments/ || fa-solid fa-comments
   关于: /about/ || fa-solid fa-circle-user
 
+nav:
+  logo: https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/logo/favicon.ico
+  display_title: true
+  fixed: false # fixed navigation bar
+
 # Code Blocks (代碼相關)
 # --------------------------------------
 
@@ -92,17 +97,17 @@ avatar:
 disable_top_img: true
 
 # The banner image of home page
-index_img: 
+index_img:
 
 # If the banner of page not setting, it will show the top_img
-default_top_img: 
+default_top_img:
 
 # The banner image of archive page
-archive_img: 
+archive_img:
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)
-tag_img: 
+tag_img:
 
 # The banner image of tag page
 # format:
@@ -190,6 +195,7 @@ toc:
   number: true
   expand: false
   style_simple: false # for post
+  scroll_percent: false
 
 post_copyright:
   enable: true
@@ -402,7 +408,7 @@ tidio:
   public_key:
 
 # daovoice
-# http://daovoice.io/
+# http://dashboard.daovoice.io/app
 daovoice:
   enable: false
   app_id:
@@ -431,7 +437,7 @@ messenger:
 footer:
   owner:
     enable: true
-    since: 2022
+    since: 2022-2023
   custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://www.dongzhenxian.com/">主站：dongzhenxian.com</a><a style="margin-inline:5px"target="_blank"href="https://xe-persistent.github.io/">镜像站：xe-persistent.github.io</a></p><p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站采用双线部署，主站托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub，镜像站托管于GitHub Pages"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
   copyright: false # Copyright of theme and framework
 
@@ -445,10 +451,6 @@ baidu_analytics:
 # Google Analytics
 # https://analytics.google.com/analytics/web/
 google_analytics:
-
-# CNZZ Analytics
-# https://www.umeng.com/
-cnzz_analytics:
 
 # Cloudflare Analytics
 # https://www.cloudflare.com/zh-tw/web-analytics/
@@ -629,16 +631,13 @@ subtitle:
   enable: false
   # Typewriter Effect (打字效果)
   effect: true
-  # Effect Speed Options (打字效果速度參數)
-  startDelay: 300 # time before typing starts in milliseconds
-  typeSpeed: 150 # type speed in milliseconds
-  backSpeed: 50 # backspacing speed in milliseconds
-  # loop (循環打字)
-  loop: true
+  # Customize typed.js (配置typed.js)
+  # https://github.com/mattboldt/typed.js/#customization
+  typed_option:
   # source 調用第三方服務
   # source: false 關閉調用
   # source: 1  調用一言網的一句話（簡體） https://hitokoto.cn/
-  # source: 2  調用一句網（簡體） http://yijuzhan.com/
+  # source: 2  調用一句網（簡體） https://yijuzhan.com/
   # source: 3  調用今日詩詞（簡體） https://www.jinrishici.com/
   # subtitle 會先顯示 source , 再顯示 sub 的內容
   source: false
@@ -763,6 +762,9 @@ darkmode:
   # autoChangeMode: false
   autoChangeMode: 1
 
+# show scroll percent in scroll-to-top button
+rightside_scroll_percent: false
+
 # Don't modify the following settings unless you know how they work (非必要請不要修改 )
 # Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
 # Don't repeat 不要重複
@@ -879,7 +881,7 @@ Open_Graph_meta:
     # fb_app_id:
 
 # Add the vendor prefixes to ensure compatibility
-css_prefix: false
+css_prefix: true
 
 # Inject
 # Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
@@ -908,7 +910,7 @@ CDN:
   # when set it to local, you need to install hexo-butterfly-extjs
   third_party_provider: custom
 
-  # Add version number to CDN, true or false  
+  # Add version number to CDN, true or false
   version: false
 
   # Custom format
@@ -967,3 +969,4 @@ CDN:
     # prismjs_autoloader:
     # artalk_js:
     # artalk_css:
+    busuanzi: https://cdnjs.cloudflare.com/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.js

@@ -82,7 +82,7 @@ Map<Long, List<Long>> roomPreInspectionMap = preInspectionList.stream()
 # 统计数量
 Java中统计数量的逻辑可以使用`for`循环遍历集合来实现，也可以使用`Stream`的`reduce`操作来实现。
 
-## 在循环中使用merge方法
+## 使用merge
 ```java
 resultMap.merge(EquipmentTypeEnum.of(preInspectionTypeMap.get(it.getObjectId())), 1L, Long::sum);
 
