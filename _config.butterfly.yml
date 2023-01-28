@@ -437,7 +437,7 @@ messenger:
 footer:
   owner:
     enable: true
-    since: 2022-2023
+    since: 2022
   custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://www.dongzhenxian.com/">主站：dongzhenxian.com</a><a style="margin-inline:5px"target="_blank"href="https://xe-persistent.github.io/">镜像站：xe-persistent.github.io</a></p><p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站采用双线部署，主站托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub，镜像站托管于GitHub Pages"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
   copyright: false # Copyright of theme and framework
 
