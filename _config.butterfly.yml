@@ -29,7 +29,7 @@ highlight_theme: light #  darker / pale night / light / ocean / mac / mac light 
 highlight_copy: true # copy button
 highlight_lang: true # show the code language
 highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
-highlight_height_limit: 300 # unit: px
+highlight_height_limit: false # unit: px
 code_word_wrap: false
 
 # copy settings
@@ -63,6 +63,15 @@ local_search:
   enable: true
   preload: false
   CDN:
+
+# Docsearch
+# https://docsearch.algolia.com/
+docsearch:
+  enable: false
+  appId:
+  apiKey:
+  indexName:
+  option:
 
 # Math (數學)
 # --------------------------------------
@@ -696,6 +705,8 @@ aside:
     enable: true
     limit: 40 # if set 0 will show all
     color: true
+    orderby: random # Order of tags, random/name/length
+    order: 1 # Sort of order. 1, asc for ascending; -1, desc for descending
     sort_order: # Don't modify the setting unless you know how it works
   card_archives:
     enable: false
@@ -908,7 +919,7 @@ CDN:
   # The CDN provider of third party scripts (第三方 js 的 cdn 配置)
   # option: local/jsdelivr/unpkg/cdnjs/custom
   # when set it to local, you need to install hexo-butterfly-extjs
-  third_party_provider: custom
+  third_party_provider: cdnjs
 
   # Add version number to CDN, true or false
   version: false
@@ -926,6 +937,8 @@ CDN:
     # algolia_js:
     # algolia_search_v4:
     # instantsearch_v4:
+    # docsearch_js:
+    # docsearch_css:
     # pjax:
     # gitalk:
     # gitalk_css:
@@ -933,7 +946,7 @@ CDN:
     # valine:
     # disqusjs:
     # disqusjs_css:
-    twikoo: https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.8/twikoo.all.min.js
+    # twikoo:
     # waline_js:
     # waline_css:
     # sharejs:
@@ -949,16 +962,16 @@ CDN:
     # instantpage:
     # typed:
     # pangu:
-    fancybox_css_v4: https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/4.0.31/fancybox.min.css
-    fancybox_v4: https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/4.0.31/fancybox.umd.js
+    # fancybox_css_v4:
+    # fancybox_v4:
     # medium_zoom:
-    snackbar_css: https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css
-    snackbar: https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.js
+    # snackbar_css:
+    # snackbar:
     # activate_power_mode:
     # fireworks:
     # click_heart:
     # ClickShowText:
-    fontawesomeV6: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css
+    # fontawesomeV6:
     # flickr_justified_gallery_js:
     # flickr_justified_gallery_css:
     # aplayer_css:
@@ -969,4 +982,4 @@ CDN:
     # prismjs_autoloader:
     # artalk_js:
     # artalk_css:
-    busuanzi: https://cdnjs.cloudflare.com/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.js
+    # busuanzi:
