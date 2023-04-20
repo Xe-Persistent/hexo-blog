@@ -3,7 +3,7 @@
 # --------------------------------------
 
 nav:
-  logo: https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/logo/favicon.ico
+  logo: https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/logo/favicon.ico
   display_title: true
   fixed: false # fixed navigation bar
 
@@ -49,7 +49,7 @@ favicon: /img/favicon.ico
 
 # Avatar (頭像)
 avatar:
-  img: https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/avatar.webp
+  img: https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/avatar.webp
   effect: false
 
 # Disable all banner image
@@ -103,7 +103,7 @@ error_img:
 error_404:
   enable: true
   subtitle: '页面没有找到'
-  background: https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/friend-404-page.webp
+  background: https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/friend-404-page.webp
 
 post_meta:
   page: # Home Page
@@ -645,7 +645,7 @@ tag_ui: # 留空或 index
 # Website Background (設置網站背景)
 # can set it to color or image (可設置圖片 或者 顔色)
 # The formal of image: url(http://xxxxxx.com/xxx.jpg)
-background: url(https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/msi-gwen.webp)
+background: url(https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/msi-gwen.webp)
 
 # Footer Background
 footer_bg: false
@@ -897,8 +897,7 @@ css_prefix: true
 inject:
   head:
   # - <link rel="stylesheet" href="/xxx.css">
-    <link rel="preconnect" href="https://gcore.jsdelivr.net/" />
-    <link rel="preconnect" href="https://npm.elemecdn.com/" />
+    <link rel="preconnect" href="https://testingcf.jsdelivr.net/" />
     <link rel="preconnect" href="https://s1.hdslb.com/" />
     <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" />
   bottom:
