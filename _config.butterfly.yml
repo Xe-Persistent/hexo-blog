@@ -1,7 +1,13 @@
-# Main menu navigation (導航目錄)
-# see https://butterfly.js.org/posts/4aa8abbe/#導航菜單
+# Navigation bar settings (導航欄設置)
+# see https://butterfly.js.org/posts/4aa8abbe/##導航欄設置-Navigation-bar-settings
 # --------------------------------------
 
+nav:
+  logo: https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/logo/favicon.ico
+  display_title: true
+  fixed: false # fixed navigation bar
+
+# Menu 目錄
 menu:
   首页: / || fa-solid fa-house
   导航||fa-solid fa-compass:
@@ -17,11 +23,6 @@ menu:
   留言板: /comments/ || fa-solid fa-comments
   关于: /about/ || fa-solid fa-circle-user
 
-nav:
-  logo: https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/logo/favicon.ico
-  display_title: true
-  fixed: false # fixed navigation bar
-
 # Code Blocks (代碼相關)
 # --------------------------------------
 
@@ -32,64 +33,13 @@ highlight_shrink: false # true: shrink the code blocks / false: expand the code 
 highlight_height_limit: false # unit: px
 code_word_wrap: false
 
-# copy settings
-# copyright: Add the copyright information after copied content (複製的內容後面加上版權信息)
-copy:
-  enable: true
-  copyright:
-    enable: false
-    limit_count: 50
-
-# social settings (社交圖標設置)
+# Social Settings (社交圖標設置)
 # formal:
-#   icon: link || the description
+#   icon: link || the description || color
 social:
   fa-solid fa-envelope: mailto:474663082@qq.com || Email
   fa-brands fa-weibo: https://weibo.com/u/5226256957 || 微博
   fa-brands fa-twitter: https://twitter.com/Xe_Persistent || Twitter
-
-# search (搜索)
-# see https://butterfly.js.org/posts/ceeb73f/#搜索系統
-# --------------------------------------
-
-# Algolia search
-algolia_search:
-  enable: false
-  hits:
-    per_page: 6
-
-# Local search
-local_search:
-  enable: true
-  preload: false
-  CDN:
-
-# Docsearch
-# https://docsearch.algolia.com/
-docsearch:
-  enable: false
-  appId:
-  apiKey:
-  indexName:
-  option:
-
-# Math (數學)
-# --------------------------------------
-# About the per_page
-# if you set it to true, it will load mathjax/katex script in each page (true 表示每一頁都加載js)
-# if you set it to false, it will load mathjax/katex script according to your setting (add the 'mathjax: true' in page's front-matter)
-# (false 需要時加載，須在使用的 Markdown Front-matter 加上 mathjax: true)
-
-# MathJax
-mathjax:
-  enable: false
-  per_page: false
-
-# KaTeX
-katex:
-  enable: false
-  per_page: false
-  hide_scrollbar: true
 
 # Image (圖片設置)
 # --------------------------------------
@@ -142,7 +92,7 @@ cover:
   position: both
   # When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)
   default_cover:
-    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+  # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
 
 # Replace Broken Images (替換無法顯示的圖片)
 error_img:
@@ -169,14 +119,6 @@ post_meta:
     tags: true # true or false 文章頁是否顯示標籤
     label: true # true or false 顯示描述性文字
 
-# wordcount (字數統計)
-# see https://butterfly.js.org/posts/ceeb73f/#字數統計
-wordcount:
-  enable: true
-  post_wordcount: true
-  min2read: true
-  total_wordcount: true
-
 # Display the article introduction on homepage
 # 1: description
 # 2: both (if the description exists, it will show description, or show the auto_excerpt)
@@ -193,6 +135,17 @@ anchor:
     always_show: false
     icon: # the unicode value of Font Awesome icon, such as '\3423'
   auto_update: false # when you scroll in post, the URL will update according to header id.
+
+# figcaption (圖片描述文字)
+photofigcaption: true
+
+# copy settings
+# copyright: Add the copyright information after copied content (複製的內容後面加上版權信息)
+copy:
+  enable: true
+  copyright:
+    enable: false
+    limit_count: 50
 
 # Post
 # --------------------------------------
@@ -217,12 +170,12 @@ post_copyright:
 reward:
   enable: false
   QR_code:
-    # - img: /img/wechat.jpg
-    #   link:
-    #   text: wechat
-    # - img: /img/alipay.jpg
-    #   link:
-    #   text: alipay
+  # - img: /img/wechat.jpg
+  #   link:
+  #   text: wechat
+  # - img: /img/alipay.jpg
+  #   link:
+  #   text: alipay
 
 # Post edit
 # Easily browse and edit blog source code online.
@@ -237,9 +190,6 @@ related_post:
   enable: true
   limit: 6 # Number of posts displayed
   date_type: created # or created or updated 文章日期顯示創建日或者更新日
-
-# figcaption (圖片描述文字)
-photofigcaption: true
 
 # post_pagination (分頁)
 # value: 1 || 2 || false
@@ -257,7 +207,183 @@ noticeOutdate:
   message_prev: It has been
   message_next: days since the last update, the content of the article may be outdated.
 
-# Share System (分享功能)
+# Footer Settings
+# --------------------------------------
+footer:
+  owner:
+    enable: true
+    since: 2022
+  custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://www.dongzhenxian.com/">主站：dongzhenxian.com</a><a style="margin-inline:5px"target="_blank"href="https://xe-persistent.github.io/">镜像站：xe-persistent.github.io</a></p><p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站采用双线部署，主站托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub，镜像站托管于GitHub Pages"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
+  copyright: false # Copyright of theme and framework
+
+# aside (側邊欄)
+# --------------------------------------
+
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true # display on mobile
+  position: right # left or right
+  display:
+    archive: true
+    tag: true
+    category: true
+  card_author:
+    enable: true
+    description:
+    button:
+      enable: true
+      icon: fa-brands fa-github
+      text: 关注我的GitHub
+      link: https://github.com/Xe-Persistent
+  card_announcement:
+    enable: true
+    content: 欢迎来到贞宪的博客！
+  card_recent_post:
+    enable: true
+    limit: 5 # if set 0 will show all
+    sort: date # date or updated
+    sort_order: # Don't modify the setting unless you know how it works
+  card_categories:
+    enable: true
+    limit: 8 # if set 0 will show all
+    expand: none # none/true/false
+    sort_order: # Don't modify the setting unless you know how it works
+  card_tags:
+    enable: true
+    limit: 40 # if set 0 will show all
+    color: false
+    orderby: random # Order of tags, random/name/length
+    order: 1 # Sort of order. 1, asc for ascending; -1, desc for descending
+    sort_order: # Don't modify the setting unless you know how it works
+  card_archives:
+    enable: false
+    type: monthly # yearly or monthly
+    format: MMMM YYYY # eg: YYYY年MM月
+    order: -1 # Sort of order. 1, asc for ascending; -1, desc for descending
+    limit: 8 # if set 0 will show all
+    sort_order: # Don't modify the setting unless you know how it works
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+    sort_order: # Don't modify the setting unless you know how it works
+
+# busuanzi count for PV / UV in site
+# 訪問人數
+busuanzi:
+  site_uv: true
+  site_pv: true
+  page_pv: true
+
+# Time difference between publish date and now (網頁運行時間)
+# Formal: Month/Day/Year Time or Year/Month/Day Time
+runtimeshow:
+  enable: true
+  publish_date: 05/12/2022 00:00:00
+
+# Aside widget - Newest Comments
+newest_comments:
+  enable: true
+  sort_order: # Don't modify the setting unless you know how it works
+  limit: 6
+  storage: 10 # unit: mins, save data to localStorage
+  avatar: true
+
+# Bottom right button (右下角按鈕)
+# --------------------------------------
+
+# Conversion between Traditional and Simplified Chinese (簡繁轉換)
+translate:
+  enable: false
+  # The text of a button
+  default: 繁
+  # the language of website (1 - Traditional Chinese/ 2 - Simplified Chinese）
+  defaultEncoding: 2
+  # Time delay
+  translateDelay: 0
+  # The text of the button when the language is Simplified Chinese
+  msgToTraditionalChinese: '繁'
+  # The text of the button when the language is Traditional Chinese
+  msgToSimplifiedChinese: '簡'
+
+# Read Mode (閲讀模式)
+readmode: true
+
+# dark mode
+darkmode:
+  enable: true
+  # Toggle Button to switch dark/light mode
+  button: true
+  # Switch dark/light mode automatically (自動切換 dark mode和 light mode)
+  # autoChangeMode: 1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am
+  # autoChangeMode: 2  Switch dark mode between 6 pm to 6 am
+  # autoChangeMode: false
+  autoChangeMode: 1
+  # Set the light mode time. The value is between 0 and 24. If not set, the default value is 6 and 18
+  start: # 8
+  end: # 22
+
+# show scroll percent in scroll-to-top button
+rightside_scroll_percent: false
+
+# Don't modify the following settings unless you know how they work (非必要請不要修改 )
+# Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
+# Don't repeat 不要重複
+rightside_item_order:
+  enable: false
+  hide: # readmode,translate,darkmode,hideAside
+  show: # toc,chat,comment
+
+# Math (數學)
+# --------------------------------------
+# About the per_page
+# if you set it to true, it will load mathjax/katex script in each page (true 表示每一頁都加載js)
+# if you set it to false, it will load mathjax/katex script according to your setting (add the 'mathjax: true' in page's front-matter)
+# (false 需要時加載，須在使用的 Markdown Front-matter 加上 mathjax: true)
+
+# MathJax
+mathjax:
+  enable: false
+  per_page: false
+
+# KaTeX
+katex:
+  enable: false
+  per_page: false
+  hide_scrollbar: true
+
+# search (搜索)
+# see https://butterfly.js.org/posts/ceeb73f/#搜索系統
+# --------------------------------------
+
+# Algolia search
+algolia_search:
+  enable: false
+  hits:
+    per_page: 6
+
+# Local search
+local_search:
+  enable: true
+  # Preload the search data when the page loads.
+  preload: true
+  # Show top n results per article, show all results by setting to -1
+  top_n_per_article: 1
+  # Unescape html strings to the readable one.
+  unescape: false
+  CDN:
+
+# Docsearch
+docsearch:
+  enable: false
+  appId:
+  apiKey:
+  indexName:
+  option:
+
+# Share System (分享)
 # --------------------------------------
 
 # AddThis
@@ -283,9 +409,8 @@ addtoany:
 
 comments:
   # Up to two comments system, the first will be shown as default
-  # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus
-  use: 
-    - twikoo # (设置gitalk作为评论区)
+  # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
+  use: Twikoo
   text: true # Display the comment name next to the button
   # lazyload: The comment system will be load when comment element enters the browser's viewport.
   # If you set it to true, the comment count will be invalid
@@ -422,12 +547,6 @@ daovoice:
   enable: false
   app_id:
 
-# gitter
-# https://gitter.im/
-gitter:
-  enable: false
-  room:
-
 # crisp
 # https://crisp.chat/en/
 crisp:
@@ -440,15 +559,6 @@ messenger:
   enable: false
   pageID:
   lang: zh_CN # Language en_US/zh_CN/zh_TW and so on
-
-# Footer Settings
-# --------------------------------------
-footer:
-  owner:
-    enable: true
-    since: 2022
-  custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://www.dongzhenxian.com/">主站：dongzhenxian.com</a><a style="margin-inline:5px"target="_blank"href="https://xe-persistent.github.io/">镜像站：xe-persistent.github.io</a></p><p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站采用双线部署，主站托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub，镜像站托管于GitHub Pages"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
-  copyright: false # Copyright of theme and framework
 
 # Analysis
 # --------------------------------------
@@ -490,10 +600,10 @@ google_adsense:
 # --------------------------------------
 
 site_verification:
-  # - name: google-site-verification
-  #   content: xxxxxx
-  # - name: baidu-site-verification
-  #   content: xxxxxxx
+# - name: google-site-verification
+#   content: xxxxxx
+# - name: baidu-site-verification
+#   content: xxxxxxx
 
 # Beautify/Effect (美化/效果)
 # --------------------------------------
@@ -546,6 +656,14 @@ rightside-bottom:
 # Enter transitions (開啓網頁進入效果)
 enter_transitions: true
 
+# Typewriter Effect (打字效果)
+# https://github.com/disjukr/activate-power-mode
+activate_power_mode:
+  enable: false
+  colorful: true # open particle animation (冒光特效)
+  shake: true #  open shake (抖動特效)
+  mobile: false
+
 # Background effects (背景特效)
 # --------------------------------------
 
@@ -568,18 +686,10 @@ canvas_fluttering_ribbon:
 # https://github.com/hustcc/canvas-nest.js
 canvas_nest:
   enable: false
-  color: '73,177,245' #color of lines, default: '0,0,0'; RGB values: (R,G,B).(note: use ',' to separate.)
+  color: '0,0,255' #color of lines, default: '0,0,0'; RGB values: (R,G,B).(note: use ',' to separate.)
   opacity: 0.7 # the opacity of line (0~1), default: 0.5.
   zIndex: -1 # z-index property of the background, default: -1.
   count: 99 # the number of lines, default: 99.
-  mobile: false
-
-# Typewriter Effect (打字效果)
-# https://github.com/disjukr/activate-power-mode
-activate_power_mode:
-  enable: false
-  colorful: true # open particle animation (冒光特效)
-  shake: true #  open shake (抖動特效)
   mobile: false
 
 # Mouse click effects: fireworks (鼠標點擊效果: 煙火特效)
@@ -597,9 +707,9 @@ click_heart:
 ClickShowText:
   enable: false
   text:
-    # - I
-    # - LOVE
-    # - YOU
+  # - I
+  # - LOVE
+  # - YOU
   fontSize: 15px
   random: false
   mobile: false
@@ -652,10 +762,6 @@ subtitle:
   source: false
   # 如果關閉打字效果，subtitle 只會顯示 sub 的第一行文字
   sub:
-    - 欢迎来到我的世界！
-    - Welcome to My World!
-    - 今日事，今日毕。
-    - Never put off till tomorrow.
 
 # Loading Animation (加載動畫)
 preloader:
@@ -667,122 +773,13 @@ preloader:
   # pace theme (see https://codebyzach.github.io/pace/)
   pace_css_url:
 
-# aside (側邊欄)
-# --------------------------------------
-
-aside:
+# wordcount (字數統計)
+# see https://butterfly.js.org/posts/ceeb73f/#字數統計
+wordcount:
   enable: true
-  hide: false
-  button: true
-  mobile: true # display on mobile
-  position: right # left or right
-  display:
-    archive: true
-    tag: true
-    category: true
-  card_author:
-    enable: true
-    description:
-    button:
-      enable: true
-      icon: fa-brands fa-github
-      text: 关注我的GitHub
-      link: https://github.com/Xe-Persistent
-  card_announcement:
-    enable: true
-    content: 欢迎来到贞宪的博客！
-  card_recent_post:
-    enable: true
-    limit: 5 # if set 0 will show all
-    sort: date # date or updated
-    sort_order: # Don't modify the setting unless you know how it works
-  card_categories:
-    enable: true
-    limit: 8 # if set 0 will show all
-    expand: none # none/true/false
-    sort_order: # Don't modify the setting unless you know how it works
-  card_tags:
-    enable: true
-    limit: 40 # if set 0 will show all
-    color: true
-    orderby: random # Order of tags, random/name/length
-    order: 1 # Sort of order. 1, asc for ascending; -1, desc for descending
-    sort_order: # Don't modify the setting unless you know how it works
-  card_archives:
-    enable: false
-    type: monthly # yearly or monthly
-    format: MMMM YYYY # eg: YYYY年MM月
-    order: -1 # Sort of order. 1, asc for ascending; -1, desc for descending
-    limit: 8 # if set 0 will show all
-    sort_order: # Don't modify the setting unless you know how it works
-  card_webinfo:
-    enable: true
-    post_count: true
-    last_push_date: true
-    sort_order: # Don't modify the setting unless you know how it works
-
-# busuanzi count for PV / UV in site
-# 訪問人數
-busuanzi:
-  site_uv: true
-  site_pv: true
-  page_pv: true
-
-# Time difference between publish date and now (網頁運行時間)
-# Formal: Month/Day/Year Time or Year/Month/Day Time
-runtimeshow:
-  enable: true
-  publish_date: 05/12/2022 00:00:00
-
-# Aside widget - Newest Comments
-newest_comments:
-  enable: true
-  sort_order: # Don't modify the setting unless you know how it works
-  limit: 6
-  storage: 10 # unit: mins, save data to localStorage
-  avatar: true
-
-# Bottom right button (右下角按鈕)
-# --------------------------------------
-
-# Conversion between Traditional and Simplified Chinese (簡繁轉換)
-translate:
-  enable: false
-  # The text of a button
-  default: 繁
-  # the language of website (1 - Traditional Chinese/ 2 - Simplified Chinese）
-  defaultEncoding: 2
-  # Time delay
-  translateDelay: 0
-  # The text of the button when the language is Simplified Chinese
-  msgToTraditionalChinese: '繁'
-  # The text of the button when the language is Traditional Chinese
-  msgToSimplifiedChinese: '簡'
-
-# Read Mode (閲讀模式)
-readmode: true
-
-# dark mode
-darkmode:
-  enable: true
-  # Toggle Button to switch dark/light mode
-  button: true
-  # Switch dark/light mode automatically (自動切換 dark mode和 light mode)
-  # autoChangeMode: 1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am
-  # autoChangeMode: 2  Switch dark mode between 6 pm to 6 am
-  # autoChangeMode: false
-  autoChangeMode: 1
-
-# show scroll percent in scroll-to-top button
-rightside_scroll_percent: false
-
-# Don't modify the following settings unless you know how they work (非必要請不要修改 )
-# Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
-# Don't repeat 不要重複
-rightside_item_order:
-  enable: false
-  hide: # readmode,translate,darkmode,hideAside
-  show: # toc,chat,comment
+  post_wordcount: true
+  min2read: true
+  total_wordcount: true
 
 # Lightbox (圖片大圖查看模式)
 # --------------------------------------
@@ -793,7 +790,7 @@ rightside_item_order:
 medium_zoom: false
 
 # fancybox
-# http://fancyapps.com/fancybox/3/
+# https://fancyapps.com/fancybox/
 fancybox: true
 
 # Tag Plugins settings (標籤外掛)
@@ -831,8 +828,8 @@ note:
 pjax:
   enable: false
   exclude:
-    # - xxxx
-    # - xxxx
+  # - xxxx
+  # - xxxx
 
 # Inject the css and script (aplayer/meting)
 aplayerInject:
@@ -883,13 +880,13 @@ lazyload:
 Open_Graph_meta:
   enable: true
   option:
-    # twitter_card:
-    # twitter_image:
-    # twitter_id:
-    # twitter_site:
-    # google_plus:
-    # fb_admins:
-    # fb_app_id:
+  # twitter_card:
+  # twitter_image:
+  # twitter_id:
+  # twitter_site:
+  # google_plus:
+  # fb_admins:
+  # fb_app_id:
 
 # Add the vendor prefixes to ensure compatibility
 css_prefix: true
@@ -899,13 +896,13 @@ css_prefix: true
 # 插入代码到头部 </head> 之前 和 底部 </body> 之前
 inject:
   head:
-    # - <link rel="stylesheet" href="/xxx.css">
+  # - <link rel="stylesheet" href="/xxx.css">
     <link rel="preconnect" href="https://gcore.jsdelivr.net/" />
     <link rel="preconnect" href="https://npm.elemecdn.com/" />
     <link rel="preconnect" href="https://s1.hdslb.com/" />
     <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" />
   bottom:
-    # - <script src="xxxx"></script>
+  # - <script src="xxxx"></script>
 
 # CDN
 # Don't modify the following settings unless you know how they work
@@ -921,7 +918,7 @@ CDN:
   # when set it to local, you need to install hexo-butterfly-extjs
   third_party_provider: cdnjs
 
-  # Add version number to CDN, true or false
+  # Add version number to url, true or false
   version: false
 
   # Custom format
@@ -929,57 +926,59 @@ CDN:
   custom_format:
 
   option:
-    # main_css:
-    # main:
-    # utils:
-    # translate:
-    # local_search:
-    # algolia_js:
-    # algolia_search_v4:
-    # instantsearch_v4:
-    # docsearch_js:
-    # docsearch_css:
-    # pjax:
-    # gitalk:
-    # gitalk_css:
-    # blueimp_md5:
-    # valine:
-    # disqusjs:
-    # disqusjs_css:
-    # twikoo:
-    # waline_js:
-    # waline_css:
-    # sharejs:
-    # sharejs_css:
-    # mathjax:
-    # katex:
-    # katex_copytex:
-    # mermaid:
-    # canvas_ribbon:
-    # canvas_fluttering_ribbon:
-    # canvas_nest:
-    # lazyload:
-    # instantpage:
-    # typed:
-    # pangu:
-    # fancybox_css_v4:
-    # fancybox_v4:
-    # medium_zoom:
-    # snackbar_css:
-    # snackbar:
-    # activate_power_mode:
-    # fireworks:
-    # click_heart:
-    # ClickShowText:
-    # fontawesomeV6:
-    # flickr_justified_gallery_js:
-    # flickr_justified_gallery_css:
-    # aplayer_css:
-    # aplayer_js:
-    # meting_js:
-    # prismjs_js:
-    # prismjs_lineNumber_js:
-    # prismjs_autoloader:
-    # artalk_js:
-    # artalk_css:
-    # busuanzi:
+  # main_css:
+  # main:
+  # utils:
+  # translate:
+  # local_search:
+  # algolia_js:
+  # algolia_search:
+  # instantsearch:
+  # docsearch_js:
+  # docsearch_css:
+  # pjax:
+  # gitalk:
+  # gitalk_css:
+  # blueimp_md5:
+  # valine:
+  # disqusjs:
+  # disqusjs_css:
+  # twikoo:
+  # waline_js:
+  # waline_css:
+  # giscus:
+  # sharejs:
+  # sharejs_css:
+  # mathjax:
+  # katex:
+  # katex_copytex:
+  # mermaid:
+  # canvas_ribbon:
+  # canvas_fluttering_ribbon:
+  # canvas_nest:
+  # lazyload:
+  # instantpage:
+  # typed:
+  # pangu:
+  # fancybox_css:
+  # fancybox:
+  # medium_zoom:
+  # snackbar_css:
+  # snackbar:
+  # activate_power_mode:
+  # fireworks:
+  # click_heart:
+  # ClickShowText:
+  # fontawesome:
+  # flickr_justified_gallery_js:
+  # flickr_justified_gallery_css:
+  # aplayer_css:
+  # aplayer_js:
+  # meting_js:
+  # prismjs_js:
+  # prismjs_lineNumber_js:
+  # prismjs_autoloader:
+  # artalk_js:
+  # artalk_css:
+  # busuanzi:
+  # abcjs_basic_js:
