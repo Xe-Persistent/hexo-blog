@@ -38,8 +38,8 @@ code_word_wrap: false
 #   icon: link || the description || color
 social:
   fa-solid fa-envelope: mailto:474663082@qq.com || Email
-  fa-brands fa-weibo: https://weibo.com/u/5226256957 || 微博
-  fa-brands fa-twitter: https://twitter.com/Xe_Persistent || Twitter
+  fa-brands fa-weibo: https://weibo.com/u/5226256957 || 微博 || rgb(233,24,51)
+  fa-brands fa-twitter: https://twitter.com/Xe_Persistent || Twitter || rgb(96,181,240)
 
 # Image (圖片設置)
 # --------------------------------------
@@ -795,6 +795,12 @@ fancybox: true
 
 # Tag Plugins settings (標籤外掛)
 # --------------------------------------
+
+# abcjs (樂譜渲染)
+# See https://github.com/paulrosen/abcjs
+abcjs:
+  enable: false
+  per_page: true
 
 # mermaid
 # see https://github.com/mermaid-js/mermaid
