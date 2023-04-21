@@ -75,6 +75,7 @@ public class Main {
     }
 }
 ```
+
 上述两种创建`Stream`的方法都是把一个现有的序列变为`Stream`，它的元素是固定的。
 
 ### 基于Supplier

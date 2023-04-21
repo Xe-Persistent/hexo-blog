@@ -54,6 +54,7 @@ git rebase -i HEAD~2 // 2 表示最近两条commit
 git rebase -i {commitID} // 例如 git rebase -i d95ddfb
 git rebase -i --root // 表示从第一条commit开始编辑
 ```
+
 > 指定`HEAD~`后面的数字表示编辑最近若干条commit  
 > 指定`commit ID`表示编辑这条commit之前的记录  
 > 指定--root参数表示从第一条commit开始编辑

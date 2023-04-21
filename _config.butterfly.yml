@@ -9,19 +9,19 @@ nav:
 
 # Menu 目錄
 menu:
-  首页: / || fa-solid fa-house
-  导航||fa-solid fa-compass:
-    归档: /archives/ || fa-solid fa-archive
-    标签: /tags/ || fa-solid fa-tags
-    分类: /categories/ || fa-solid fa-folder-open
-  生活||fa-solid fa-heart-pulse:
-    杂谈: /categories/life/ || fa-solid fa-mug-saucer
-    番剧: /bangumis/ || fa-brands fa-bilibili
-    影视: /cinemas/ || fa-solid fa-film
-    音乐: /music/ || fa-solid fa-headphones-simple
-  友链: /link/ || fa-solid fa-link
-  留言板: /comments/ || fa-solid fa-comments
-  关于: /about/ || fa-solid fa-circle-user
+  首页: / || fas fa-house
+  导航||fas fa-compass:
+    归档: /archives/ || fas fa-archive
+    标签: /tags/ || fas fa-tags
+    分类: /categories/ || fas fa-folder-open
+  生活||fas fa-heart-pulse:
+    杂谈: /categories/life/ || fas fa-mug-saucer
+    番剧: /bangumis/ || fab fa-bilibili
+    影视: /cinemas/ || fas fa-film
+    音乐: /music/ || fas fa-headphones-simple
+  友链: /link/ || fas fa-link
+  留言板: /comments/ || fas fa-comments
+  关于: /about/ || fas fa-circle-user
 
 # Code Blocks (代碼相關)
 # --------------------------------------
@@ -37,9 +37,9 @@ code_word_wrap: false
 # formal:
 #   icon: link || the description || color
 social:
-  fa-solid fa-envelope: mailto:474663082@qq.com || Email
-  fa-brands fa-weibo: https://weibo.com/u/5226256957 || 微博 || rgb(233,24,51)
-  fa-brands fa-twitter: https://twitter.com/Xe_Persistent || Twitter || rgb(96,181,240)
+  fas fa-envelope: mailto:474663082@qq.com || Email
+  fab fa-weibo: https://weibo.com/u/5226256957 || 微博 || rgb(233,24,51)
+  fab fa-twitter: https://twitter.com/Xe_Persistent || Twitter || rgb(96,181,240)
 
 # Image (圖片設置)
 # --------------------------------------
@@ -234,7 +234,7 @@ aside:
     description:
     button:
       enable: true
-      icon: fa-brands fa-github
+      icon: fab fa-github
       text: 关注我的GitHub
       link: https://github.com/Xe-Persistent
   card_announcement:

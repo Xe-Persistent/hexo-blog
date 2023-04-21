@@ -82,6 +82,7 @@ PostgreSQL支持以下3种声明式分区形式：
 
 ## 创建分区表
 假定我们正在为一个大型的冰激凌公司构建数据库。该公司需要了解每天的最高气温以及每天每个区域的冰激凌销售情况。通常，我们会设计这样的表：
+
 ```sql
 CREATE TABLE measurement (
     city_id         int not null,
@@ -96,6 +97,7 @@ CREATE TABLE measurement (
 要在这种情况下使用声明式分区，可采用下面的步骤：
 
 1. 通过指定`PARTITION BY`子句把`measurement`表创建为分区表，该子句包括分区方法（这个例子中是`RANGE`）以及用作分区键的列。一方面可以在分区键中使用多列进行范围分区，当然，这通常会导致分区数量比较多，其中每一个分区都比较小。另一方面，使用较少的列会通过粗粒度的分区策略得到较少数量的分区。
+
 ```sql
 CREATE TABLE measurement (
     city_id         int not null,
@@ -110,6 +112,7 @@ CREATE TABLE measurement (
 分区以普通表或者外部表的方式创建。可以为每个分区单独指定表空间`TABLESPACE`和存储参数。
 
 没有必要创建表约束来描述分区的分区边界条件，因为分区约束会自动地隐式地从分区边界说明中生成。
+
 ```sql
 CREATE TABLE measurement_y2006m02 PARTITION OF measurement
     FOR VALUES FROM ('2006-02-01') TO ('2006-03-01');
@@ -143,6 +146,7 @@ CREATE INDEX ON measurement (logdate);
 通常在初始定义分区表时不会把所有需要的分区都建立好，因为后续可能需要移除旧分区的数据并且为新数据周期性地增加新分区。分区表的最大优势之一就是可以通过修改分区结构来轻松地完成这些任务，而不是批量删除或迁移大量数据。
 
 移除旧数据最简单的选择是删除掉不再需要的分区：
+
 ```sql
 DROP TABLE measurement_y2006m02;
 ```
@@ -150,6 +154,7 @@ DROP TABLE measurement_y2006m02;
 这可以非常快地删除数百万行记录，因为它不需要逐个删除每个记录。不过要注意上面的命令需要从父表上拿到`ACCESS EXCLUSIVE`锁。
 
 另一种通常更好的选项是把分区从分区表中移除，但是保留它作为一个独立的表：
+
 ```sql
 ALTER TABLE measurement DETACH PARTITION measurement_y2006m02;
 ```

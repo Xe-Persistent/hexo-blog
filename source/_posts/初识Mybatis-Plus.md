@@ -39,6 +39,7 @@ keywords: "Java, MyBatis-Plus"
 `DTO`即数据传输对象，是数据从后端传输到前端的载体。大体上，一个`DTO`要包含一个数据库表的部分或所有字段信息。为了减少重复代码，我将这些表的重复字段单列出一个`ModelDTO`，让其他的`DTO`继承这个`ModelDTO`。建议使用`Lombok`插件提供的`@Data`注解，可以为`DTO`的私有成员自动生成`getter`和`setter`方法。
 
 > ModelDTO.java
+
 ```java
 @Data
 public class ModelDTO {
