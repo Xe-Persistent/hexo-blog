@@ -10,7 +10,7 @@ copyright: false
 # 写在前面
 你在使用Git合并分支时只会使用`git merge`吗？有时使用`git rebase`可以比`git merge`做出更优雅的操作。
 
-![合并与变基](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/hero.svg)
+![合并与变基](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/hero.svg)
 
 另外，如果你不能很好的应用Git，那么这里为你提供一个非常棒的Git在线练习工具：[Git Online](https://learngitbranching.js.org)，你可以更直观的看到你所使用的命令会产生什么效果。
 
@@ -26,7 +26,7 @@ copyright: false
 
 当你在专用分支上开发新feature时，另一个团队成员在`master`分支提交了新的commits，这会发生什么？这会导致分叉的历史记录。对于这个问题，使用Git作为协作工具的任何人来说都应该很熟悉。
 
-![分叉的提交历史记录](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/01.svg)
+![分叉的提交历史记录](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/01.svg)
 
 现在，假设在`master`分支上的新提交与你正在开发的feature相关。需要将新提交合并到你的`feature`分支中，你可以有两个选择：merge或者rebase。
 
@@ -46,7 +46,7 @@ git merge feature master
 
 这会在`feature`分支中创建一个新的**merge commit**，它将两个分支的历史联系在一起，请看如下所示的分支结构：
 
-![将master分支合并到feature分支中](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/02.svg)
+![将master分支合并到feature分支中](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/02.svg)
 
 使用merge是很好的方式，因为它是一种**非破坏性**的操作。现有分支不会以任何方式被更改，这避免了rebase操作所产生的潜在缺陷（下面讨论）。
 
@@ -62,7 +62,7 @@ git rebase master
 
 这会将整个`feature`分支移动到`master`分支的顶端，从而有效地整合了所有`master`分支上的提交。但是，与merge提交方式不同，rebase通过为原始分支中的每个提交创建全新的commits来**重写**项目历史记录。
 
-![将feature分支rebase到master分支上](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/03.svg)
+![将feature分支rebase到master分支上](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/03.svg)
 
 rebase的主要好处是可以获得更清晰的项目历史。首先，它消除了`git merge`所需的不必要的合并提交；其次，正如你在上图中所看到的，rebase会产生完美线性的项目历史记录，你可以在`feature`分支上没有任何分叉的情况下一直追寻到项目的初始提交。这样可以通过命令`git log`，`git bisect`和`gitk`更容易地导航查看项目。
 
@@ -96,7 +96,7 @@ pick 5c67e61 Message for commit #3
 
 保存并关闭文件时，Git将根据您的指示执行rebase，从而产生如下所示的项目历史记录：
 
-![使用交互式rebase来压缩提交](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/04.svg)
+![使用交互式rebase来压缩提交](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/04.svg)
 
 消除这种无意义的提交使你的功能历史更容易理解。这是`git merge`根本无法做到的事情。至于commits条目前的`pick`、`fixup`、`squash`等命令，在Git目录执行`git rebase -i`即可查看到，大家按需重排或合并提交即可，注释说明非常清晰，在此不做过多说明。
 
@@ -105,7 +105,7 @@ pick 5c67e61 Message for commit #3
 
 例如，想想如果你rebase`master`分支到`feature`分支之上会发生什么：
 
-![Rebase到主分支](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/05.svg)
+![Rebase到主分支](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/05.svg)
 
 rebase将所有`master`分支上的提交移动 feature 分支的顶端。问题是这只发生在**你自己**的存储库中。所有其他开发人员仍在使用原始版本的`master`。由于rebase产生了全新 commit，Git会认为你的`master`分支历史与其他人的历史不同。
 
@@ -130,7 +130,7 @@ rebase可以根据你所在团队的需要方便的整合到现有的Git工作�
 
 在任何工作流程中，利用`git rebase`是为每个功能创建专用分支。这为你提供了必要的分支，以安全地利用rebase：
 
-![在专用分支中开发功能](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/06.svg)
+![在专用分支中开发功能](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/06.svg)
 
 ## 本地清理
 将rebase纳入工作流程的最佳方法之一是清理本地正在进行的功能。通过定期执行交互式rebase，你可以确保功能中的每个提交都具有针对性和意义。这可以使你在编写代码时无需担心将其分解为隔离的提交（多个提交），你可以在事后修复整合它。
@@ -144,7 +144,7 @@ git rebase -i HEAD~3
 
 通过指定`HEAD~3`，你实际上并没有移动分支，你只是交互式地重写其后的`3`个提交。请注意，这**不会**将上游更改合并到`feature`分支中。
 
-![Rebase到HEAD~3](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/07.svg)
+![Rebase到HEAD~3](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/07.svg)
 
 如果要使用此方法重写整个功能，`git merge-base`命令可用于查找`feature`分支的原始base。以下内容返回原始base的提交ID，然后你可以将其传递给`git rebase`：
 
@@ -165,11 +165,11 @@ git merge-base feature master
 
 例如，如果你和另一个名为John的开发人员添加了对`feature`分支的提交，在你fetch（注意fetch并不会自动merge）来自John的远程`feature`分支后，你的repository可能如下所示：
 
-![在同一个feature分支上进行协作](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/08.svg)
+![在同一个feature分支上进行协作](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/08.svg)
 
 你可以合并来自上游的分叉：要么用`john/feature`**merge**本地`feature`，要么**rebase**本地`feature`到`john/feature`的顶部。
 
-![合并与变基到远程分支](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/09.svg)
+![合并与变基到远程分支](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/09.svg)
 
 请注意，此rebase不违反**Rebase 黄金规则**，因为只有你的本地`feature`提交被移动，之前的所有内容都不会受到影响。这就像是说「将我的更改添加到John已经完成的工作中」。在大多数情况下，这比通过合并提交与远程分支同步更直观。
 
@@ -193,7 +193,7 @@ git pull --rebase
 
 > `fast-forward`指的是merge之后不会出现新的commit对象，分支的合并线是一条直线，被合并的分支，没有分叉，会丢失，再看不到该分支历史。相对地，`no-fast-forward`方式merge之后会出现一个merge commit对象，分支的合并线在主干外出现一条分叉，在merge节点处合并为主干。
 
-![使用和不使用rebase将feature集成到master中](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/10.svg)
+![使用和不使用rebase将feature集成到master中](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/10.svg)
 
 如果您不熟悉`git rebase`，可以随时在临时分支中执行rebase。这样，如果你不小心弄乱了功能的历史记录，可以查看原始分支，然后重试。例如：
 
