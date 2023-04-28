@@ -18,7 +18,7 @@ menu:
     杂谈: /categories/life/ || fas fa-mug-saucer
     番剧: /bangumis/ || fab fa-bilibili
     影视: /cinemas/ || fas fa-film
-    音乐: /music/ || fas fa-headphones-simple
+    音乐: /music/index.html || fas fa-headphones-simple
   友链: /link/ || fas fa-link
   留言板: /comments/ || fas fa-comments
   关于: /about/ || fas fa-circle-user
@@ -38,6 +38,7 @@ code_word_wrap: false
 #   icon: link || the description || color
 social:
   fas fa-envelope: mailto:474663082@qq.com || Email
+  fab fa-github: https://github.com/Xe-Persistent || GitHub
   fab fa-weibo: https://weibo.com/u/5226256957 || 微博 || rgb(233,24,51)
   fab fa-twitter: https://twitter.com/Xe_Persistent || Twitter || rgb(96,181,240)
 
@@ -233,7 +234,7 @@ aside:
     enable: true
     description:
     button:
-      enable: true
+      enable: false
       icon: fab fa-github
       text: 关注我的GitHub
       link: https://github.com/Xe-Persistent
