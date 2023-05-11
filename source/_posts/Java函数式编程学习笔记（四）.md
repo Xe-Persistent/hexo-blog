@@ -2,9 +2,8 @@
 title: Java函数式编程学习笔记（四）
 date: 2023-01-28 14:17:45
 tags:
-    - 后端
     - Java
-    - Stream
+    - 开发
 categories: 学习笔记
 keywords: "Java, Stream"
 ---

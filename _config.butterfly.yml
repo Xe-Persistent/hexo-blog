@@ -93,7 +93,7 @@ cover:
   position: both
   # When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)
   default_cover:
-  # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
 
 # Replace Broken Images (替換無法顯示的圖片)
 error_img:
@@ -171,12 +171,12 @@ post_copyright:
 reward:
   enable: false
   QR_code:
-  # - img: /img/wechat.jpg
-  #   link:
-  #   text: wechat
-  # - img: /img/alipay.jpg
-  #   link:
-  #   text: alipay
+    # - img: /img/wechat.jpg
+    #   link:
+    #   text: wechat
+    # - img: /img/alipay.jpg
+    #   link:
+    #   text: alipay
 
 # Post edit
 # Easily browse and edit blog source code online.
@@ -214,7 +214,7 @@ footer:
   owner:
     enable: true
     since: 2022
-  custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://www.dongzhenxian.com/">主站：dongzhenxian.com</a><a style="margin-inline:5px"target="_blank"href="https://xe-persistent.github.io/">镜像站：xe-persistent.github.io</a></p><p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站采用双线部署，主站托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub，镜像站托管于GitHub Pages"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
+  custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://www.dongzhenxian.com/">主站：dongzhenxian.com</a><a style="margin-inline:5px"target="_blank"href="https://xe-persistent.github.io/">镜像站：xe-persistent.github.io</a></p><p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.pixiv.net/users/3561319"><img src="https://img.shields.io/badge/Background-%E6%A4%9B%E5%AD%90-dodgerblue?style=flat-square&logo=pixiv"title="本站背景图取自P站PO主椛子的作品"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/"><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站采用双线部署，主站托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub，镜像站托管于GitHub Pages"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
   copyright: false # Copyright of theme and framework
 
 # aside (側邊欄)
@@ -601,10 +601,10 @@ google_adsense:
 # --------------------------------------
 
 site_verification:
-# - name: google-site-verification
-#   content: xxxxxx
-# - name: baidu-site-verification
-#   content: xxxxxxx
+  # - name: google-site-verification
+  #   content: xxxxxx
+  # - name: baidu-site-verification
+  #   content: xxxxxxx
 
 # Beautify/Effect (美化/效果)
 # --------------------------------------
@@ -646,7 +646,7 @@ tag_ui: # 留空或 index
 # Website Background (設置網站背景)
 # can set it to color or image (可設置圖片 或者 顔色)
 # The formal of image: url(http://xxxxxx.com/xxx.jpg)
-background: url(https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/msi-gwen.webp)
+background: url(https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/hbd-gwen.webp)
 
 # Footer Background
 footer_bg: false
@@ -708,9 +708,9 @@ click_heart:
 ClickShowText:
   enable: false
   text:
-  # - I
-  # - LOVE
-  # - YOU
+    # - I
+    # - LOVE
+    # - YOU
   fontSize: 15px
   random: false
   mobile: false
@@ -835,8 +835,8 @@ note:
 pjax:
   enable: false
   exclude:
-  # - xxxx
-  # - xxxx
+    # - xxxx
+    # - xxxx
 
 # Inject the css and script (aplayer/meting)
 aplayerInject:
@@ -887,13 +887,13 @@ lazyload:
 Open_Graph_meta:
   enable: true
   option:
-  # twitter_card:
-  # twitter_image:
-  # twitter_id:
-  # twitter_site:
-  # google_plus:
-  # fb_admins:
-  # fb_app_id:
+    # twitter_card:
+    # twitter_image:
+    # twitter_id:
+    # twitter_site:
+    # google_plus:
+    # fb_admins:
+    # fb_app_id:
 
 # Add the vendor prefixes to ensure compatibility
 css_prefix: true
@@ -932,59 +932,59 @@ CDN:
   custom_format:
 
   option:
-  # main_css:
-  # main:
-  # utils:
-  # translate:
-  # local_search:
-  # algolia_js:
-  # algolia_search:
-  # instantsearch:
-  # docsearch_js:
-  # docsearch_css:
-  # pjax:
-  # gitalk:
-  # gitalk_css:
-  # blueimp_md5:
-  # valine:
-  # disqusjs:
-  # disqusjs_css:
-  # twikoo:
-  # waline_js:
-  # waline_css:
-  # giscus:
-  # sharejs:
-  # sharejs_css:
-  # mathjax:
-  # katex:
-  # katex_copytex:
-  # mermaid:
-  # canvas_ribbon:
-  # canvas_fluttering_ribbon:
-  # canvas_nest:
-  # lazyload:
-  # instantpage:
-  # typed:
-  # pangu:
-  # fancybox_css:
-  # fancybox:
-  # medium_zoom:
-  # snackbar_css:
-  # snackbar:
-  # activate_power_mode:
-  # fireworks:
-  # click_heart:
-  # ClickShowText:
-  # fontawesome:
-  # flickr_justified_gallery_js:
-  # flickr_justified_gallery_css:
-  # aplayer_css:
-  # aplayer_js:
-  # meting_js:
-  # prismjs_js:
-  # prismjs_lineNumber_js:
-  # prismjs_autoloader:
-  # artalk_js:
-  # artalk_css:
-  # busuanzi:
-  # abcjs_basic_js:
+    # main_css:
+    # main:
+    # utils:
+    # translate:
+    # local_search:
+    # algolia_js:
+    # algolia_search:
+    # instantsearch:
+    # docsearch_js:
+    # docsearch_css:
+    # pjax:
+    # gitalk:
+    # gitalk_css:
+    # blueimp_md5:
+    # valine:
+    # disqusjs:
+    # disqusjs_css:
+    # twikoo:
+    # waline_js:
+    # waline_css:
+    # giscus:
+    # sharejs:
+    # sharejs_css:
+    # mathjax:
+    # katex:
+    # katex_copytex:
+    # mermaid:
+    # canvas_ribbon:
+    # canvas_fluttering_ribbon:
+    # canvas_nest:
+    # lazyload:
+    # instantpage:
+    # typed:
+    # pangu:
+    # fancybox_css:
+    # fancybox:
+    # medium_zoom:
+    # snackbar_css:
+    # snackbar:
+    # activate_power_mode:
+    # fireworks:
+    # click_heart:
+    # ClickShowText:
+    # fontawesome:
+    # flickr_justified_gallery_js:
+    # flickr_justified_gallery_css:
+    # aplayer_css:
+    # aplayer_js:
+    # meting_js:
+    # prismjs_js:
+    # prismjs_lineNumber_js:
+    # prismjs_autoloader:
+    # artalk_js:
+    # artalk_css:
+    # busuanzi:
+    # abcjs_basic_js:

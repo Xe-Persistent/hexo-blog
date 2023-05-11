@@ -72,8 +72,7 @@ body {
 
 #music-page {
     max-width: calc(1200px - 160px);
-    margin: auto;
-    margin-top: 60px
+    margin: 60px auto auto;
 }
 
 #music-page meting-js .aplayer {
@@ -590,8 +589,7 @@ body .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon.apla
         position: fixed;
         top: calc(var(--vh) - 178px);
         left: 0;
-        margin: 0;
-        margin-left: 32px;
+        margin: 0 0 0 32px;
         height: 21px;
         max-width: calc(100vw - 110px);
         white-space: nowrap;

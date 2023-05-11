@@ -2,9 +2,8 @@
 title: Java函数式编程学习笔记（一）
 date: 2022-05-20 15:14:47
 tags:
-    - 后端
     - Java
-    - Lambda
+    - 开发
 categories: 学习笔记
 keywords: "Java, Lambda"
 ---

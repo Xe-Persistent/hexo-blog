@@ -2,9 +2,8 @@
 title: Java函数式编程学习笔记（三）
 date: 2022-09-30 15:58:06
 tags:
-    - 后端
     - Java
-    - Stream
+    - 开发
 categories: 学习笔记
 keywords: "Java, Stream"
 ---

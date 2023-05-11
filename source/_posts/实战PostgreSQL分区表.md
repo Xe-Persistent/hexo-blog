@@ -2,7 +2,6 @@
 title: 实战PostgreSQL分区表
 date: 2023-04-20 15:31:47
 tags:
-    - 后端
     - 数据库
 categories: 学习笔记
 keywords: "PostgreSQL, pgsql, 分区表"

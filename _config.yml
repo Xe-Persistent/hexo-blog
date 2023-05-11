@@ -42,7 +42,7 @@ filename_case: 0
 render_drafts: false
 post_asset_folder: false
 relative_link: false
-future: true
+future: false
 highlight:
   enable: true
   line_number: true
@@ -73,15 +73,12 @@ category_map:
   杂谈: life
 tag_map: 
   博客: blog
-  后端: back-end
-  重构: refractor
-  日记: diary
+  开发: develop
+  杂记: diary
   Git: git
   Java: java
-  Lambda: lambda
   数据库: database
-  SSH: ssh
-  Stream: stream
+  服务器: server
 
 # Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta

@@ -2,7 +2,6 @@
 title: 初识MyBatis-Plus
 date: 2022-05-30 14:12:50
 tags: 
-    - 后端
     - Java
     - 数据库
 categories: 学习笔记

@@ -3,7 +3,7 @@ title: 如何在不同电脑上使用SSH访问同一个代码库
 date: 2022-05-22 19:12:22
 tags:
     - Git
-    - SSH
+    - 服务器
 categories: 经验分享
 keywords: "Git, SSH"
 ---
