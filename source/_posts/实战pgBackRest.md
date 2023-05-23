@@ -10,8 +10,8 @@ keywords: "PostgreSQL, pgBackRest, 备份"
 pgBackRest是一款开源的备份还原工具，目标旨在为备份和还原提供可靠易用的备份。
 
 操作系统：CentOS 7.9
-pgBackRest版本：v2.37
-PostgreSQL版本：v11.5
+pgBackRest版本：2.37
+PostgreSQL版本：11.5
 
 # 约定
 本文中使用两台服务器分别作为数据库服务器和备份服务器，数据库服务器主机命名为pg-primary、备份服务器主机命名为repository。
@@ -46,7 +46,7 @@ database-server-ip pg-primary
 
 ```bash
 $ sudo groupadd pgbackrest
-$ sudo adduser -g pgbackrest -n pgbackrest
+$ sudo useradd -g pgbackrest pgbackrest
 ```
 
 为pgbackrest用户设置一个密码
@@ -54,15 +54,66 @@ $ sudo adduser -g pgbackrest -n pgbackrest
 ```bash
 $ sudo passwd pgbackrest
 ```
+3. 在备份服务器上使用pgbackrest用户生成ssh密钥
 
-3. 将pgbackrest二进制文件部署到/usr/bin目录下，并赋予访问权限
+```bash
+$ su pgbackrest
+$ mkdir -m 750 /home/pgbackrest/.ssh
+$ ssh-keygen -f /home/pgbackrest/.ssh/id_rsa -t rsa -N ""
+```
+
+在数据库服务器上使用postgres用户生成ssh密钥
+
+```bash
+$ su postgres
+$ mkdir -m 750 -p /var/lib/pgsql/.ssh
+$ ssh-keygen -f /var/lib/pgsql/.ssh/id_rsa -t rsa -N ""
+```
+
+> 注意：pgbackrest用户的主目录是/home/pgbackrest；postgres用户的主目录是/var/lib/pgsql。最好将ssh密钥生成在各自用户的主目录下。
+
+4. 在两台服务器之间交换公钥
+
+在备份服务器上：
+
+```bash
+$ su pgbackrest
+$ ssh-copy-id postgres@pg-primary
+```
+
+在数据库服务器上：
+
+```bash
+$ su postgres
+$ ssh-copy-id pgbackrest@repository
+```
+
+5. 在两台服务器上测试无密码连接
+
+在备份服务器上：
+
+```bash
+$ su pgbackrest
+$ ssh postgres@pg-primary
+```
+
+在数据库服务器上：
+
+```bash
+$ su postgres
+$ ssh pgbackrest@repository
+```
+
+6. 将pgbackrest二进制文件部署到/usr/bin目录下，并赋予访问权限
 
 ```bash
 $ sudo chmod 755 /usr/bin/pgbackrest
 $ sudo chown pgbackrest:pgbackrest /usr/bin/pgbackrest
 ```
 
-4. 在备份服务器上创建pgBackRest配置文件、目录和仓库
+7. 在备份服务器上创建pgBackRest配置文件、目录和仓库
+
+> 注意：新建的pgbackrest用户没有加入到sudo名单中，无法执行sudo命令
 
 ```bash
 $ sudo mkdir -p -m 770 /var/log/pgbackrest
@@ -72,53 +123,8 @@ $ sudo mkdir -p /etc/pgbackrest/conf.d
 $ sudo touch /etc/pgbackrest/pgbackrest.conf
 $ sudo chmod 640 /etc/pgbackrest/pgbackrest.conf
 $ sudo chown pgbackrest:pgbackrest /etc/pgbackrest/pgbackrest.conf
-$ sudo mkdir -p /var/lib/pgbackrest
-$ sudo chmod 750 /var/lib/pgbackrest
+$ sudo mkdir -p -m 750 /var/lib/pgbackrest
 $ sudo chown pgbackrest:pgbackrest /var/lib/pgbackrest
-```
-
-5. 在备份服务器上使用pgbackrest用户生成ssh密钥
-
-```bash
-$ sudo -u pgbackrest mkdir -m 750 /home/pgbackrest/.ssh
-$ sudo -u pgbackrest ssh-keygen -f /home/pgbackrest/.ssh/id_rsa -t rsa -N ""
-```
-
-在数据库服务器上使用postgres用户生成ssh密钥
-
-```bash
-$ sudo -u postgres mkdir -m 750 -p /var/lib/pgsql/.ssh
-$ sudo -u postgres ssh-keygen -f /var/lib/pgsql/.ssh/id_rsa -t rsa -N ""
-```
-
-> 注意：pgbackrest用户的主目录是/home/pgbackrest；postgres用户的主目录是/var/lib/pgsql。最好将ssh密钥生成在各自用户的主目录下。
-
-6. 在两台服务器之间交换公钥
-
-在备份服务器上：
-
-```bash
-$ cat /home/pgbackrest/.ssh/id_rsa.pub | ssh postgres@pg-primary "cat >> ~/.ssh/authorized_keys"
-```
-
-在数据库服务器上：
-
-```bash
-$ cat /var/lib/pgsql/.ssh/id_rsa.pub | ssh pgbackrest@repository "cat >> ~/.ssh/authorized_keys"
-```
-
-7. 在两台服务器上测试无密码连接
-
-在备份服务器上：
-
-```bash
-$ sudo -u pgbackrest ssh postgres@pg-primary
-```
-
-在数据库服务器上：
-
-```bash
-$ sudo -u postgres ssh pgbackrest@repository
 ```
 
 8. 配置备份服务器
@@ -132,7 +138,7 @@ $ sudo vim /etc/pgbackrest/pgbackrest.conf
 ```
 [global]
 repo1-path=/var/lib/pgbackrest
-repo1-retention-full=2
+repo1-retention-full=1
 log-level-console=info
 log-level-file=detail
 start-fast=y
@@ -149,10 +155,16 @@ pg1-user=postgres
 
 9. 配置数据库服务器，步骤与配置备份服务器相似
 
-先部署pgbackrest二进制文件、然后创建目录：
+先部署pgbackrest二进制文件：
 
 ```bash
 $ sudo chmod 755 /usr/bin/pgbackrest
+$ sudo chown postgres:postgres /usr/bin/pgbackrest
+```
+
+然后创建目录：
+
+```bash
 $ sudo mkdir -p -m 770 /var/log/pgbackrest
 $ sudo chown postgres:postgres /var/log/pgbackrest
 $ sudo mkdir -p /etc/pgbackrest
@@ -160,8 +172,7 @@ $ sudo mkdir -p /etc/pgbackrest/conf.d
 $ sudo touch /etc/pgbackrest/pgbackrest.conf
 $ sudo chmod 640 /etc/pgbackrest/pgbackrest.conf
 $ sudo chown postgres:postgres /etc/pgbackrest/pgbackrest.conf
-$ sudo mkdir -p /var/lib/pgbackrest
-$ sudo chmod 750 /var/lib/pgbackrest
+$ sudo mkdir -p -m 750 /var/lib/pgbackrest
 $ sudo chown postgres:postgres /var/lib/pgbackrest
 ```
 
@@ -199,7 +210,22 @@ archive_command = 'pgbackrest --stanza=db1 archive-push %p'
 wal_level = replica
 ```
 
-然后重启postgresql服务
+更新pg_hba.conf文件，数据库需要设置信任ip，否则pgBackRest无法连接上数据库
+
+```bash
+$ sudo vim /var/lib/pgsql/11/data/pg_hba.conf
+```
+
+将local和ipv4 local连接改为trust：
+
+```
+# "local" is for Unix domain socket connections only
+local   all             all                                       trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32              trust
+```
+
+然后重启postgresql服务：
 
 ```bash
 $ systemctl restart postgresql-11.service
@@ -209,31 +235,38 @@ $ systemctl restart postgresql-11.service
 
 ## 执行备份
 
-在备份服务器上创建节点
+1. 在备份服务器上创建节点
 
 ```bash
-$ sudo -u pgbackrest pgbackrest --stanza=db1 stanza-create
+$ su pgbackrest
+$ pgbackrest --stanza=db1 stanza-create
 ```
 
-检查配置和节点信息
+2. 检查配置和节点信息
 
 ```bash
-$ sudo -u pgbackrest pgbackrest --stanza=db1 check
+$ pgbackrest --stanza=db1 check
 ```
 
-在备份服务器上创建第一份备份，该备份为全量备份
+3. 在备份服务器上创建第一份备份，该备份为全量备份
 
 ```bash
-$ sudo -u pgbackrest pgbackrest --stanza=db1 backup
+$ pgbackrest --stanza=db1 backup
 ```
 
-数据库修改后，创建第二份备份，该备份为增量备份
+创建全量备份后，后续创建的备份默认为增量备份，可通过`--type`参数指定创建何种类型的备份
+
+pgBackRest支持以下备份类型：
+
+- `full`全量备份，即复制所有数据库文件，并且不会依赖于以前的备份。
+- `incr`从上一次备份开始增量备份，基于全量或增量备份。
+- `diff`类似于增量备份，但始终基于上次全量备份。
 
 ```bash
-$ sudo -u pgbackrest pgbackrest --stanza=db1 backup
+$ pgbackrest --stanza=db1 --type=incr backup
 ```
 
-可通过以下命令查看备份节点的情况
+4. 通过以下命令查看备份节点的情况
 
 ```bash
 $ sudo -u pgbackrest pgbackrest --stanza=db1 info
@@ -268,14 +301,37 @@ f1 f2 f3 f4 f5 program
 
 当`f1`为`a, b, c, ...`时表示第a, b, c, ...分钟要执行，`f2`为`a, b, c, ...`时表示第a, b, c, ...个小时要执行，其余依此类推。
 
-
-## 执行还原
-
-最基本的还原命令如下：
+对于pgBackRest定时任务，可以设置每周一次全量备份、每天一次增量备份：
 
 ```bash
-$ sudo -u postgres pgbackrest --stanza=demo restore
+$ su pgbackrest
+$ crontab -e
 ```
+
+写入下列配置项：
+
+```
+0 2 * * 0 /usr/bin/pgbackrest --type=full --stanza=db1 backup
+0 2 * * 1-6 /usr/bin/pgbackrest --type=diff --stanza=db1 backup
+```
+
+# 还原
+
+执行还原前，需停止postgresql服务，并且必须从pg数据库目录中删除所有文件。
+
+```bash
+$ systemctl stop postgresql-11.service
+$ su postgres
+$ find /var/lib/pgsql/11/data -mindepth 1 -delete
+```
+
+随后执行还原命令：
+
+```bash
+$ pgbackrest --stanza=demo restore
+```
+
+该命令相当于恢复整个data目录的文件。
 
 ---
 **非常感谢你的阅读，辛苦了！**
