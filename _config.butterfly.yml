@@ -651,6 +651,11 @@ background: url(https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image
 # Footer Background
 footer_bg: false
 
+# Add mask to header or footer (为 header 或 footer 添加黑色半透遮罩)
+mask:
+  header: true
+  footer: true
+
 # the position of bottom right button/default unit: px (右下角按鈕距離底部的距離/默認單位為px)
 rightside-bottom:
 
@@ -903,12 +908,12 @@ css_prefix: true
 # 插入代码到头部 </head> 之前 和 底部 </body> 之前
 inject:
   head:
-  # - <link rel="stylesheet" href="/xxx.css">
+    # - <link rel="stylesheet" href="/xxx.css">
     <link rel="preconnect" href="https://testingcf.jsdelivr.net/" />
     <link rel="preconnect" href="https://s1.hdslb.com/" />
     <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" />
   bottom:
-  # - <script src="xxxx"></script>
+    # - <script src="xxxx"></script>
 
 # CDN
 # Don't modify the following settings unless you know how they work

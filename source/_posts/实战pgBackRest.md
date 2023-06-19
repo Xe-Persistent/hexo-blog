@@ -142,7 +142,6 @@ repo1-retention-full=1
 log-level-console=info
 log-level-file=detail
 start-fast=y
-stop-auto=y
 delta=y
 
 [db1]
@@ -210,7 +209,7 @@ archive_command = 'pgbackrest --stanza=db1 archive-push %p'
 wal_level = replica
 ```
 
-更新pg_hba.conf文件，数据库需要设置信任ip，否则pgBackRest无法连接上数据库
+更新pg_hba.conf文件，数据库需要设置信任ip，否则pgBackRest无法连接上数据库。
 
 ```bash
 $ sudo vim /var/lib/pgsql/11/data/pg_hba.conf
@@ -254,7 +253,7 @@ $ pgbackrest --stanza=db1 check
 $ pgbackrest --stanza=db1 backup
 ```
 
-创建全量备份后，后续创建的备份默认为增量备份，可通过`--type`参数指定创建何种类型的备份
+创建全量备份后，后续创建的备份默认为增量备份，可通过`--type`参数指定创建何种类型的备份。
 
 pgBackRest支持以下备份类型：
 
@@ -315,6 +314,8 @@ $ crontab -e
 0 2 * * 1-6 /usr/bin/pgbackrest --type=diff --stanza=db1 backup
 ```
 
+这些配置项为pgbackrest用户指定了两个配置项，即每周日凌晨2点执行一次全量备份，每周一至周六凌晨2点执行一次增量备份。
+
 # 还原
 
 执行还原前，需停止postgresql服务，并且必须从pg数据库目录中删除所有文件。
@@ -339,3 +340,4 @@ $ pgbackrest --stanza=demo restore
 ---
 参考文章： (感谢以下资料提供的帮助)
 - [pgBackRest User Guide](https://pgbackrest.org/user-guide.html)
+- [pgBackRest Configuration Reference](https://pgbackrest.org/configuration.html)
