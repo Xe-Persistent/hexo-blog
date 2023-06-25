@@ -16,8 +16,7 @@ menu:
     分类: /categories/ || fas fa-folder-open
   生活||fas fa-heart-pulse:
     杂谈: /categories/life/ || fas fa-mug-saucer
-    番剧: /bangumis/ || fab fa-bilibili
-    影视: /cinemas/ || fas fa-film
+    番剧: /bangumis/ || fas fa-film
     音乐: /music/index.html || fas fa-headphones-simple
   友链: /link/ || fas fa-link
   留言板: /comments/ || fas fa-comments
