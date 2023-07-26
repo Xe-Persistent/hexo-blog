@@ -127,7 +127,7 @@ search:
 bangumi:
   enable: true
   source: bgm
-  bgmInfoSource: 'bgmSub'
+  bgmInfoSource: 'bgmApi'
   vmid: 798502
   title: '我的番剧收藏'
   quote:
