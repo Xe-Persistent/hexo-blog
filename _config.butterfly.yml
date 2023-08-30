@@ -736,7 +736,7 @@ font:
   global-font-size: 15px
   code-font-size: 14px
   font-family: -apple-system, BlinkMacSystemFont, PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei, sans-serif
-  code-font-family: consolas, menlo, PingFang SC, HarmonyOS_Regular, Microsoft YaHei, sans-serif
+  code-font-family: menlo, consolas, monospace
 
 # Font settings for the site title and site subtitle
 # 左上角網站名字 主頁居中網站名字
