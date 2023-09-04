@@ -133,7 +133,7 @@ bangumi:
   quote:
   show: 2
   lazyload: false
+  srcValue: '__image__'
   metaColor: '#49b1f5'
-  webp: false
   progress: false
   showMyComment: true
