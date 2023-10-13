@@ -45,7 +45,7 @@ copyright: false
 
 先看一张各个对象间的关系图，有个印象：
 
-![Java Bean关系图](https://testingcf.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/java-beans/java-beans.webp)
+![Java Bean关系图](https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/java-beans/java-beans.webp)
 
 然后，再来慢慢解释各个对象的作用。
 

@@ -121,7 +121,7 @@ search:
   path: search.json
   field: post
   content: true
-  template:
+  template: html
 
 # 追番设置
 bangumi:
@@ -132,8 +132,6 @@ bangumi:
   title: '我的番剧收藏'
   quote:
   show: 2
-  lazyload: false
-  srcValue: '__image__'
   metaColor: '#49b1f5'
   progress: false
   showMyComment: true
