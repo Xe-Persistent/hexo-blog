@@ -99,6 +99,12 @@ cover:
     - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112366600_p15.webp
     - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112366600_p21.webp
     - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112366600_p37.webp
+    - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112395965_p10.webp
+    - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112395965_p11.webp
+    - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112395965_p12.webp
+    - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112395965_p14.webp
+    - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112395965_p31.webp
+    - https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/112395965_p38.webp
 
 # Replace Broken Images (替換無法顯示的圖片)
 error_img:
@@ -219,7 +225,7 @@ footer:
   owner:
     enable: true
     since: 2022
-  custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/"><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站采用双线部署，主站托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub，镜像站托管于GitHub Pages"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
+  custom_text: <p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-dodgerblue?style=flat-square&logo=hexo"title="本站博客框架采用Hexo"></a><a style="margin-inline:5px"target="_blank"href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-deeppink?style=flat-square&logo=hexo"title="本站主题采用Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat-square&logo=jsdelivr"title="本站使用jsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px"target="_blank"href="https://vercel.com/"><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat-square&logo=vercel"title="本站静态页面托管于Vercel"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/"><img src="https://img.shields.io/badge/Source-GitHub-rebeccapurple?style=flat-square&logo=github"title="本站源码存储于GitHub"></a><a style="margin-inline:5px"target="_blank"href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-crimson?style=flat-square&logo=creativecommons"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p>
   copyright: false # Copyright of theme and framework
 
 # aside (側邊欄)
@@ -619,7 +625,7 @@ theme_color:
   paginator: '#7E2AA2'
   button_hover: '#AE5CD1'
   text_selection: '#AE5CD1'
-  link_color: '#99a9bf'
+  link_color: '#99A9BF'
   meta_color: '#858585'
   hr_color: '#FFF9E3'
   code_foreground: '#AE5CD1'
@@ -865,9 +871,9 @@ aplayerInject:
 # 可選 top-left / top-center / top-right / bottom-left / bottom-center / bottom-right
 snackbar:
   enable: true
-  position: bottom-left
-  bg_light: '#49b1f5' # The background color of Toast Notification in light mode
-  bg_dark: '#1f1f1f' # The background color of Toast Notification in dark mode
+  position: bottom-center
+  bg_light: '#F44436' # The background color of Toast Notification in light mode
+  bg_dark: '#1F1F1F' # The background color of Toast Notification in dark mode
 
 # https://instant.page/
 # prefetch (預加載)
