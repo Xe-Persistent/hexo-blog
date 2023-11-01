@@ -1,0 +1,127 @@
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        ul, ol {
+            margin-left: 1rem !important
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            -webkit-user-drag: none;
+        }
+
+        .message_box-comment {
+            display: flex;
+            margin-bottom: 5px;
+            margin-top: 7px
+        }
+
+        .message_box-comment-avatar {
+            width: auto;
+            flex: none;
+        }
+
+        .message_box-comment-text {
+            position: relative;
+        }
+
+        .message_box-comment-text-before {
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            top: 12px;
+            position: absolute
+        }
+
+        .message_box-comment-text-inner {
+            max-width: 506px;
+            background-color: #f1f3fa;
+            padding: 10px;
+            border-radius: 9px;
+            margin-bottom: 3px
+        }
+    </style>
+</head>
+<body>
+<div style="font-size:13px;width:680px;margin:30px auto 0;max-width:100%">
+    <div style="box-shadow:0 0 30px 0 #dbd8d6;border-top-left-radius:5px;border-top-right-radius:5px;width:630px;max-width:100%;margin:auto">
+        <div style="width:200px;height:40px;text-align:center;line-height:40px;text-decoration:none;color:#fff;background-color:#94a9b9;border-radius:5px 0">
+            ${PARENT_NICK}，您好：
+        </div>
+        <div style="line-height:180%;padding:0 15px 12px;color:#555;font-size:12px;margin:auto 0">
+            <h2 style="border-bottom:1px solid #ddd;font-size:14px;font-weight:normal;padding:13px 0 10px 8px">
+                您在
+                <a style="text-decoration:none;color:#12addb" href="${SITE_URL}" target="_blank">
+                    ${SITE_NAME}
+                </a>
+                上的评论收到了回复：
+            </h2>
+            <div style="padding:0 12px 0 12px;margin-top:18px">
+                <div class="message_box">
+                    <p style="display:flex;justify-content:flex-end">
+                        您曾评论：
+                    </p>
+                    <div class="message_box-comment" style="justify-content:flex-end">
+                        <div class="message_box-comment-avatar" style="order:2">
+                            <img src="${PARENT_IMG}" alt="您的头像">
+                        </div>
+                        <div class="message_box-comment-text" style="margin-right:10px">
+                            <span class=message_box-comment-text-before
+                                  style="border-left:8px solid;border-left-color:#f1f3fa;right:-8px">
+                            </span>
+                            <div class="message_box-comment-text-inner">
+                                ${PARENT_COMMENT}
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        <strong>
+                            ${NICK}
+                        </strong>
+                        回复您：
+                    </p>
+                    <div class="message_box-comment">
+                        <div class="message_box-comment-avatar">
+                            <img src="${IMG}" alt="回复人的头像">
+                        </div>
+                        <div class="message_box-comment-text" style="margin-left:10px">
+                            <span class=message_box-comment-text-before
+                                  style="border-right:8px solid;border-right-color:#f1f3fa;left:-8px">
+                            </span>
+                            <div class="message_box-comment-text-inner">
+                                ${COMMENT}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center;margin-right:66px">
+            <a style="text-decoration:none;color:#fff;background-color:#94a9b9;padding:5px 20px;border-radius:4px;position:absolute;margin-top:10px"
+               href="${POST_URL}" target="_blank">
+                查看
+            </a>
+        </div>
+    </div>
+    <div style="width:100%;height:345px;background-repeat:no-repeat;background-image:url(https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/mailbg.webp);background-size:cover;background-position:center">
+    </div>
+    <div style="color:#8c8c8c;font-size:10px;width:100%;text-align:center;margin-top:20px">
+        <p>
+            这封电子邮件由系统自动生成，请勿回复，如果您有任何疑问或建议，请<a href="mailto:474663082@qq.com">联系博主</a>。
+        </p>
+    </div>
+    <div style="color:#8c8c8c;font-size:10px;width:100%;text-align:center;margin-top:5px">
+        <p>
+            Copyright © 2023 Xe_Persistent
+        </p>
+    </div>
+</div>
+</body>
+</html>

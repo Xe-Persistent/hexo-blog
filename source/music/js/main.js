@@ -50,7 +50,7 @@ window.addEventListener('resize', () => {
 );
 
 function extractValue(input) {
-    let valueRegex = /\("([^\s]+)"\)/g;
+    let valueRegex = /\("(\S+)"\)/g;
     let match = valueRegex.exec(input);
     return match[1];
 }

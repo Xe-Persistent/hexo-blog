@@ -1,0 +1,73 @@
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        ul, ol {
+            margin-left: 1rem !important
+        }
+    </style>
+
+<body>
+<div style="font-size:13px;width:680px;margin:30px auto 0;max-width:100%">
+    <div style="box-shadow:0 0 30px 0 #dbd8d6;border-radius:5px;width:630px;max-width:100%;margin:auto auto -30px">
+        <div style="line-height:180%;padding:0 15px 12px;color:#555;font-size:12px;margin:auto 0">
+            <h2 style="border-bottom:1px solid #ddd;font-size:14px;font-weight:normal;padding:13px 0 10px 8px">
+                <a style="text-decoration:none;color:#12addb" href="${SITE_URL}" target="_blank">
+                    ${SITE_NAME}
+                </a>
+                上有新的评论：
+            </h2>
+            <div style="padding:0 12px 0 12px;margin-top:18px">
+                <div class="message_box">
+                    <p>
+                        <strong>
+                            ${NICK}
+                        </strong>
+                        评论了：
+                    </p>
+                    <div class="message_box-comment" style="display:flex;margin-bottom:5px;margin-top:10px">
+                        <div class="message_box-comment-avatar" style="width:auto;flex:none">
+                            <img src="${IMG}" alt="评论人的头像"
+                                 style="width:40px;height:40px;border-radius:5px;-webkit-user-drag:none">
+                        </div>
+                        <div class="message_box-comment-text" style="position:relative;margin-left:10px">
+                            <span class=ax_post_box-comment-text-before
+                                  style="border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:8px solid;border-right-color:#f1f3fa;left:-8px;top:12px;position:absolute">
+                            </span>
+                            <div class="message_box-comment-text-inner"
+                                 style="max-width:500px;background-color:#f1f3fa;padding:10px;border-radius:9px;margin-bottom:3px">
+                                ${COMMENT}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="background-color:#f5f5f5;border:0 solid #ddd;padding:10px 15px;margin:18px 0">
+                    IP地址：${IP}
+                    <br>
+                    邮箱：
+                    <a href="mailto:${MAIL}">
+                        ${MAIL}
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div style="width:100%;height:345px;background-repeat:no-repeat;background-image:url(https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/mailbg.webp);background-size:cover;background-position:center;">
+        <a style="text-decoration:none;color:#fff;background-color:#94a9b9;padding:5px 20px;border-radius:4px"
+           href="${POST_URL}" target="_blank">
+            查看
+        </a>
+    </div>
+    <div style="color:#8c8c8c;font-size:10px;width:100%;text-align:center;margin-top:20px">
+        <p>
+            Copyright © 2023 Xe_Persistent
+        </p>
+    </div>
+</div>
+</body>
+</html>
