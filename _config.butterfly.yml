@@ -17,7 +17,6 @@ menu:
   生活||fas fa-heart-pulse:
     杂谈: /categories/life/ || fas fa-mug-saucer
     番剧: /bangumis/ || fas fa-film
-    音乐: /music/index.html || fas fa-headphones-simple
   友链: /link/ || fas fa-link
   留言板: /comments/ || fas fa-comments
   关于: /about/ || fas fa-circle-user
