@@ -282,6 +282,7 @@ aside:
     sort_order: # Don't modify the setting unless you know how it works
   card_post_series:
     enable: false
+    series_title: false # The title shows the series name
     orderBy: 'date' # Order by title or date
     order: -1 # Sort of order. 1, asc for ascending; -1, desc for descending
 
@@ -533,7 +534,7 @@ theme_color:
   text_selection: *takina_purple
   link_color: '#99A9BF'
   meta_color: '#858585'
-  hr_color: '#FFF9E3'
+  hr_color: *takina_purple_dark
   code_foreground: *takina_purple
   code_background: 'rgba(27, 31, 35, 0.05)'
   toc_color: *takina_purple

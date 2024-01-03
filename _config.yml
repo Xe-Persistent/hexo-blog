@@ -132,3 +132,4 @@ bangumi:
   show: 2
   progress: false
   showMyComment: true
+  metaColor: '#7E2AA2'
