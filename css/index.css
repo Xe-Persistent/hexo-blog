@@ -865,8 +865,8 @@ canvas:not(#ribbon-canvas),
   --global-font-size: 15px;
   --global-bg: #fff;
   --font-color: #4c4948;
-  --hr-border: #fffcf1;
-  --hr-before-color: #fffbeb;
+  --hr-border: #c486df;
+  --hr-before-color: #ad55d3;
   --search-bg: #f6f8fa;
   --search-input-color: #4c4948;
   --search-a-color: #4c4948;
