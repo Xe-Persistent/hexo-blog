@@ -6,3 +6,5 @@ node_modules/
 public/
 .deploy*/
 .idea/
+/source/_data/Bangumi-Api-Cache/
+/source/_data/bangumis.json
