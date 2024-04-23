@@ -1,6 +1,6 @@
 {
   "name": "hexo-blog-xe",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "scripts": {
     "build": "hexo generate",
@@ -10,10 +10,10 @@
     "preview": "hexo generate -f && hexo server"
   },
   "hexo": {
-    "version": "7.1.1"
+    "version": "7.2.0"
   },
   "dependencies": {
-    "hexo": "7.1.1",
+    "hexo": "7.2.0",
     "hexo-bilibili-bangumi": "1.8.9",
     "hexo-deployer-git": "4.0.0",
     "hexo-generator-archive": "2.0.0",

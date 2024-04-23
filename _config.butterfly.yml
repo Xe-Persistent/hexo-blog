@@ -417,7 +417,7 @@ comments:
 # Twikoo
 # https://github.com/imaegoo/twikoo
 twikoo:
-  envId: https://twikoo.dongzhenxian.com
+  envId: https://twikoo.dongzhenxian.com/.netlify/functions/twikoo
   region:
   visitor: false
   option:
@@ -512,6 +512,8 @@ site_verification:
 # --------------------------------------
 
 # Theme color for customize
+# Notice: color value must in double quotes like "#000" or may cause error!
+
 theme_color:
   enable: true
   main: &chisato_red '#F44436'
