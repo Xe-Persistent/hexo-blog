@@ -1,0 +1,435 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>如何使用Git管理hexo博客项目仓库 | 贞宪的博客</title><meta name="author" content="贞宪"><meta name="copyright" content="贞宪"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="前言在日常写博客的时候，我一般会在多台电脑上写作，然后在本地生成静态页面，部署到GitHub Page；此外，博客的源代码也需要在多台电脑之间同步，保证在部署页面时的一致性。因此，管理好博客的远程仓库是非常有必要的。今天就和大家分享一下，我平时是如何管理hexo博客项目仓库的。 管理分支hexo博客项目的使用环境为个人项目，因此无需过多关注多人协作情况下Git的注意事项。我们完全可以自己定义一套规">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用Git管理hexo博客项目仓库">
+<meta property="og:url" content="https://www.dongzhenxian.com/posts/8d70d0c84034.html">
+<meta property="og:site_name" content="贞宪的博客">
+<meta property="og:description" content="前言在日常写博客的时候，我一般会在多台电脑上写作，然后在本地生成静态页面，部署到GitHub Page；此外，博客的源代码也需要在多台电脑之间同步，保证在部署页面时的一致性。因此，管理好博客的远程仓库是非常有必要的。今天就和大家分享一下，我平时是如何管理hexo博客项目仓库的。 管理分支hexo博客项目的使用环境为个人项目，因此无需过多关注多人协作情况下Git的注意事项。我们完全可以自己定义一套规">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp">
+<meta property="article:published_time" content="2022-06-07T02:36:37.000Z">
+<meta property="article:modified_time" content="2024-07-02T15:19:21.821Z">
+<meta property="article:author" content="贞宪">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.dongzhenxian.com/posts/8d70d0c84034.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#F44436","bgDark":"#1F1F1F","position":"bottom-center"},
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.11.1/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '如何使用Git管理hexo博客项目仓库',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-02 23:19:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="preconnect" href="https://gcore.jsdelivr.net/" /><link rel="preconnect" href="https://s1.hdslb.com/" /><link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="贞宪的博客"><span class="site-name">贞宪的博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">如何使用Git管理hexo博客项目仓库</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-07T02:36:37.000Z" title="发表于 2022-06-07 10:36:37">2022-06-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-02T15:19:21.821Z" title="更新于 2024-07-02 23:19:21">2024-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/share/">经验分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在日常写博客的时候，我一般会在多台电脑上写作，然后在本地生成静态页面，部署到<code>GitHub Page</code>；此外，博客的源代码也需要在多台电脑之间同步，保证在部署页面时的一致性。因此，管理好博客的远程仓库是非常有必要的。今天就和大家分享一下，我平时是如何管理hexo博客项目仓库的。</p>
+<h1 id="管理分支"><a href="#管理分支" class="headerlink" title="管理分支"></a>管理分支</h1><p>hexo博客项目的使用环境为个人项目，因此无需过多关注多人协作情况下<code>Git</code>的注意事项。我们完全可以自己定义一套规矩，在写作时遵守即可。</p>
+<p><code>hexo deploy</code>命令会强行覆盖远程仓库的静态页面文件，因此有必要将页面文件与源代码分开存储。可以另外创建一个仓库，也可以新建一个分支，两个分支存储不同的文件。我使用的方案是新建一个分支。</p>
+<h2 id="使用不同分支"><a href="#使用不同分支" class="headerlink" title="使用不同分支"></a>使用不同分支</h2><p>在博客的根目录下找到<code>_config.yml</code>文件，修改<code>deploy</code>配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">    <span class="attr">repository:</span> <span class="string">//</span> <span class="string">填写你的仓库地址</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<p>这时，<code>hexo deploy</code>命令会将站点文件推送至默认的<code>master</code>分支。我们可以在<code>GitHub</code>中新建一个<code>hexo</code>分支，在本地也新建一个<code>hexo</code>分支，然后切换至<code>hexo</code>分支，将源代码<code>push</code>到远程的<code>origin/hexo</code>上，并将其设置为默认分支。这样的好处是每次执行<code>git clone</code>命令时无需关注克隆的是哪一个分支，因为默认克隆的是源代码而不是站点文件。之后，每次执行<code>hexo deploy</code>，都会创建一个提交信息为部署时间的commit，并刷新页面。</p>
+<p>于是，<code>hexo</code>分支的提交历史反映了我们对博客的页面做出的改动，<code>master</code>分支的提交历史反映了页面的更新历史。</p>
+<h2 id="合并修改"><a href="#合并修改" class="headerlink" title="合并修改"></a>合并修改</h2><p>当我在一台电脑上写作或修改源代码并推送至远程仓库后，如果要在另一台电脑上继续作业，正确的做法是先执行<code>git fetch</code>命令拉取远程仓库的代码，再执行<code>git pull</code>命令同步之前做的修改，保证一致性后再完成工作。如果我不小心忘记这一次同步呢？直接在本地继续工作，然后提交。如果修改的不是前一台电脑更改的文件，那倒不会产生什么影响，只需要补做前面同步的操作即可。如果恰好修改了前一台电脑更改的文件，那么显然会产生冲突。</p>
+<p>在多人协助的项目中，冲突也是时有发生，我们一般会采用执行<code>git merge</code>命令然后手动解决冲突的方式，这样会在分支上产生一个分叉，然后合并，同时产生一条<code>merge</code>信息提示这里曾进行过合并，<code>Git</code>会完整记录下我们对分支进行的每一次提交。</p>
+<p>然而，对于个人项目，我不希望我的分支产生多余的分叉，我想要让历史提交记录保持一条干净的直线，这时可以使用<code>git rebase</code>命令代替<code>git merge</code>，将本地的修改放到远程仓库上次修改的后面，使博客的更新历史既符合时间线又不产生分叉。</p>
+<h1 id="管理提交信息"><a href="#管理提交信息" class="headerlink" title="管理提交信息"></a>管理提交信息</h1><p>上面提到，分支上的每一次提交就是博客更新的时间线。除了保证分支的提交历史清晰可辨，提交的信息也要做到言简意赅。一般来说，提交信息要写明这次提交修改了哪些内容，并尽可能地简洁，这样在浏览分支的提交历史时，能清楚地明白每次提交做了什么事情。</p>
+<h2 id="使用amend"><a href="#使用amend" class="headerlink" title="使用amend"></a>使用amend</h2><p>当我在本地做了一些修改后进行了一次commit，之后又做了一些修改，想将这两次的修改合并到一个commit中，这时可以使用<code>--amend</code>参数，加到<code>git commit</code>后面，同时还能修改上一次提交时的提交信息。</p>
+<p>如果已经将上一次修改push到了远程仓库，我们也能使用<code>git commit --amend</code>命令，但执行<code>git push</code>命令时，需要加上<code>--force</code>参数强制推送到远程仓库</p>
+<p>使用<code>WebStorm</code>时，只需在commit界面勾选<code>amend</code>复选框即可。如果需要强制推送，在push时展开按钮选择<code>force push</code>即可。</p>
+<h2 id="使用rebase"><a href="#使用rebase" class="headerlink" title="使用rebase"></a>使用rebase</h2><p>如果需要修改前几次的提交信息，可以使用<code>git rebase -i</code>命令，具体使用方法如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rebase <span class="literal">-i</span> HEAD~<span class="number">2</span> // <span class="number">2</span> 表示最近两条commit</span><br><span class="line">git rebase <span class="literal">-i</span> &#123;commitID&#125; // 例如 git rebase <span class="literal">-i</span> d95ddfb</span><br><span class="line">git rebase <span class="literal">-i</span> <span class="literal">--root</span> // 表示从第一条commit开始编辑</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>指定<code>HEAD~</code>后面的数字表示编辑最近若干条commit<br>指定<code>commit ID</code>表示编辑这条commit之前的记录<br>指定–root参数表示从第一条commit开始编辑</p>
+</blockquote>
+<p>执行rebase命令后，会出现rebase的编辑窗口，窗口底下会有提示怎么操作。</p>
+<p>这里有几种修改选项：</p>
+<ul>
+<li><code>pick</code>：保留该commit</li>
+<li><code>reword</code>：保留该commit，但我需要修改该commit的Message</li>
+<li><code>edit</code>：保留该commit，但我要停下来修改该提交(包括修改文件)</li>
+<li><code>squash</code>：将该commit和前一个commit合并</li>
+<li><code>fixup</code>：将该commit和前一个commit合并，但我不要保留该提交的注释信息</li>
+<li><code>exec</code>：执行shell命令</li>
+<li><code>drop</code>：丢弃这个commit</li>
+</ul>
+<p>按字母<code>O</code>键进入编辑状态，开始修改内容。</p>
+<p>按<code>Esc</code>键退出编辑状态，可以输入各种命令，最常用的是输入<code>:q</code>直接退出，输入<code>:wq</code>进行保存并退出。</p>
+<p>修改完成后，执行<code>git push --force</code>命令推送至远程仓库即可。</p>
+<h2 id="UI交互式rebase"><a href="#UI交互式rebase" class="headerlink" title="UI交互式rebase"></a>UI交互式rebase</h2><p>上面使用命令行窗口编辑提交信息的操作非常繁琐，如果使用<code>WebStorm</code>来操作会非常简单。只需打开<code>Git</code>标签页，在中间的分支上选择你要编辑的起始commit，右键选择<code>Interactively Rebase From Here</code>，然后在弹出的窗口中编辑每一条要修改的commit即可。</p>
+<h2 id="重置代码"><a href="#重置代码" class="headerlink" title="重置代码"></a>重置代码</h2><p>如果遇到严重的问题，想要强制拉取并覆盖本地代码，可以使用<code>git reset</code>将本地分支重置到远程分支的最新提交。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch <span class="literal">--all</span></span><br><span class="line">git reset <span class="literal">--hard</span> origin/hexo</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用Gitmoji"><a href="#使用Gitmoji" class="headerlink" title="使用Gitmoji"></a>使用Gitmoji</h1><p>此外，我们还可以在每条提交信息前插入一些约定好的<code>emoji</code>表情，使得commit信息更加生动形象。因为是使用在<code>Git</code>里的，所以被称为<code>Gitmoji</code>。我节选了一些内容，更多用法可以参考它的<a target="_blank" rel="noopener" href="https://gitmoji.dev/">官网</a>。</p>
+<table>
+<thead>
+<tr>
+<th>emoji</th>
+<th>emoji代码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🎨</td>
+<td>:art:</td>
+<td>改进代码结构&#x2F;代码格式</td>
+</tr>
+<tr>
+<td>⚡️</td>
+<td>:zap:</td>
+<td>提升性能</td>
+</tr>
+<tr>
+<td>🔥</td>
+<td>:fire:</td>
+<td>移除代码或文件</td>
+</tr>
+<tr>
+<td>🐛</td>
+<td>:bug:</td>
+<td>修复bug</td>
+</tr>
+<tr>
+<td>⏪</td>
+<td>:rewind:</td>
+<td>回退修改</td>
+</tr>
+<tr>
+<td>📦</td>
+<td>:package:</td>
+<td>上传已经完成编译或者打包的项目</td>
+</tr>
+<tr>
+<td>👽</td>
+<td>:alien:</td>
+<td>API发生改变</td>
+</tr>
+<tr>
+<td>🚚</td>
+<td>:truck:</td>
+<td>移动或者重命名文件</td>
+</tr>
+<tr>
+<td>📄</td>
+<td>:page_facing_up:</td>
+<td>添加或者升级证书</td>
+</tr>
+<tr>
+<td>💥</td>
+<td>:boom:</td>
+<td>有结构性破坏的修改</td>
+</tr>
+<tr>
+<td>🍱</td>
+<td>:bento:</td>
+<td>添加资源</td>
+</tr>
+<tr>
+<td>🔍</td>
+<td>:mag:</td>
+<td>改进搜索方式</td>
+</tr>
+<tr>
+<td>🥅</td>
+<td>:goal_net:</td>
+<td>发现错误</td>
+</tr>
+<tr>
+<td>💫</td>
+<td>:dizzy:</td>
+<td>添加了动画</td>
+</tr>
+<tr>
+<td>🗑</td>
+<td>:wastebasket:</td>
+<td>过期代码需要被清理</td>
+</tr>
+<tr>
+<td>🚑</td>
+<td>:ambulance:</td>
+<td>关键补丁</td>
+</tr>
+<tr>
+<td>✨</td>
+<td>:sparkles:</td>
+<td>引入新的功能</td>
+</tr>
+<tr>
+<td>📝</td>
+<td>:memo:</td>
+<td>写README文档</td>
+</tr>
+<tr>
+<td>🚀</td>
+<td>:rocket:</td>
+<td>部署功能</td>
+</tr>
+<tr>
+<td>💄</td>
+<td>:lipstick:</td>
+<td>更新UI和样式文件</td>
+</tr>
+<tr>
+<td>🎉</td>
+<td>:tada:</td>
+<td>初次提交</td>
+</tr>
+<tr>
+<td>🔖</td>
+<td>:bookmark:</td>
+<td>发行&#x2F;版本标签</td>
+</tr>
+<tr>
+<td>⬆️</td>
+<td>:arrow_up:</td>
+<td>升级依赖</td>
+</tr>
+<tr>
+<td>⬇️</td>
+<td>:arrow_down:</td>
+<td>降级依赖</td>
+</tr>
+<tr>
+<td>➕</td>
+<td>:heavy_plus_sign:</td>
+<td>添加依赖</td>
+</tr>
+<tr>
+<td>➖</td>
+<td>:heavy_minus_sign:</td>
+<td>删除依赖</td>
+</tr>
+<tr>
+<td>🔨</td>
+<td>:hammer:</td>
+<td>重构</td>
+</tr>
+<tr>
+<td>🐳</td>
+<td>:whale:</td>
+<td>Docker 相关工作</td>
+</tr>
+<tr>
+<td>🔧</td>
+<td>:wrench:</td>
+<td>修改配置文件</td>
+</tr>
+<tr>
+<td>🌐</td>
+<td>:globe_with_meridians:</td>
+<td>国际化与本地化</td>
+</tr>
+<tr>
+<td>✏️</td>
+<td>:pencil2:</td>
+<td>修复typo</td>
+</tr>
+</tbody></table>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>博客项目使用两个分支分别存储源代码和站点文件，两个分支的提交历史分别反映了博客的页面改动与页面的更新历史；</li>
+<li>使用<code>Git</code>命令可以合并commit、修改commit信息。使用<code>WebStorm</code>操作更加方便；</li>
+<li>使用<code>Gitmoji</code>可以生动形象地描述commit内容。</li>
+</ul>
+<hr>
+<p><strong>非常感谢你的阅读，辛苦了！</strong></p>
+<hr>
+<p>参考文章： (感谢以下资料提供的帮助)</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/896043488029600/1216289527823648">Rebase - 廖雪峰的官方网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42310154/article/details/119004977">git rebase详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/401811121">Git 如何修改历史 Commit message</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43314519/article/details/123317135">Git修改commit信息方法大全</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.dongzhenxian.com">贞宪</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.dongzhenxian.com/posts/8d70d0c84034.html">https://www.dongzhenxian.com/posts/8d70d0c84034.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.dongzhenxian.com" target="_blank">贞宪的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/">Git</a><a class="post-meta__tags" href="/tags/blog/">博客</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/21df300fabde.html" title="git rebase VS git merge？更优雅的Git合并方式值得拥有"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">git rebase VS git merge？更优雅的Git合并方式值得拥有</div></div></a></div><div class="next-post pull-right"><a href="/posts/6a03ebbdc425.html" title="初识MyBatis-Plus"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">初识MyBatis-Plus</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/21df300fabde.html" title="git rebase VS git merge？更优雅的Git合并方式值得拥有"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-21</div><div class="title">git rebase VS git merge？更优雅的Git合并方式值得拥有</div></div></a></div><div><a href="/posts/acc0fec61eb5.html" title="如何在不同电脑上使用SSH访问同一个代码库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-22</div><div class="title">如何在不同电脑上使用SSH访问同一个代码库</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">贞宪</div><div class="author-info__description">晚来天欲雪，能饮一杯无？</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:474663082@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://github.com/Xe-Persistent" target="_blank" title="GitHub"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/Xe_Persistent" target="_blank" title="X"><i class="fab fa-x-twitter"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E5%88%86%E6%94%AF"><span class="toc-number">2.</span> <span class="toc-text">管理分支</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E5%88%86%E6%94%AF"><span class="toc-number">2.1.</span> <span class="toc-text">使用不同分支</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E4%BF%AE%E6%94%B9"><span class="toc-number">2.2.</span> <span class="toc-text">合并修改</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%8F%90%E4%BA%A4%E4%BF%A1%E6%81%AF"><span class="toc-number">3.</span> <span class="toc-text">管理提交信息</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8amend"><span class="toc-number">3.1.</span> <span class="toc-text">使用amend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8rebase"><span class="toc-number">3.2.</span> <span class="toc-text">使用rebase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UI%E4%BA%A4%E4%BA%92%E5%BC%8Frebase"><span class="toc-number">3.3.</span> <span class="toc-text">UI交互式rebase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E7%BD%AE%E4%BB%A3%E7%A0%81"><span class="toc-number">3.4.</span> <span class="toc-text">重置代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Gitmoji"><span class="toc-number">4.</span> <span class="toc-text">使用Gitmoji</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/d6312cf2a1a8.html" title="拉威尔《波莱罗（Bolero）》音乐特征与配器分析">拉威尔《波莱罗（Bolero）》音乐特征与配器分析</a><time datetime="2024-03-06T02:00:50.000Z" title="发表于 2024-03-06 10:00:50">2024-03-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/3033685adfef.html" title="如何禁用或移除Windows Defender？">如何禁用或移除Windows Defender？</a><time datetime="2023-10-16T06:32:36.000Z" title="发表于 2023-10-16 14:32:36">2023-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/79c746af1ae0.html" title="实战pgBackRest">实战pgBackRest</a><time datetime="2023-05-11T08:21:50.000Z" title="发表于 2023-05-11 16:21:50">2023-05-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</a><time datetime="2023-04-25T08:37:07.000Z" title="发表于 2023-04-25 16:37:07">2023-04-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a68cfe88e8ff.html" title="实战PostgreSQL分区表">实战PostgreSQL分区表</a><time datetime="2023-04-20T07:31:47.000Z" title="发表于 2023-04-20 15:31:47">2023-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: #4E0E69"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 贞宪</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.31/twikoo.all.min.js').then(init)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

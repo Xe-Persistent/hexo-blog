@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>git rebase VS git merge？更优雅的Git合并方式值得拥有 | 贞宪的博客</title><meta name="author" content="贞宪"><meta name="copyright" content="贞宪"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="写在前面你在使用Git合并分支时只会使用git merge吗？有时使用git rebase可以比git merge做出更优雅的操作。  另外，如果你不能很好的应用Git，那么这里为你提供一个非常棒的Git在线练习工具：Git Online，你可以更直观的看到你所使用的命令会产生什么效果。 Merge与Rebase不知怎么，git rebase命令被赋予了一个神奇的污毒声誉，初学者应该远离它，但它实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git rebase VS git merge？更优雅的Git合并方式值得拥有">
+<meta property="og:url" content="https://www.dongzhenxian.com/posts/21df300fabde.html">
+<meta property="og:site_name" content="贞宪的博客">
+<meta property="og:description" content="写在前面你在使用Git合并分支时只会使用git merge吗？有时使用git rebase可以比git merge做出更优雅的操作。  另外，如果你不能很好的应用Git，那么这里为你提供一个非常棒的Git在线练习工具：Git Online，你可以更直观的看到你所使用的命令会产生什么效果。 Merge与Rebase不知怎么，git rebase命令被赋予了一个神奇的污毒声誉，初学者应该远离它，但它实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp">
+<meta property="article:published_time" content="2022-06-21T08:51:37.000Z">
+<meta property="article:modified_time" content="2024-07-02T15:19:21.820Z">
+<meta property="article:author" content="贞宪">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.dongzhenxian.com/posts/21df300fabde.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#F44436","bgDark":"#1F1F1F","position":"bottom-center"},
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.11.1/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'git rebase VS git merge？更优雅的Git合并方式值得拥有',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-02 23:19:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="preconnect" href="https://gcore.jsdelivr.net/" /><link rel="preconnect" href="https://s1.hdslb.com/" /><link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="贞宪的博客"><span class="site-name">贞宪的博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">git rebase VS git merge？更优雅的Git合并方式值得拥有</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-21T08:51:37.000Z" title="发表于 2022-06-21 16:51:37">2022-06-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-02T15:19:21.820Z" title="更新于 2024-07-02 23:19:21">2024-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/share/">经验分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span></div></div></div><article class="post-content" id="article-container"><h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>你在使用Git合并分支时只会使用<code>git merge</code>吗？有时使用<code>git rebase</code>可以比<code>git merge</code>做出更优雅的操作。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/hero.svg" alt="合并与变基"></p>
+<p>另外，如果你不能很好的应用Git，那么这里为你提供一个非常棒的Git在线练习工具：<a target="_blank" rel="noopener" href="https://learngitbranching.js.org/">Git Online</a>，你可以更直观的看到你所使用的命令会产生什么效果。</p>
+<h1 id="Merge与Rebase"><a href="#Merge与Rebase" class="headerlink" title="Merge与Rebase"></a>Merge与Rebase</h1><p>不知怎么，<code>git rebase</code>命令被赋予了一个神奇的污毒声誉，初学者应该远离它，但它实际上可以让开发团队在使用时更加轻松。</p>
+<blockquote>
+<p>你可以将它理解成「七伤拳」，「七伤拳」并不是不能练，只是练「七伤拳」有一个先诀条件，那就是内功境界一定要非常高，即你要充分理解<code>git rebase</code>命令。</p>
+</blockquote>
+<p>在本文中，我们将<code>git rebase</code>与<code>git merge</code>命令进行比较。在Git工作流中，说明所有可以使用Rebase的场景。</p>
+<h1 id="概念概述"><a href="#概念概述" class="headerlink" title="概念概述"></a>概念概述</h1><p>关于<code>git rebase</code>，首先要理解的是它解决了和<code>git merge</code>同样的问题。这两个命令都旨在将更改从一个分支合并到另一个分支，但二者的合并方式却有很大的不同。</p>
+<p>当你在专用分支上开发新feature时，另一个团队成员在<code>master</code>分支提交了新的commits，这会发生什么？这会导致分叉的历史记录。对于这个问题，使用Git作为协作工具的任何人来说都应该很熟悉。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/01.svg" alt="分叉的提交历史记录"></p>
+<p>现在，假设在<code>master</code>分支上的新提交与你正在开发的feature相关。需要将新提交合并到你的<code>feature</code>分支中，你可以有两个选择：merge或者rebase。</p>
+<h2 id="Merge方式"><a href="#Merge方式" class="headerlink" title="Merge方式"></a>Merge方式</h2><p>最简单的方式是通过以下命令将<code>master</code>分支合并到<code>feature</code>分支中：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+
+<p>或者，你可以将其浓缩为一行命令：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">git merge feature master</span><br></pre></td></tr></table></figure>
+
+<p>这会在<code>feature</code>分支中创建一个新的<strong>merge commit</strong>，它将两个分支的历史联系在一起，请看如下所示的分支结构：</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/02.svg" alt="将master分支合并到feature分支中"></p>
+<p>使用merge是很好的方式，因为它是一种<strong>非破坏性</strong>的操作。现有分支不会以任何方式被更改，这避免了rebase操作所产生的潜在缺陷（下面讨论）。</p>
+<p>另一方面，这也意味着<code>feature</code>分支每次需要合并上游更改时，它都将产生一个额外的合并提交。如果<code>master</code>提交非常活跃，这可能会严重污染你的<code>feature</code>分支历史记录。尽管可以使用高级选项<code>git log</code>缓解此问题，但它可能使其他开发人员<strong>难以理解项目的历史记录</strong>。</p>
+<h2 id="Rebase方式"><a href="#Rebase方式" class="headerlink" title="Rebase方式"></a>Rebase方式</h2><p>作为merge的替代方法，你可以使用以下命令将<code>master</code>分支合并到<code>feature</code>分支上：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+
+<p>这会将整个<code>feature</code>分支移动到<code>master</code>分支的顶端，从而有效地整合了所有<code>master</code>分支上的提交。但是，与merge提交方式不同，rebase通过为原始分支中的每个提交创建全新的commits来<strong>重写</strong>项目历史记录。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/03.svg" alt="将feature分支rebase到master分支上"></p>
+<p>rebase的主要好处是可以获得更清晰的项目历史。首先，它消除了<code>git merge</code>所需的不必要的合并提交；其次，正如你在上图中所看到的，rebase会产生完美线性的项目历史记录，你可以在<code>feature</code>分支上没有任何分叉的情况下一直追寻到项目的初始提交。这样可以通过命令<code>git log</code>，<code>git bisect</code>和<code>gitk</code>更容易地导航查看项目。</p>
+<p>但是，针对这样的提交历史我们需要权衡其「安全性」和「可追溯性」。如果你不遵循<strong>Rebase的黄金法则</strong>，重写项目历史记录可能会对你的协作工作流程造成灾难性后果。而且，rebase会丢失合并提交的上下文，你也就无法看到上游更改是何时合并到feature中的。</p>
+<h2 id="交互式Rebase"><a href="#交互式Rebase" class="headerlink" title="交互式Rebase"></a>交互式Rebase</h2><p>交互式rebase使你有机会在将commits移动到新分支时更改这些commits。这比自动rebase更强大，因为它提供了对分支提交历史的完全控制。通常，这用于在合并<code>feature</code>分支到 <code>master</code>之前清理其杂乱的历史记录。</p>
+<p>要使用交互式rebase，需要使用<code>git rebase</code>和<code>-i</code>选项：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase <span class="literal">-i</span> master</span><br></pre></td></tr></table></figure>
+
+<p>这将打开一个文本编辑器，列出即将移动的所有提交：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pick <span class="number">33</span>d5b7a Message <span class="keyword">for</span> commit <span class="comment">#1</span></span><br><span class="line">pick <span class="number">9480</span>b3d Message <span class="keyword">for</span> commit <span class="comment">#2</span></span><br><span class="line">pick <span class="number">5</span>c67e61 Message <span class="keyword">for</span> commit <span class="comment">#3</span></span><br></pre></td></tr></table></figure>
+
+<p>此列表准确定义了执行rebase后分支的外观。通过更改<code>pick</code>命令或重新排序条目，你可以使分支的历史记录看起来像你想要的任何内容。例如，如果第二次提交fix了第一次提交中的一个小问题，您可以使用以下<code>fixup</code>命令将它们浓缩为一个提交：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pick <span class="number">33</span>d5b7a Message <span class="keyword">for</span> commit <span class="comment">#1</span></span><br><span class="line">fixup <span class="number">9480</span>b3d Message <span class="keyword">for</span> commit <span class="comment">#2</span></span><br><span class="line">pick <span class="number">5</span>c67e61 Message <span class="keyword">for</span> commit <span class="comment">#3</span></span><br></pre></td></tr></table></figure>
+
+<p>保存并关闭文件时，Git将根据您的指示执行rebase，从而产生如下所示的项目历史记录：</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/04.svg" alt="使用交互式rebase来压缩提交"></p>
+<p>消除这种无意义的提交使你的功能历史更容易理解。这是<code>git merge</code>根本无法做到的事情。至于commits条目前的<code>pick</code>、<code>fixup</code>、<code>squash</code>等命令，在Git目录执行<code>git rebase -i</code>即可查看到，大家按需重排或合并提交即可，注释说明非常清晰，在此不做过多说明。</p>
+<h1 id="Rebase的黄金法则"><a href="#Rebase的黄金法则" class="headerlink" title="Rebase的黄金法则"></a>Rebase的黄金法则</h1><p>一旦你理解了什么是rebase，最重要的是要学习什么时候不能使用它。<code>git rebase</code>的黄金法则是永远不要在公共分支上使用它。</p>
+<p>例如，想想如果你rebase<code>master</code>分支到<code>feature</code>分支之上会发生什么：</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/05.svg" alt="Rebase到主分支"></p>
+<p>rebase将所有<code>master</code>分支上的提交移动 feature 分支的顶端。问题是这只发生在<strong>你自己</strong>的存储库中。所有其他开发人员仍在使用原始版本的<code>master</code>。由于rebase产生了全新 commit，Git会认为你的<code>master</code>分支历史与其他人的历史不同。</p>
+<p>此时，同步两个<code>master</code>分支的唯一方法是将它们合并在一起，但是这样会产生额外的合并提交和两组包含相同更改的提交（原始提交和通过rebase更改的分支提交）。不用说，这是一个令人非常困惑的情况。</p>
+<p>因此，在你运行<code>git rebase</code>命令之前，总是问自己，<strong>还有其他人在用这个分支吗？</strong> 如果答案是肯定的，那就把你的手从键盘上移开，开始考虑采用非破坏性的方式进行改变（例如<code>git revert</code>命令）。否则，你可以随心所欲地重写历史记录。</p>
+<h2 id="Force-Push"><a href="#Force-Push" class="headerlink" title="Force Push"></a>Force Push</h2><p>如果你尝试将rebase了的<code>master</code>分支推送回remote repository，Git将阻止你这样做，因为它会与远程<code>master</code>分支冲突。但是，你可以通过传递<code>--force</code>标志来强制推送，如下所示：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Be very careful with this command!</span></span><br><span class="line">git push <span class="literal">--force</span></span><br></pre></td></tr></table></figure>
+
+<p>这样你自己repository的内容将覆盖远程<code>master</code>分支的内容，但这会使团队的其他成员感到困惑。因此，只有在确切知道自己在做什么时才要非常小心地使用此命令。</p>
+<p>如果没有人在feature分支上作出更改，你可以使用force push将本地内容推送到remote repository做清理工作。</p>
+<h1 id="工作流程演练"><a href="#工作流程演练" class="headerlink" title="工作流程演练"></a>工作流程演练</h1><p>rebase可以根据你所在团队的需要方便的整合到现有的Git工作流程中。在本节中，我们将了解rebase在功能开发的各个阶段可以提供的好处。</p>
+<p>在任何工作流程中，利用<code>git rebase</code>是为每个功能创建专用分支。这为你提供了必要的分支，以安全地利用rebase：</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/06.svg" alt="在专用分支中开发功能"></p>
+<h2 id="本地清理"><a href="#本地清理" class="headerlink" title="本地清理"></a>本地清理</h2><p>将rebase纳入工作流程的最佳方法之一是清理本地正在进行的功能。通过定期执行交互式rebase，你可以确保功能中的每个提交都具有针对性和意义。这可以使你在编写代码时无需担心将其分解为隔离的提交（多个提交），你可以在事后修复整合它。</p>
+<p>使用<code>git rebase</code>时，有两种情况：<code>feature</code>父分支（例如<code>master</code>）的提交，或在<code>feature</code>中的早期提交。我们在<strong>交互式 Rebase</strong>部分已经介绍了第一种情况的示例。我们来看后一种情况，当你只需要修复最后几次提交时，以下命令仅做最后<code>3</code>次提交的交互式rebase。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase <span class="literal">-i</span> HEAD~<span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>通过指定<code>HEAD~3</code>，你实际上并没有移动分支，你只是交互式地重写其后的<code>3</code>个提交。请注意，这<strong>不会</strong>将上游更改合并到<code>feature</code>分支中。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/07.svg" alt="Rebase到HEAD~3"></p>
+<p>如果要使用此方法重写整个功能，<code>git merge-base</code>命令可用于查找<code>feature</code>分支的原始base。以下内容返回原始base的提交ID，然后你可以将其传递给<code>git rebase</code>：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">merge-base</span> feature master</span><br></pre></td></tr></table></figure>
+
+<p>交互式rebase的使用是引入<code>git rebase</code>工作流的好方法，因为它只影响本地分支。其他开发人员唯一能看到的就是你提交的最终版，这应该是一个简洁易懂易跟踪的分支历史记录。</p>
+<p>但同样，这仅适用于私有<code>feature</code>分支。如果你通过相同的功能分支(公共分支)与其他开发人员协作，那么你是<strong>不被允许</strong>重写其历史记录的。</p>
+<h2 id="将上游更改合并到功能分支中"><a href="#将上游更改合并到功能分支中" class="headerlink" title="将上游更改合并到功能分支中"></a>将上游更改合并到功能分支中</h2><p>在<strong>概念概述</strong>部分中，我们了解了<code>feature</code>分支可以使用<code>git merge</code>或<code>git rebase</code>合并<code>master</code>分支的上游更改。merge是一个安全的方式，可以保留git repository的整个历史记录，而rebase则是通过将<code>feature</code>分支移动到<code>master</code>顶端来创建线性历史记录。</p>
+<p>这种使用<code>git rebase</code>类似于本地清理，但在此过程中它包含了那些来自master上游的提交。</p>
+<p>请记住，将当前提交rebase到远程branch（非master分支）一样是合法的。当与另一个开发人员协作使用相同的功能并且你需要将他们的更改合并到你的repository时，就会发生这种情况。</p>
+<p>例如，如果你和另一个名为John的开发人员添加了对<code>feature</code>分支的提交，在你fetch（注意fetch并不会自动merge）来自John的远程<code>feature</code>分支后，你的repository可能如下所示：</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/08.svg" alt="在同一个feature分支上进行协作"></p>
+<p>你可以合并来自上游的分叉：要么用<code>john/feature</code><strong>merge</strong>本地<code>feature</code>，要么<strong>rebase</strong>本地<code>feature</code>到<code>john/feature</code>的顶部。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/09.svg" alt="合并与变基到远程分支"></p>
+<p>请注意，此rebase不违反<strong>Rebase 黄金规则</strong>，因为只有你的本地<code>feature</code>提交被移动，之前的所有内容都不会受到影响。这就像是说「将我的更改添加到John已经完成的工作中」。在大多数情况下，这比通过合并提交与远程分支同步更直观。</p>
+<p>默认情况下，使用<code>git pull</code>命令执行合并，但你可以通过向其传递<code>--rebase</code>选项来强制它将远程分支以rebase方式集成。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">git pull <span class="literal">--rebase</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用Pull请求Review-Feature"><a href="#使用Pull请求Review-Feature" class="headerlink" title="使用Pull请求Review Feature"></a>使用Pull请求Review Feature</h2><p>如果你在代码审查过程中使用pull请求，在使用了pull请求之后你应该避免使用<code>git rebase</code>。一旦你发出pull请求，其他开发人员就会查看你的提交，这意味着它是一个<strong>公共</strong>分支。重写其历史记录将使Git和你的队友无法跟踪添加到该功能的任何后续提交。</p>
+<p>其他开发人员的任何更改都需要合并<code>git merge</code>而不是<code>git rebase</code>。</p>
+<p>因此，在提交拉取请求之前，通常使用交互式rebase清理代码是个好的办法。注意使用顺序。</p>
+<h2 id="集成已批准的功能"><a href="#集成已批准的功能" class="headerlink" title="集成已批准的功能"></a>集成已批准的功能</h2><p>在你的团队批准某项feature后，你可以选择将该功能rebase到<code>master</code>分支的顶端，然后<code>git merge</code>再将该功能集成到主代码库中。</p>
+<p>这与将上游更改合并到feature分支中的情况类似，但由于你不允许在<code>master</code>分支中重写提交，因此你必须最终使用<code>git merge</code>该功能进行集成。但是，通过在merge之前执行rebase，你可以确保会以<code>fast-forward</code>方式merge，从而产生完美的线性历史记录。</p>
+<blockquote>
+<p><code>fast-forward</code>指的是merge之后不会出现新的commit对象，分支的合并线是一条直线，被合并的分支，没有分叉，会丢失，再看不到该分支历史。相对地，<code>no-fast-forward</code>方式merge之后会出现一个merge commit对象，分支的合并线在主干外出现一条分叉，在merge节点处合并为主干。</p>
+</blockquote>
+<p><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/post/git-merge-and-rebase/10.svg" alt="使用和不使用rebase将feature集成到master中"></p>
+<p>如果您不熟悉<code>git rebase</code>，可以随时在临时分支中执行rebase。这样，如果你不小心弄乱了功能的历史记录，可以查看原始分支，然后重试。例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git checkout <span class="literal">-b</span> temporary<span class="literal">-branch</span></span><br><span class="line">git rebase <span class="literal">-i</span> master</span><br><span class="line"><span class="comment"># [Clean up the history]</span></span><br><span class="line">git checkout master</span><br><span class="line">git merge temporary<span class="literal">-branch</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果你更喜欢没有不必要的干净的合并提交，线性历史记录，你就需要开始了解使用rebase功能。同时你应该使用<code>git rebase</code>而不是<code>git merge</code>集成来自另一个分支的更改。</p>
+<p>另一方面，如果你想保留项目的完整历史记录并避免重写公共提交的风险，你可以坚持使用<code>git merge</code>。这两种选择都是完全有效的，但至少现在你可以选择利用<code>git rebase</code>的好处 。</p>
+<hr>
+<p><strong>非常感谢你的阅读，辛苦了！</strong></p>
+<hr>
+<p>本文转自公众号「日拱一兵」的文章<a target="_blank" rel="noopener" href="https://www.cnblogs.com/FraserYu/p/11192840.html">git rebase VS git merge？更优雅的git合并方式值得拥有</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/">Git</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/14d0abf73d03.html" title="如何重构if-else写出优雅高效代码"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">如何重构if-else写出优雅高效代码</div></div></a></div><div class="next-post pull-right"><a href="/posts/8d70d0c84034.html" title="如何使用Git管理hexo博客项目仓库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">如何使用Git管理hexo博客项目仓库</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/8d70d0c84034.html" title="如何使用Git管理hexo博客项目仓库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-07</div><div class="title">如何使用Git管理hexo博客项目仓库</div></div></a></div><div><a href="/posts/acc0fec61eb5.html" title="如何在不同电脑上使用SSH访问同一个代码库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-22</div><div class="title">如何在不同电脑上使用SSH访问同一个代码库</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">贞宪</div><div class="author-info__description">晚来天欲雪，能饮一杯无？</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:474663082@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://github.com/Xe-Persistent" target="_blank" title="GitHub"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/Xe_Persistent" target="_blank" title="X"><i class="fab fa-x-twitter"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Merge%E4%B8%8ERebase"><span class="toc-number">2.</span> <span class="toc-text">Merge与Rebase</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E6%A6%82%E8%BF%B0"><span class="toc-number">3.</span> <span class="toc-text">概念概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Merge%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">Merge方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rebase%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">Rebase方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E4%BA%92%E5%BC%8FRebase"><span class="toc-number">3.3.</span> <span class="toc-text">交互式Rebase</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rebase%E7%9A%84%E9%BB%84%E9%87%91%E6%B3%95%E5%88%99"><span class="toc-number">4.</span> <span class="toc-text">Rebase的黄金法则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Force-Push"><span class="toc-number">4.1.</span> <span class="toc-text">Force Push</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E6%BC%94%E7%BB%83"><span class="toc-number">5.</span> <span class="toc-text">工作流程演练</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%B8%85%E7%90%86"><span class="toc-number">5.1.</span> <span class="toc-text">本地清理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E4%B8%8A%E6%B8%B8%E6%9B%B4%E6%94%B9%E5%90%88%E5%B9%B6%E5%88%B0%E5%8A%9F%E8%83%BD%E5%88%86%E6%94%AF%E4%B8%AD"><span class="toc-number">5.2.</span> <span class="toc-text">将上游更改合并到功能分支中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Pull%E8%AF%B7%E6%B1%82Review-Feature"><span class="toc-number">5.3.</span> <span class="toc-text">使用Pull请求Review Feature</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E5%B7%B2%E6%89%B9%E5%87%86%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">5.4.</span> <span class="toc-text">集成已批准的功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/d6312cf2a1a8.html" title="拉威尔《波莱罗（Bolero）》音乐特征与配器分析">拉威尔《波莱罗（Bolero）》音乐特征与配器分析</a><time datetime="2024-03-06T02:00:50.000Z" title="发表于 2024-03-06 10:00:50">2024-03-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/3033685adfef.html" title="如何禁用或移除Windows Defender？">如何禁用或移除Windows Defender？</a><time datetime="2023-10-16T06:32:36.000Z" title="发表于 2023-10-16 14:32:36">2023-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/79c746af1ae0.html" title="实战pgBackRest">实战pgBackRest</a><time datetime="2023-05-11T08:21:50.000Z" title="发表于 2023-05-11 16:21:50">2023-05-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</a><time datetime="2023-04-25T08:37:07.000Z" title="发表于 2023-04-25 16:37:07">2023-04-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a68cfe88e8ff.html" title="实战PostgreSQL分区表">实战PostgreSQL分区表</a><time datetime="2023-04-20T07:31:47.000Z" title="发表于 2023-04-20 15:31:47">2023-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: #4E0E69"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 贞宪</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.31/twikoo.all.min.js').then(init)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>实战PostgreSQL分区表 | 贞宪的博客</title><meta name="author" content="贞宪"><meta name="copyright" content="贞宪"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="前言随着项目使用年限的增长，数据库的数据量与日俱增，数据库查询也变得越来越慢。对于许多应用数据库来说，随着时间推移，一部分数据会作为历史数据来使用，并且它们的重要性逐渐降低。如果能够在查询时只查最近产生的数据，数据库查询速度将会大幅提高。此外，当一个数据表大小达到一定程度时，索引的性能也会降低，就如同一本书，当它的字数足够多，厚度也变得相当厚时，即使通过目录来查找阅读相应的文字也相当费劲。这种情况">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实战PostgreSQL分区表">
+<meta property="og:url" content="https://www.dongzhenxian.com/posts/a68cfe88e8ff.html">
+<meta property="og:site_name" content="贞宪的博客">
+<meta property="og:description" content="前言随着项目使用年限的增长，数据库的数据量与日俱增，数据库查询也变得越来越慢。对于许多应用数据库来说，随着时间推移，一部分数据会作为历史数据来使用，并且它们的重要性逐渐降低。如果能够在查询时只查最近产生的数据，数据库查询速度将会大幅提高。此外，当一个数据表大小达到一定程度时，索引的性能也会降低，就如同一本书，当它的字数足够多，厚度也变得相当厚时，即使通过目录来查找阅读相应的文字也相当费劲。这种情况">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp">
+<meta property="article:published_time" content="2023-04-20T07:31:47.000Z">
+<meta property="article:modified_time" content="2024-07-02T15:19:21.821Z">
+<meta property="article:author" content="贞宪">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.dongzhenxian.com/posts/a68cfe88e8ff.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#F44436","bgDark":"#1F1F1F","position":"bottom-center"},
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.11.1/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '实战PostgreSQL分区表',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-02 23:19:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="preconnect" href="https://gcore.jsdelivr.net/" /><link rel="preconnect" href="https://s1.hdslb.com/" /><link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="贞宪的博客"><span class="site-name">贞宪的博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">实战PostgreSQL分区表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-20T07:31:47.000Z" title="发表于 2023-04-20 15:31:47">2023-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-02T15:19:21.821Z" title="更新于 2024-07-02 23:19:21">2024-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/study/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span></div></div></div><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着项目使用年限的增长，数据库的数据量与日俱增，数据库查询也变得越来越慢。对于许多应用数据库来说，随着时间推移，一部分数据会作为历史数据来使用，并且它们的重要性逐渐降低。如果能够在查询时只查最近产生的数据，数据库查询速度将会大幅提高。此外，当一个数据表大小达到一定程度时，索引的性能也会降低，就如同一本书，当它的字数足够多，厚度也变得相当厚时，即使通过目录来查找阅读相应的文字也相当费劲。这种情况下，我们可以引入分区表，也就是将数据表划分，进而分而治之。</p>
+<h1 id="术语介绍"><a href="#术语介绍" class="headerlink" title="术语介绍"></a>术语介绍</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>表的划分指的是将逻辑上的一个大表分成一些小的物理上的分表，将数据分散到不同的子表中，并通过父表建立关联关系，从而实现数据表的分区。</p>
+<ul>
+<li><dl><dt>主表&#x2F;父表&#x2F;Master Table</dt><dd>该表是创建子表的模板。从数据的查询操作上看，它与普通表没有什么区别，但实际上所有数据都将储存在子表中，主表仅仅只是一个模板。</dd></dl></li>
+<li><dl><dt>子表&#x2F;分区表&#x2F;Child Table&#x2F;Partition Table</dt><dd>子表继承并从属于一个主表，子表中存储所有的数据。主表与分区表属于一对多的关系，也就是说，一个主表包含多个分区表，而一个分区表只从属于一个主表。</dd></dl></li>
+</ul>
+<h2 id="声明式划分"><a href="#声明式划分" class="headerlink" title="声明式划分"></a>声明式划分</h2><p>PostgreSQL提供了<code>PARTITION BY</code>子句指定如何把一个表划分成称为分区的片段，被划分的表被称作分区表。<code>PARTITION BY</code>子句由分区方法以及用作分区键的列或者表达式列表组成。</p>
+<p>所有被插入到分区表的行将被基于分区键的值路由到分区中。每个分区都有一个由其分区边界定义的数据子集。目前PQSQL支持的分区方法有范围、列表以及哈希。</p>
+<p>分区本身也可能被定义为分区表，这种用法被称为子分区。分区可以有自己的与其他分区不同的索引、约束以及默认值。</p>
+<p>无法把一个常规表转换成分区表，反之亦然。不过，可以把一个包含数据的常规表或者分区表作为分区加入到另一个分区表，或者从分区表中移走一个分区把它变成一个独立的表。</p>
+<p>PostgreSQL支持以下3种声明式分区形式：</p>
+<ul>
+<li><dl><dt>范围划分</dt><dd>通过一个或一组分区键来划分表，每个分区键设定一个区间范围，不同的分区的范围之间没有重叠。例如，我们可以根据日期范围划分，或者根据特定业务对象的标识符划分。</dd></dl></li>
+<li><dl><dt>列表划分</dt><dd>通过显式地列出每一个分区中出现的键值来划分表。</dd></dl></li>
+<li><dl><dt>哈希划分</dt><dd>通过为每个分区指定模数和余数来划分表。每个分区所持有的行都满足相同条件：该行分区键的值除以一个指定的模数将产生一个指定的余数。</dd></dl></li>
+</ul>
+<blockquote>
+<p>事实上，分区表还可以使用表继承来实现，具体方式详见<a target="_blank" rel="noopener" href="http://www.postgres.cn/docs/12/ddl-partitioning.html#DDL-PARTITIONING-IMPLEMENTATION-INHERITANCE">PostgreSQL文档</a>，本文不作讨论。</p>
+</blockquote>
+<h2 id="分区表的特性"><a href="#分区表的特性" class="headerlink" title="分区表的特性"></a>分区表的特性</h2><ul>
+<li><p>分区表的<code>CHECK</code>约束和<code>NOT NULL</code>约束总是会被其所有的分区所继承。不允许在分区表上创建标记为<code>NO INHERIT</code>的<code>CHECK</code>约束。</p>
+</li>
+<li><p>只要分区表中不存在分区，则支持使用<code>ONLY</code>仅在分区表上增加或者删除约束。当分区存在时是不支持仅在分区表上增加或删除约束的，分区表自身的约束可以增加（如果它们不出现在父表中）和删除。</p>
+</li>
+<li><p>分区表并不直接拥有任何数据，因此无法在分区表上使用<code>TRUNCATE ONLY</code>。</p>
+</li>
+<li><p>分区表不能有在父表中不存在的列，反之同理。在使用<code>CREATE TABLE</code>创建分区时不能指定列，在事后使用<code>ALTER TABLE</code>时也不能为分区增加列。只有当表的列正好匹配父表时，才能使用<code>ALTER TABLE ... ATTACH PARTITION</code>将它作为分区加入。</p>
+</li>
+<li><p>如果<code>NOT NULL</code>约束在父表中存在，那么不能删除分区表的列上对应的<code>NOT NULL</code>约束。</p>
+</li>
+</ul>
+<h2 id="分区表的优势"><a href="#分区表的优势" class="headerlink" title="分区表的优势"></a>分区表的优势</h2><ul>
+<li><p>在某些情况下查询性能能够显著提升，特别是当一些经常访问的数据行分布在一个分区或者少数几个分区时，划分可以取代索引的主导列、减小索引尺寸以及使索引中访问压力大的部分更有可能被放在缓存中。</p>
+</li>
+<li><p>当查询或更新一个分区的大部分数据行时，可以通过该分区上的一个顺序扫描来取代分散到整个表上的索引和随机访问，这样可以改善性能。</p>
+</li>
+<li><p>如果批量操作的需求是在分区设计时就规划好的，则批量装载和删除可以通过增加或者去除分区来完成。执行<code>ALTER TABLE DETACH PARTITION</code>或者使用<code>DROP TABLE</code>删除一个分区远比批量操作数据要快。</p>
+</li>
+<li><p>很少使用的数据分区可以被迁移到便宜且较慢的存储介质上。</p>
+</li>
+</ul>
+<p>一个表在何种情况下能够从划分获益取决于实际应用，一个经验法则是当表的尺寸超过了数据库服务器物理内存时，划分会为表带来好处。</p>
+<h2 id="分区表的限制"><a href="#分区表的限制" class="headerlink" title="分区表的限制"></a>分区表的限制</h2><ul>
+<li><p>没有办法创建跨越所有分区的约束，只能单个约束每个子表。</p>
+</li>
+<li><p>分区表上的唯一约束必须包括所有分区键列，存在此限制是因为PostgreSQL只能每个子表中分别实施唯一性。</p>
+</li>
+<li><p>只需要在子表上定义<code>BEFORE ROW</code>触发器，父表上不需要。</p>
+</li>
+<li><p>不允许在同一个分区树中混杂临时关系和持久关系。因此，如果分区表是持久的，则其分区也必须是持久的，反之亦然。在使用临时关系时，分区树的所有成员都必须来自于同一个会话。</p>
+</li>
+</ul>
+<h2 id="创建分区表"><a href="#创建分区表" class="headerlink" title="创建分区表"></a>创建分区表</h2><p>假定我们正在为一个大型的冰激凌公司构建数据库。该公司需要了解每天的最高气温以及每天每个区域的冰激凌销售情况。通常，我们会设计这样的表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement (</span><br><span class="line">    city_id         <span class="type">int</span> <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    logdate         <span class="type">date</span> <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    peaktemp        <span class="type">int</span>,</span><br><span class="line">    unitsales       <span class="type">int</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这个表的主要用途是为管理层准备在线报告，因此大部分查询只会访问上周、上个月或者前一季度的数据。为了减少需要被存放的旧数据量，我们决定只保留最近3年的数据。在每个月的开始我们会删除掉最早的那个月的数据。在这种情况下我们可以使用分区表技术来帮助我们满足对<code>measurement</code>表的所有不同需求。</p>
+<p>要在这种情况下使用声明式分区，可采用下面的步骤：</p>
+<ol>
+<li>通过指定<code>PARTITION BY</code>子句把<code>measurement</code>表创建为分区表，该子句包括分区方法（这个例子中是<code>RANGE</code>）以及用作分区键的列。一方面可以在分区键中使用多列进行范围分区，当然，这通常会导致分区数量比较多，其中每一个分区都比较小。另一方面，使用较少的列会通过粗粒度的分区策略得到较少数量的分区。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement (</span><br><span class="line">    city_id         <span class="type">int</span> <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    logdate         <span class="type">date</span> <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    peaktemp        <span class="type">int</span>,</span><br><span class="line">    unitsales       <span class="type">int</span></span><br><span class="line">) <span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (logdate);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建分区。每个分区的定义必须指定对应于父表的分区方法和分区键的边界。注意，如果指定的边界使得新分区的值会与已有分区中的值重叠，则会导致错误。向父表中插入无法映射到任何现有分区的数据也会导致错误，这种情况下应该增加一个合适的新分区。</li>
+</ol>
+<p>分区以普通表或者外部表的方式创建。可以为每个分区单独指定表空间<code>TABLESPACE</code>和存储参数。</p>
+<p>没有必要创建表约束来描述分区的分区边界条件，因为分区约束会自动地隐式地从分区边界说明中生成。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2006m02 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement</span><br><span class="line">    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">&#x27;2006-02-01&#x27;</span>) <span class="keyword">TO</span> (<span class="string">&#x27;2006-03-01&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2006m03 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement</span><br><span class="line">    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">&#x27;2006-03-01&#x27;</span>) <span class="keyword">TO</span> (<span class="string">&#x27;2006-04-01&#x27;</span>);</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2007m11 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement</span><br><span class="line">    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">&#x27;2007-11-01&#x27;</span>) <span class="keyword">TO</span> (<span class="string">&#x27;2007-12-01&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2007m12 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement</span><br><span class="line">    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">&#x27;2007-12-01&#x27;</span>) <span class="keyword">TO</span> (<span class="string">&#x27;2008-01-01&#x27;</span>)</span><br><span class="line">    TABLESPACE fasttablespace;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2008m01 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement</span><br><span class="line">    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">&#x27;2008-01-01&#x27;</span>) <span class="keyword">TO</span> (<span class="string">&#x27;2008-02-01&#x27;</span>)</span><br><span class="line">    <span class="keyword">WITH</span> (parallel_workers <span class="operator">=</span> <span class="number">4</span>)</span><br><span class="line">    TABLESPACE fasttablespace;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在分区表的父表上创建一个索引，还有其他需要的索引（索引并不是必需的，但是大部分数据库应用场景中它都能发挥作用）。这会自动在每个分区上创建一个索引，并且后来创建或者关联的任何分区也将会包含该索引。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX <span class="keyword">ON</span> measurement (logdate);</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>确保<code>enable_partition_pruning</code>配置参数在<code>postgresql.conf</code>中没有被禁用。如果被禁用，查询将不会按照想要的方式被优化。</li>
+</ol>
+<h2 id="维护分区表"><a href="#维护分区表" class="headerlink" title="维护分区表"></a>维护分区表</h2><p>通常在初始定义分区表时不会把所有需要的分区都建立好，因为后续可能需要移除旧分区的数据并且为新数据周期性地增加新分区。分区表的最大优势之一就是可以通过修改分区结构来轻松地完成这些任务，而不是批量删除或迁移大量数据。</p>
+<p>移除旧数据最简单的选择是删除掉不再需要的分区：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> measurement_y2006m02;</span><br></pre></td></tr></table></figure>
+
+<p>这可以非常快地删除数百万行记录，因为它不需要逐个删除每个记录。不过要注意上面的命令需要从父表上拿到<code>ACCESS EXCLUSIVE</code>锁。</p>
+<p>另一种通常更好的选项是把分区从分区表中移除，但是保留它作为一个独立的表：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> measurement DETACH <span class="keyword">PARTITION</span> measurement_y2006m02;</span><br></pre></td></tr></table></figure>
+
+<p>这允许在它被删除之前在其数据上执行进一步的操作，如使用<code>COPY</code>、<code>pg_dump</code>或类似工具备份数据。这也是把数据聚集成较小的格式、执行其他数据操作或者运行报表的好时机。</p>
+<p>类似地，我们可以增加一个新分区来处理新数据。我们可以在分区表中创建一个空分区，就像上面创建的初始分区那样：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2008m02 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement</span><br><span class="line">    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">&#x27;2008-02-01&#x27;</span>) <span class="keyword">TO</span> (<span class="string">&#x27;2008-03-01&#x27;</span>)</span><br><span class="line">    TABLESPACE fasttablespace;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以在分区的父表上创建索引，并自动将其应用于整个层次结构。这非常便利，因为不仅现有分区将自动创建索引，而且将来创建的任何分区都将自动创建索引。但是创建这样一个分区索引时，不可以使用<code>CONCURRENTLY</code>限定符。为了避免创建索引时的长时间锁，可以对父表使用<code>CREATE INDEX ON ONLY ...</code>，此时索引只会在父表上创建，并且子表不会自动创建该索引。子表上的索引可以使用<code>CONCURRENTLY</code>单独创建，然后使用<code>ALTER INDEX ... ATTACH PARTITION ...</code>关联到父索引。一旦所有子表的索引附加到父索引，父索引将自动生效。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX measurement_usls_idx <span class="keyword">ON</span> <span class="keyword">ONLY</span> measurement (unitsales);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> INDEX measurement_usls_200602_idx</span><br><span class="line">    <span class="keyword">ON</span> measurement_y2006m02 (unitsales);</span><br><span class="line"><span class="keyword">ALTER</span> INDEX measurement_usls_idx</span><br><span class="line">    ATTACH <span class="keyword">PARTITION</span> measurement_usls_200602_idx;</span><br></pre></td></tr></table></figure>
+
+<p>该操作也可以使用在<code>UNIQUE</code>和<code>PRIMARY KEY</code>约束中; 当创建约束时隐式创建索引。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">ONLY</span> measurement <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> (city_id, logdate);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> measurement_y2006m02 <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> (city_id, logdate);</span><br><span class="line"><span class="keyword">ALTER</span> INDEX measurement_city_id_logdate_key</span><br><span class="line">    ATTACH <span class="keyword">PARTITION</span> measurement_y2006m02_city_id_logdate_key;</span><br></pre></td></tr></table></figure>
+
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h2><p>在一个项目中，使用PostgreSQL11存储了大量的设备能耗数据，数据量达到了上亿行，查询效率极低，考虑将其转换成分区表存储数据。</p>
+<p>能耗数据<code>pecdeviceenergy</code>结构如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>columns</strong></th>
+<th><strong>data type</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>aggregationcycle</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>dataid</td>
+<td>bigint</td>
+</tr>
+<tr>
+<td>deviceid</td>
+<td>bigint</td>
+</tr>
+<tr>
+<td>energydata</td>
+<td>double</td>
+</tr>
+<tr>
+<td>logicalid</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>logtime</td>
+<td>bigint</td>
+</tr>
+</tbody></table>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>原表DDL如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> pecdeviceenergy_bak</span><br><span class="line">(</span><br><span class="line">    id  <span class="type">bigint</span> <span class="keyword">default</span> nextval(<span class="string">&#x27;public.pecdeviceenergy_id_seq&#x27;</span>::regclass) <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">    <span class="keyword">constraint</span> pecdeviceenergy_bak_pkey</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    aggregationcycle <span class="type">integer</span>,</span><br><span class="line">    dataid           <span class="type">bigint</span>,</span><br><span class="line">    deviceid         <span class="type">bigint</span>,</span><br><span class="line">    energydata       <span class="type">double precision</span>,</span><br><span class="line">    logicalid        <span class="type">integer</span>,</span><br><span class="line">    logtime          <span class="type">bigint</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>为了不影响切换成分区表机制后数据的正常录入，新的分区表应与原表结构保持一致，比较合适的分区规则是按<code>logtime</code>字段分区，为每个月的数据建一个子表；</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> public.pecdeviceenergy</span><br><span class="line">(</span><br><span class="line">    id               bigserial <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    aggregationcycle <span class="type">integer</span>,</span><br><span class="line">    dataid           <span class="type">bigint</span>,</span><br><span class="line">    deviceid         <span class="type">bigint</span>,</span><br><span class="line">    energydata       <span class="type">double precision</span>,</span><br><span class="line">    logicalid        <span class="type">integer</span>,</span><br><span class="line">    logtime          <span class="type">bigint</span>,</span><br><span class="line">    <span class="keyword">constraint</span> pecdeviceenergy_pkey</span><br><span class="line">        <span class="keyword">primary</span> key (id, logtime)</span><br><span class="line">) <span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">range</span> (logtime);</span><br></pre></td></tr></table></figure>
+
+<p>在此基础上，给父表建立必要的索引，保证子表的查询效率。新增的分区或者通过<code>ATTACH PARTITION</code>关联的分区都会自动创建相应的索引。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> index pecdeviceenergy_query_index <span class="keyword">on</span> pecdeviceenergy (deviceid, logtime, aggregationcycle);</span><br></pre></td></tr></table></figure>
+
+<p>建立父表后，就可以开始建立子表了。实际上，建立索引和建立子表的步骤可以互换，不影响最终的表结构。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_01 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1640966400000</span>) <span class="keyword">TO</span> (<span class="number">1643644800000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_02 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1643644800000</span>) <span class="keyword">TO</span> (<span class="number">1646064000000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_03 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1646064000000</span>) <span class="keyword">TO</span> (<span class="number">1648742400000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_04 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1648742400000</span>) <span class="keyword">TO</span> (<span class="number">1651334400000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_05 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1651334400000</span>) <span class="keyword">TO</span> (<span class="number">1654012800000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_06 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1654012800000</span>) <span class="keyword">TO</span> (<span class="number">1656604800000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_07 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1656604800000</span>) <span class="keyword">TO</span> (<span class="number">1659283200000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_08 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1659283200000</span>) <span class="keyword">TO</span> (<span class="number">1661961600000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_09 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1661961600000</span>) <span class="keyword">TO</span> (<span class="number">1664553600000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_10 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1664553600000</span>) <span class="keyword">TO</span> (<span class="number">1667232000000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_11 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1667232000000</span>) <span class="keyword">TO</span> (<span class="number">1669824000000</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> partition.pecdeviceenergy_2022_12 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> public.pecdeviceenergy <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1669824000000</span>) <span class="keyword">TO</span> (<span class="number">1672502400000</span>);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>随后将旧表的数据导入至新表中。这里有多种方式可以达到目的，如批量插入、借助存储过程、使用<code>COPY</code>、<code>pg_dump</code>等等。此处使用最简单的批量插入操作，因为数据量非常大，所以需尽量避免在任务高峰期时执行，以免影响数据库其它事务的正常执行。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">INTO</span> public.pecdeviceenergy(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">FROM</span> public.pecdeviceenergy_bak);</span><br></pre></td></tr></table></figure>
+
+<p>最后将父表的主键<code>id</code>序列设置为所有<code>id</code>的最大值，避免新数据<code>id</code>重新从1开始记录。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">max</span>(public.pecdeviceenergy_bak.id)</span><br><span class="line"><span class="keyword">from</span> public.pecdeviceenergy_bak;</span><br><span class="line"><span class="keyword">ALTER</span> SEQUENCE public.pecdeviceenergy_id_seq1 RESTART <span class="keyword">WITH</span> ...;</span><br></pre></td></tr></table></figure>
+<p>至此，完成了将数据表<code>pecdeviceenergy</code>从普通表迁移至分区表的操作，可以通过<code>EXPLAIN</code>语句测试查询是否命中索引并执行<code>SELECT</code>语句观察查询效率是否提升。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;pecdeviceenergy&#x27;</span> <span class="keyword">as</span> modelLabel,</span><br><span class="line">             id,</span><br><span class="line">             aggregationcycle,</span><br><span class="line">             dataid,</span><br><span class="line">             deviceid,</span><br><span class="line">             energydata,</span><br><span class="line">             logicalid,</span><br><span class="line">             logtime</span><br><span class="line">      <span class="keyword">FROM</span> public.pecdeviceenergy</span><br><span class="line">      <span class="keyword">WHERE</span> (deviceid <span class="keyword">in</span> (<span class="number">9871</span>, <span class="number">9872</span>, <span class="number">9873</span>, <span class="number">9888</span>, <span class="number">9889</span>, <span class="number">9890</span>, <span class="number">9925</span>, <span class="number">9926</span>, <span class="number">9927</span>, <span class="number">9933</span>, <span class="number">9934</span>, <span class="number">9869</span>, <span class="number">9909</span>, <span class="number">9931</span>, <span class="number">9932</span>) <span class="keyword">AND</span></span><br><span class="line">             dataid <span class="operator">=</span> <span class="number">4000004</span> <span class="keyword">AND</span> logtime <span class="operator">&gt;=</span> <span class="number">1669824000000</span> <span class="keyword">AND</span> logtime <span class="operator">&lt;</span> <span class="number">1672502400000</span> <span class="keyword">AND</span> aggregationcycle <span class="operator">=</span> <span class="number">7</span>)</span><br><span class="line">         <span class="keyword">OR</span> (deviceid <span class="keyword">in</span> (<span class="number">9871</span>, <span class="number">9872</span>, <span class="number">9873</span>, <span class="number">9888</span>, <span class="number">9889</span>, <span class="number">9890</span>, <span class="number">9925</span>, <span class="number">9926</span>, <span class="number">9927</span>, <span class="number">9933</span>, <span class="number">9934</span>, <span class="number">9869</span>, <span class="number">9909</span>, <span class="number">9931</span>, <span class="number">9932</span>) <span class="keyword">AND</span></span><br><span class="line">             dataid <span class="operator">=</span> <span class="number">4000004</span> <span class="keyword">AND</span> logtime <span class="operator">&gt;=</span> <span class="number">1669824000000</span> <span class="keyword">AND</span> logtime <span class="operator">&lt;</span> <span class="number">1672502400000</span> <span class="keyword">AND</span> aggregationcycle <span class="operator">=</span> <span class="number">12</span>)</span><br><span class="line">         <span class="keyword">OR</span> (deviceid <span class="keyword">in</span> (<span class="number">9871</span>, <span class="number">9872</span>, <span class="number">9873</span>, <span class="number">9888</span>, <span class="number">9889</span>, <span class="number">9890</span>, <span class="number">9925</span>, <span class="number">9926</span>, <span class="number">9927</span>, <span class="number">9933</span>, <span class="number">9934</span>, <span class="number">9869</span>, <span class="number">9909</span>, <span class="number">9931</span>, <span class="number">9932</span>) <span class="keyword">AND</span></span><br><span class="line">             dataid <span class="operator">=</span> <span class="number">4000004</span> <span class="keyword">AND</span> logtime <span class="operator">=</span> <span class="number">1669824000000</span> <span class="keyword">AND</span> aggregationcycle <span class="operator">=</span> <span class="number">14</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><h2 id="建表建议"><a href="#建表建议" class="headerlink" title="建表建议"></a>建表建议</h2><ul>
+<li><p>分区键离散，可以使用<code>PARTITION BY LIST</code>，按字符串匹配决定落入哪个分区。</p>
+</li>
+<li><p>分区键连续，比如整形、日期等，可以使用<code>PARTITION BY RANGE</code>。</p>
+</li>
+<li><p>分区键数据随机无规律或规律简单，可以使用<code>PARTITION BY HASH</code>，用<code>hash</code>函数打散数据。</p>
+</li>
+<li><p>分区键数据随机有规律，规律复杂，可以使用多级混合分区，使数据平均分散、减少耦合。</p>
+</li>
+<li><dl><dt>每个分区都是一个普通PG表：</dt><dd>可以指定表空间：例如按月份分区的场景，可以把历史非活跃数据通过表空间指定到慢速廉价存储上，新的热数据保存到快速存储上。<br>可以指定并发度：给数据表设置并发度<code>parallel_workers</code>，让查询自动使用并行查询。</dd></dl></li>
+</ul>
+<h2 id="查询建议"><a href="#查询建议" class="headerlink" title="查询建议"></a>查询建议</h2><ul>
+<li><p>不带分区键的查询或带分区键但涉及大部分分区表的查询会使执行计划成倍增长，在分区表很多时会消耗大量内存，生成执行计划的时间也会变长。存在几千个分区时可能<code>Planning time</code>会超过<code>Execution time</code>。</p>
+</li>
+<li><p>分区数量的增长应该在设计时就有预期，根据表大小评估，一般最好不要上千。</p>
+</li>
+<li><p>分区间最好是没有数据依赖（比如按月份分区可以很方便的删除某一个分区），如果删除一个分区需要把部分数据调整到其他分区，新增一个分区需要从其他分区拿数据，这样效率会很差。</p>
+</li>
+</ul>
+<hr>
+<p><strong>非常感谢你的阅读，辛苦了！</strong></p>
+<hr>
+<p>参考文章： (感谢以下资料提供的帮助)</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.postgres.cn/docs/12/ddl-partitioning.html">5.11. 表分区</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38567039/article/details/119751897">PostgreSQL数据库表分区介绍-四种分区方式</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/yang_z_1/article/details/117730158">postgresql 创建分区表 以及拆分分区表（修改分区）</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2123226">Postgresql分区表大量实例与分区建议（LIST &#x2F; RANGE &#x2F; HASH &#x2F; 多级混合分区）</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.dongzhenxian.com">贞宪</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.dongzhenxian.com/posts/a68cfe88e8ff.html">https://www.dongzhenxian.com/posts/a68cfe88e8ff.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.dongzhenxian.com" target="_blank">贞宪的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/database/">数据库</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</div></div></a></div><div class="next-post pull-right"><a href="/posts/d8ee8d867c5e.html" title="Java函数式编程学习笔记（四）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java函数式编程学习笔记（四）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/6a03ebbdc425.html" title="初识MyBatis-Plus"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-30</div><div class="title">初识MyBatis-Plus</div></div></a></div><div><a href="/posts/79c746af1ae0.html" title="实战pgBackRest"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-11</div><div class="title">实战pgBackRest</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">贞宪</div><div class="author-info__description">晚来天欲雪，能饮一杯无？</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:474663082@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://github.com/Xe-Persistent" target="_blank" title="GitHub"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/Xe_Persistent" target="_blank" title="X"><i class="fab fa-x-twitter"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AF%E8%AF%AD%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">术语介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%88%92%E5%88%86"><span class="toc-number">2.2.</span> <span class="toc-text">声明式划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E7%9A%84%E7%89%B9%E6%80%A7"><span class="toc-number">2.3.</span> <span class="toc-text">分区表的特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">2.4.</span> <span class="toc-text">分区表的优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">2.5.</span> <span class="toc-text">分区表的限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="toc-number">2.6.</span> <span class="toc-text">创建分区表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="toc-number">2.7.</span> <span class="toc-text">维护分区表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%9C%BA%E6%99%AF"><span class="toc-number">3.1.</span> <span class="toc-text">需求场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">3.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E8%A1%A8%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.1.</span> <span class="toc-text">建表建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.2.</span> <span class="toc-text">查询建议</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/d6312cf2a1a8.html" title="拉威尔《波莱罗（Bolero）》音乐特征与配器分析">拉威尔《波莱罗（Bolero）》音乐特征与配器分析</a><time datetime="2024-03-06T02:00:50.000Z" title="发表于 2024-03-06 10:00:50">2024-03-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/3033685adfef.html" title="如何禁用或移除Windows Defender？">如何禁用或移除Windows Defender？</a><time datetime="2023-10-16T06:32:36.000Z" title="发表于 2023-10-16 14:32:36">2023-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/79c746af1ae0.html" title="实战pgBackRest">实战pgBackRest</a><time datetime="2023-05-11T08:21:50.000Z" title="发表于 2023-05-11 16:21:50">2023-05-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</a><time datetime="2023-04-25T08:37:07.000Z" title="发表于 2023-04-25 16:37:07">2023-04-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a68cfe88e8ff.html" title="实战PostgreSQL分区表">实战PostgreSQL分区表</a><time datetime="2023-04-20T07:31:47.000Z" title="发表于 2023-04-20 15:31:47">2023-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: #4E0E69"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 贞宪</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.31/twikoo.all.min.js').then(init)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

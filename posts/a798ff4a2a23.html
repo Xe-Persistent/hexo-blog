@@ -1,0 +1,293 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java函数式编程学习笔记（一） | 贞宪的博客</title><meta name="author" content="贞宪"><meta name="copyright" content="贞宪"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="前言最近在项目中需要使用一些基于MyBatis-Plus封装的CRUD接口，阅读一些文档和代码后发现在Java代码中偶尔会见到C++代码里的类作用域符号::和-&gt;运算符，查阅资料才了解到这两个符号在Java领域里属于函数式编程的语法内容，于是写下这篇博客以记录这段时间的学习过程。 Java函数式编程什么是函数式编程？函数式编程是一种抽象程度很高的编程范式，纯粹的函数式编程语言编写的函数没有变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java函数式编程学习笔记（一）">
+<meta property="og:url" content="https://www.dongzhenxian.com/posts/a798ff4a2a23.html">
+<meta property="og:site_name" content="贞宪的博客">
+<meta property="og:description" content="前言最近在项目中需要使用一些基于MyBatis-Plus封装的CRUD接口，阅读一些文档和代码后发现在Java代码中偶尔会见到C++代码里的类作用域符号::和-&gt;运算符，查阅资料才了解到这两个符号在Java领域里属于函数式编程的语法内容，于是写下这篇博客以记录这段时间的学习过程。 Java函数式编程什么是函数式编程？函数式编程是一种抽象程度很高的编程范式，纯粹的函数式编程语言编写的函数没有变">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp">
+<meta property="article:published_time" content="2022-05-20T07:14:47.000Z">
+<meta property="article:modified_time" content="2024-07-02T15:19:21.815Z">
+<meta property="article:author" content="贞宪">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.dongzhenxian.com/posts/a798ff4a2a23.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#F44436","bgDark":"#1F1F1F","position":"bottom-center"},
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.11.1/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java函数式编程学习笔记（一）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-02 23:19:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="preconnect" href="https://gcore.jsdelivr.net/" /><link rel="preconnect" href="https://s1.hdslb.com/" /><link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="贞宪的博客"><span class="site-name">贞宪的博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Java函数式编程学习笔记（一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-20T07:14:47.000Z" title="发表于 2022-05-20 15:14:47">2022-05-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-02T15:19:21.815Z" title="更新于 2024-07-02 23:19:21">2024-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/study/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在项目中需要使用一些基于MyBatis-Plus封装的CRUD接口，阅读一些文档和代码后发现在Java代码中偶尔会见到C++代码里的<strong>类作用域符号</strong><code>::</code>和<code>-&gt;</code><strong>运算符</strong>，查阅资料才了解到这两个符号在Java领域里属于函数式编程的语法内容，于是写下这篇博客以记录这段时间的学习过程。</p>
+<h1 id="Java函数式编程"><a href="#Java函数式编程" class="headerlink" title="Java函数式编程"></a>Java函数式编程</h1><h2 id="什么是函数式编程？"><a href="#什么是函数式编程？" class="headerlink" title="什么是函数式编程？"></a>什么是函数式编程？</h2><p>函数式编程是一种<strong>抽象程度很高</strong>的编程范式，纯粹的函数式编程语言编写的函数没有变量，因此，任意一个函数，只要输入是确定的，输出就是确定的，这种函数我们称为<strong>没有副作用的函数</strong>。而允许使用变量的程序设计语言，由于函数内部的变量状态不确定，同样的输入，可能得到不同的输出，因此，这种函数是<strong>有副作用的</strong>。</p>
+<p>函数式编程的一个特点就是，允许把<strong>函数本身</strong>作为参数传入另一个函数，还允许返回一个函数。函数式编程是把函数作为<strong>基本运算单元</strong>，函数可以作为变量，可以接收函数，还可以返回函数。</p>
+<p>历史上研究函数式编程的理论是<strong>Lambda演算</strong>，所以我们经常把支持函数式编程的编码风格称为<strong>Lambda表达式</strong>。</p>
+<h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><p>Lambda表达式是表示可传递<strong>匿名函数</strong>的一种简洁方式，Lambda表达式没有名称，但是有参数列表、函数主体、返回类型，还可能有一个可以抛出的异常列表。它是Java 8新增的特性，有了它，我们再也不用像以前那样写一堆笨重的匿名类代码了。</p>
+<p>在Java中，我们经常遇到<strong>单方法接口</strong>，即<em><strong>一个接口</strong></em>只定义了<em><strong>一个方法</strong></em>，例如：</p>
+<blockquote>
+<ul>
+<li><p>Comparator</p>
+</li>
+<li><p>Runnable</p>
+</li>
+<li><p>Callable</p>
+</li>
+</ul>
+</blockquote>
+<p>对于单方法接口，我们称之为<code>FunctionalInterface</code>，用<strong>注解</strong><code>@FunctionalInterface</code>标记。以<code>Comparator</code>为例，我们想要调用<code>Arrays.sort()</code>时，可以传入一个<code>Comparator</code>实例，以匿名类方式编写如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(array, <span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;String&gt;() &#123;</span><br><span class="line">　　<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(String s1, String s2)</span> &#123;</span><br><span class="line">　　    <span class="keyword">return</span> s1.compareTo(s2);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>上述写法非常繁琐。从Java 8开始，我们可以用Lambda表达式替换单方法接口。改写上述代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(array, (s1, s2) -&gt; &#123;</span><br><span class="line">　　<span class="keyword">return</span> s1.compareTo(s2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>观察Lambda表达式的写法，它只需要写出<strong>方法定义</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(s1, s2) -&gt; &#123;</span><br><span class="line">　　<span class="keyword">return</span> s1.compareTo(s2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，参数是<code>(s1, s2)</code>，参数类型可以省略，因为编译器可以<strong>自动推断出<code>String</code>类型</strong>。<code>-&gt; &#123; ... &#125;</code>表示方法体，所有代码写在内部即可。Lambda表达式没有<code>class</code>定义，因此写法非常简洁。</p>
+<p>如果只有一行<code>return ...</code>的代码，可以用更简单的写法，即<strong>省略方法体的括号</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Arrays.sort(array, (s1, s2) -&gt; s1.compareTo(s2));</span><br></pre></td></tr></table></figure>
+
+<h2 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h2><p>方法引用是Java8中引入的新特性，它提供了一种<strong>引用方法而不执行方法</strong>的方式，可以让我们重复使用现用方法的定义，作为某些Lambda表达式的另一种更简洁的写法。</p>
+<p>当你需要方法引用时，将目标引用放在<strong>分隔符</strong><code>::</code>前，方法的名称放在<strong>分隔符</strong><code>::</code>后。方法名称后<strong>不需要加括号</strong>，因为我们并没有实际调用它。方法引用提高了代码的可读性，也使逻辑更加清晰。</p>
+<p>可以构建方法引用的场景有四种：</p>
+<h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>指向<strong>静态方法</strong>的引用，语法：<code>类名::静态方法名</code>，类名放在<strong>分隔符</strong><code>::</code>前，静态方法名放在<strong>分隔符</strong><code>::</code>后。例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">(String str) -&gt; Integer.parseInt(str)</span><br></pre></td></tr></table></figure>
+
+<p>使用方法引用以后，可以简写为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer::parseInt</span><br></pre></td></tr></table></figure>
+
+<h3 id="内部对象的实例方法"><a href="#内部对象的实例方法" class="headerlink" title="内部对象的实例方法"></a>内部对象的实例方法</h3><p>指向Lambda表达式<strong>内部对象</strong>的实例方法的引用，语法：<code>类名::实例方法名</code>，类名放在<strong>分隔符</strong><code>::</code>前，实例方法名放在<strong>分隔符</strong><code>::</code>后。例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">(Equipment equipment) -&gt; equipment.getBrand()</span><br></pre></td></tr></table></figure>
+
+<p>使用方法引用以后，可以简写为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Equipment::getBrand</span><br></pre></td></tr></table></figure>
+
+<h3 id="外部对象的实例方法"><a href="#外部对象的实例方法" class="headerlink" title="外部对象的实例方法"></a>外部对象的实例方法</h3><p>指向Lambda表达式<strong>外部对象</strong>的实例方法的引用，语法：<code>实例名::实例方法名</code>，类名放在<strong>分隔符</strong><code>::</code>前，实例方法名放在<strong>分隔符</strong><code>::</code>后。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">type</span> <span class="operator">=</span> <span class="string">&quot;STR&quot;</span>;</span><br><span class="line">Predicate&lt;String&gt; predicate = (String str) -&gt; type.equals(str);</span><br><span class="line">System.out.println(predicate.test(<span class="string">&quot;STR&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>type</code>是一个Lambda表达式外部的局部变量，使用方法引用以后，可以简写为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">type</span> <span class="operator">=</span> <span class="string">&quot;STR&quot;</span>;</span><br><span class="line">Predicate&lt;String&gt; predicate = type::equals;</span><br><span class="line">System.out.println(predicate.test(<span class="string">&quot;STR&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>指向<strong>构造方法</strong>的引用，语法：<code>类名::new</code>，类名放在<strong>分隔符</strong><code>::</code>前，new放在<strong>分隔符</strong><code>::</code>后。例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">(String brand, String type) -&gt; <span class="keyword">new</span> <span class="title class_">Equipment</span>(brand, type)</span><br></pre></td></tr></table></figure>
+
+<p>使用方法引用以后，可以简写为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Equipment::<span class="keyword">new</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在一个数据库表中，存在<strong>一对多</strong>的E-R关系，对父表新增一条数据时，子表的若干条数据需要关联父表的这行数据；进一步地，需要在对父表删除一行数据时，与其关联的若干条要被<strong>同步删除</strong>，以保证数据之间的约束。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>首先分析父表与子表的关联关系，找出子表是与父表的哪一个字段关联的，这样即可根据父表的字段找到子表的数据，随后即可删除子表的数据。在编写业务逻辑时需注意：先删除子表数据，后删除父表数据。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>使用其他业务方法得到一个由子表数据组成的实体数组时，需要根据每个实体的<code>id</code>进行删除。传统的写法是使用<code>for</code>循环遍历这个数组，在循环体中写一行sql语句删除逐行数据，这种写法需要创建多个临时变量储存临时数据，较为繁琐，也显得代码块较为臃肿。利用Java函数式编程的新特性即可简化代码。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>创建<code>Stream</code>储存该实体数组进行流式处理，代替<code>for</code>循环，使用<code>map</code>将数组中的每个实体转换为实体对应的<code>id</code>。<code>map</code>方法又可接收<code>Function</code>接口对象的方法引用，无需创建实例即可引用方法，进一步减少了代码量。</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>假设已得到一个实体数组：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;EmissionCalcParamDTO&gt; emissionCalcParams</span><br></pre></td></tr></table></figure>
+
+<p>现调用一个入参为数组的<code>deleteBatchIds()</code>方法，它是MyBatis-Plus提供的接口，用于删除多行数据。调用前需先判断数组是否为空，写法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (CollectionUtils.isNotEmpty(emissionCalcParams)) &#123;</span><br><span class="line">    emissionSourceCalcParamMapper.deleteBatchIds(emissionCalcParams.stream()</span><br><span class="line">        .map(EmissionCalcParamDTO::getId)</span><br><span class="line">        .collect(Collectors.toList()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码在把实体转换为<code>id</code>后又将其组合成数组，作为<code>deleteBatchIds()</code>的入参，可以说用一行代码解决了传统写法十几行的工作量。</p>
+<blockquote>
+<p>注意，上述编码过程中还使用到了<code>Stream</code>流和<code>map</code>方法，并使用<code>MyBatis-Plus</code>简化数据库操作，上述代码基于<code>Spring Boot</code>框架进行编写。对于上述使用到的技术，我将在后面的文章中详细介绍。</p>
+</blockquote>
+<hr>
+<p><strong>非常感谢你的阅读，辛苦了！</strong></p>
+<hr>
+<p>参考文章： (感谢以下资料提供的帮助)</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255943847278976">函数式编程 - 廖雪峰的官方网站</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.dongzhenxian.com">贞宪</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.dongzhenxian.com/posts/a798ff4a2a23.html">https://www.dongzhenxian.com/posts/a798ff4a2a23.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.dongzhenxian.com" target="_blank">贞宪的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">Java</a><a class="post-meta__tags" href="/tags/develop/">开发</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/acc0fec61eb5.html" title="如何在不同电脑上使用SSH访问同一个代码库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">如何在不同电脑上使用SSH访问同一个代码库</div></div></a></div><div class="next-post pull-right"><a href="/posts/bce9a85f8d8c.html" title="helloworld"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">helloworld</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/481fb0c75300.html" title="Java函数式编程学习笔记（三）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-30</div><div class="title">Java函数式编程学习笔记（三）</div></div></a></div><div><a href="/posts/6ccb0645c089.html" title="Java函数式编程学习笔记（二）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-27</div><div class="title">Java函数式编程学习笔记（二）</div></div></a></div><div><a href="/posts/d8ee8d867c5e.html" title="Java函数式编程学习笔记（四）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-28</div><div class="title">Java函数式编程学习笔记（四）</div></div></a></div><div><a href="/posts/14d0abf73d03.html" title="如何重构if-else写出优雅高效代码"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-27</div><div class="title">如何重构if-else写出优雅高效代码</div></div></a></div><div><a href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-25</div><div class="title">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</div></div></a></div><div><a href="/posts/6a03ebbdc425.html" title="初识MyBatis-Plus"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-30</div><div class="title">初识MyBatis-Plus</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">贞宪</div><div class="author-info__description">晚来天欲雪，能饮一杯无？</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:474663082@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://github.com/Xe-Persistent" target="_blank" title="GitHub"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/Xe_Persistent" target="_blank" title="X"><i class="fab fa-x-twitter"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">Java函数式编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%9F"><span class="toc-number">2.1.</span> <span class="toc-text">什么是函数式编程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">Lambda表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">方法引用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.1.</span> <span class="toc-text">静态方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.2.</span> <span class="toc-text">内部对象的实例方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.3.</span> <span class="toc-text">外部对象的实例方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.4.</span> <span class="toc-text">构造方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">3.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">3.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">3.3.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">3.4.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">3.5.</span> <span class="toc-text">实例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/d6312cf2a1a8.html" title="拉威尔《波莱罗（Bolero）》音乐特征与配器分析">拉威尔《波莱罗（Bolero）》音乐特征与配器分析</a><time datetime="2024-03-06T02:00:50.000Z" title="发表于 2024-03-06 10:00:50">2024-03-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/3033685adfef.html" title="如何禁用或移除Windows Defender？">如何禁用或移除Windows Defender？</a><time datetime="2023-10-16T06:32:36.000Z" title="发表于 2023-10-16 14:32:36">2023-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/79c746af1ae0.html" title="实战pgBackRest">实战pgBackRest</a><time datetime="2023-05-11T08:21:50.000Z" title="发表于 2023-05-11 16:21:50">2023-05-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</a><time datetime="2023-04-25T08:37:07.000Z" title="发表于 2023-04-25 16:37:07">2023-04-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a68cfe88e8ff.html" title="实战PostgreSQL分区表">实战PostgreSQL分区表</a><time datetime="2023-04-20T07:31:47.000Z" title="发表于 2023-04-20 15:31:47">2023-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: #4E0E69"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 贞宪</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.31/twikoo.all.min.js').then(init)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>如何重构if-else写出优雅高效代码 | 贞宪的博客</title><meta name="author" content="贞宪"><meta name="copyright" content="贞宪"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="为什么我们写的代码都是if-else？程序员想必都经历过这样的场景：刚开始自己写的代码很简洁，逻辑清晰，函数精简，没有一个if-else。可随着代码逻辑不断完善和业务的瞬息万变，比如需要对入参进行类型和值进行判断；这里要判断下字段是否为null；不同类型执行不同的流程，落地到具体实现只能不停地加if-else来处理。渐渐地，代码变得越来越庞大，函数越来越长，代码行数也迅速突破上千行，维护难度也越来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何重构if-else写出优雅高效代码">
+<meta property="og:url" content="https://www.dongzhenxian.com/posts/14d0abf73d03.html">
+<meta property="og:site_name" content="贞宪的博客">
+<meta property="og:description" content="为什么我们写的代码都是if-else？程序员想必都经历过这样的场景：刚开始自己写的代码很简洁，逻辑清晰，函数精简，没有一个if-else。可随着代码逻辑不断完善和业务的瞬息万变，比如需要对入参进行类型和值进行判断；这里要判断下字段是否为null；不同类型执行不同的流程，落地到具体实现只能不停地加if-else来处理。渐渐地，代码变得越来越庞大，函数越来越长，代码行数也迅速突破上千行，维护难度也越来">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp">
+<meta property="article:published_time" content="2022-06-27T06:10:07.000Z">
+<meta property="article:modified_time" content="2024-07-02T15:19:21.821Z">
+<meta property="article:author" content="贞宪">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.dongzhenxian.com/posts/14d0abf73d03.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#F44436","bgDark":"#1F1F1F","position":"bottom-center"},
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.11.1/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '如何重构if-else写出优雅高效代码',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-02 23:19:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="preconnect" href="https://gcore.jsdelivr.net/" /><link rel="preconnect" href="https://s1.hdslb.com/" /><link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="贞宪的博客"><span class="site-name">贞宪的博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">如何重构if-else写出优雅高效代码</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-27T06:10:07.000Z" title="发表于 2022-06-27 14:10:07">2022-06-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-02T15:19:21.821Z" title="更新于 2024-07-02 23:19:21">2024-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/share/">经验分享</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span></div></div></div><article class="post-content" id="article-container"><h1 id="为什么我们写的代码都是if-else？"><a href="#为什么我们写的代码都是if-else？" class="headerlink" title="为什么我们写的代码都是if-else？"></a>为什么我们写的代码都是if-else？</h1><p>程序员想必都经历过这样的场景：刚开始自己写的代码很简洁，逻辑清晰，函数精简，没有一个<code>if-else</code>。可随着代码逻辑不断完善和业务的瞬息万变，比如需要对入参进行类型和值进行判断；这里要判断下字段是否为<code>null</code>；不同类型执行不同的流程，落地到具体实现只能不停地加<code>if-else</code>来处理。渐渐地，代码变得越来越庞大，函数越来越长，代码行数也迅速突破上千行，维护难度也越来越大，到后期基本达到一种难以维护的状态。</p>
+<p><strong>虽然我们都很不情愿写出满屏<code>if-else</code>的代码，可逻辑上就是需要特殊判断，很绝望，可也没办法避免啊。</strong></p>
+<p>其实回头看看自己的代码，写<code>if-else</code>无外乎两种场景：<strong>异常逻辑处理和不同状态处理。</strong></p>
+<p>两者最主要的区别是：<strong>异常逻辑处理说明只能一个分支是正常流程，而不同状态处理都所有分支都是正常流程。</strong></p>
+<h2 id="代码if-else代码太多有什么缺点？"><a href="#代码if-else代码太多有什么缺点？" class="headerlink" title="代码if-else代码太多有什么缺点？"></a>代码if-else代码太多有什么缺点？</h2><p>缺点相当明显了：</p>
+<ol>
+<li>最大的问题是代码逻辑复杂，维护性差，极容易引发bug。</li>
+<li>如果使用<code>if-else</code>，说明<code>if</code>分支和<code>else</code>分支的重视是同等的，但大多数情况并非如此，容易引起误解和理解困难。</li>
+</ol>
+<h2 id="是否有好的方法优化？如何重构？"><a href="#是否有好的方法优化？如何重构？" class="headerlink" title="是否有好的方法优化？如何重构？"></a>是否有好的方法优化？如何重构？</h2><p>方法肯定是有的。重构<code>if-else</code>时，心中每时每刻把握一个原则：</p>
+<p><strong>尽可能地维持正常流程代码在最外层。</strong></p>
+<p>意思是说，可以写<code>if-else</code>语句时一定要尽量保持主干代码是正常流程，避免嵌套过深。</p>
+<p>怎么理解？举两个例子：</p>
+<blockquote>
+<p>举例一：异常逻辑处理</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> getObj();</span><br><span class="line"><span class="keyword">if</span> (obj != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>举例二：状态处理</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> getObj();</span><br><span class="line"><span class="keyword">if</span> (obj.getType == <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj.getType == <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一个例子<code>if (obj != null)</code>是异常处理，是代码健壮性判断，只有<code>if</code>里面才是正常的处理流程，<code>else</code>分支是出错处理流程；</p>
+<p>而第二个例子不管<code>type</code>等于1、2还是其他情况，都属于业务的正常流程。</p>
+<p>对于这两种情况，重构的方法也不一样。实现的手段有：<em>减少嵌套</em>、<em>移除临时变量</em>、<em>条件取反判断</em>、<em>合并条件表达式</em>等。</p>
+<p>下面针对不同情形举几个实例来讲解这些重构方法。</p>
+<h1 id="异常逻辑处理型重构"><a href="#异常逻辑处理型重构" class="headerlink" title="异常逻辑处理型重构"></a>异常逻辑处理型重构</h1><h2 id="实例一：合并条件表达式"><a href="#实例一：合并条件表达式" class="headerlink" title="实例一：合并条件表达式"></a>实例一：合并条件表达式</h2><p>重构前：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">disablityAmount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_seniority &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_monthsDisabled &gt; <span class="number">12</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_isPartTime) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重构后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">disablityAmount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_seniority &lt; <span class="number">2</span> || _monthsDisabled &gt; <span class="number">12</span> || _isPartTime)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的重构手法叫<strong>合并条件表达式</strong>：如果有一系列条件测试都得到相同结果，将这些结果测试合并为一个条件表达式。</p>
+<p>这个重构手法简单易懂，带来的效果也非常明显，能有效地较少<code>if</code>语句，减少代码量逻辑上也更加易懂。</p>
+<h2 id="实例二：移除临时变量"><a href="#实例二：移除临时变量" class="headerlink" title="实例二：移除临时变量"></a>实例二：移除临时变量</h2><p>重构前：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">getPayAmount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">double</span> result;</span><br><span class="line">    <span class="keyword">if</span> (_isDead) &#123;</span><br><span class="line">        result = deadAmount();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (_isSeparated) &#123;</span><br><span class="line">            result = separatedAmount();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (_isRetired) &#123;</span><br><span class="line">                result = retiredAmount();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                result = normalPayAmount();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重构后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">getPayAmount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_isDead) &#123;</span><br><span class="line">        <span class="keyword">return</span> deadAmount();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_isSeparated) &#123;</span><br><span class="line">        <span class="keyword">return</span> separatedAmount();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_isRetired) &#123;</span><br><span class="line">        <span class="keyword">return</span> retiredAmount();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> normalPayAmount();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>怎么样？比对两个版本，会发现重构后的版本逻辑清晰，简洁易懂。</p>
+<p>和重构前到底有什么区别呢？</p>
+<p>最大的区别是<strong>减少<code>if-else</code>嵌套</strong>。</p>
+<p>可以看到，最初的版本<code>if-else</code>最深的嵌套有三层，看上去逻辑分支非常多，进到里面基本都要被绕晕。其实，仔细想想嵌套内的<code>if-else</code>和最外层并没有关联性，完全可以提取最顶层，改为平行关系，而非包含关系。<code>if-else</code>数量没有变化，但是逻辑清晰明了，一目了然。</p>
+<p>另一个重构点是<strong>废除了<code>result</code>临时变量，直接<code>return</code>返回</strong>。好处也显而易见：直接结束流程，缩短异常分支流程。原来的做法先赋值给<code>result</code>最后统一<code>return</code>，那么对于最后<code>return</code>的值到底是哪个函数返回的结果不明确，增加了一层理解难度。</p>
+<p>总结重构的要点：<strong>如果<code>if-else</code>嵌套没有关联性，直接提取到第一层，一定要避免逻辑嵌套太深。尽量减少临时变量改用<code>return</code>直接返回。</strong></p>
+<h2 id="实例三：条件取反判断"><a href="#实例三：条件取反判断" class="headerlink" title="实例三：条件取反判断"></a>实例三：条件取反判断</h2><p>重构前：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getAdjustedCapital</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">if</span> (_capital &gt; <span class="number">0.0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_intRate &gt; <span class="number">0</span> &amp;&amp; _duration &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            result = (_income / _duration) * ADJ_FACTOR;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一步，运用第一招：减少嵌套和移除临时变量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getAdjustedCapital</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_capital &lt;= <span class="number">0.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_intRate &gt; <span class="number">0</span> &amp;&amp; _duration &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (_income / _duration) * ADJ_FACTOR;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样重构后，还不够，因为主要的语句<code>(_income / _duration) * ADJ_FACTOR</code>在<code>if</code>内部，并非在最外层，根据优化原则「<em>尽可能地维持正常流程代码在最外层</em>」，可以再继续重构。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getAdjustedCapital</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_capital &lt;= <span class="number">0.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_intRate &lt;= <span class="number">0</span> || _duration &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (_income / _duration) * ADJ_FACTOR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这才是好的代码风格，逻辑清晰，一目了然，没有<code>if-else</code>嵌套难以理解的流程。</p>
+<p>这里用到的重构方法是：<strong>将条件反转使异常情况先退出，让正常流程维持在主干流程</strong>。</p>
+<h2 id="实例四：减少if-else嵌套"><a href="#实例四：减少if-else嵌套" class="headerlink" title="实例四：减少if-else嵌套"></a>实例四：减少if-else嵌套</h2><p>重构前：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查找年龄大于18岁且为男性的学生列表 </span></span><br><span class="line"><span class="keyword">public</span> ArrayList&lt;Student&gt; <span class="title function_">getStudents</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">    ArrayList&lt;Student&gt; result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Student&gt;();</span><br><span class="line">    <span class="type">Student</span> <span class="variable">stu</span> <span class="operator">=</span> getStudentByUid(uid);</span><br><span class="line">    <span class="keyword">if</span> (stu != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="type">Teacher</span> <span class="variable">teacher</span> <span class="operator">=</span> stu.getTeacher();</span><br><span class="line">        <span class="keyword">if</span> (teacher != <span class="literal">null</span>) &#123;</span><br><span class="line">            ArrayList&lt;Student&gt; students = teacher.getStudents();</span><br><span class="line">            <span class="keyword">if</span> (students != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (Student student : students) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (student.getAge() &gt; = <span class="number">18</span> &amp;&amp; student.getGender() == MALE) &#123;</span><br><span class="line">                        result.add(student);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                logger.error(<span class="string">&quot;获取学生列表失败&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            logger.error(<span class="string">&quot;获取老师信息失败&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        logger.error(<span class="string">&quot;获取学生信息失败&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>典型的「箭头型」代码，最大的问题是<strong>嵌套过深</strong>，解决方法是异常条件先退出，保持主干流程是核心流程。</p>
+<p>重构后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查找年龄大于18岁且为男性的学生列表</span></span><br><span class="line"><span class="keyword">public</span> ArrayList&lt;Student&gt; <span class="title function_">getStudents</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">    ArrayList&lt;Student&gt; result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Student&gt;();</span><br><span class="line">    <span class="type">Student</span> <span class="variable">stu</span> <span class="operator">=</span> getStudentByUid(uid);</span><br><span class="line">    <span class="keyword">if</span> (stu == <span class="literal">null</span>) &#123;</span><br><span class="line">        logger.error(<span class="string">&quot;获取学生信息失败&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">Teacher</span> <span class="variable">teacher</span> <span class="operator">=</span> stu.getTeacher();</span><br><span class="line">    <span class="keyword">if</span> (teacher == <span class="literal">null</span>) &#123;</span><br><span class="line">        logger.error(<span class="string">&quot;获取老师信息失败&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    ArrayList&lt;Student&gt; students = teacher.getStudents();</span><br><span class="line">    <span class="keyword">if</span> (students == <span class="literal">null</span>) &#123;</span><br><span class="line">        logger.error(<span class="string">&quot;获取学生列表失败&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (Student student : students) &#123;</span><br><span class="line">        <span class="keyword">if</span> (student.getAge() &gt; <span class="number">18</span> &amp;&amp; student.getGender() == MALE) &#123;</span><br><span class="line">            result.add(student);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="状态处理型重构"><a href="#状态处理型重构" class="headerlink" title="状态处理型重构"></a>状态处理型重构</h1><h2 id="实例一：封装成内部函数"><a href="#实例一：封装成内部函数" class="headerlink" title="实例一：封装成内部函数"></a>实例一：封装成内部函数</h2><p>重构前：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">getPayAmount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> getObj();</span><br><span class="line">    <span class="type">double</span> <span class="variable">money</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (obj.getType == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="type">ObjectA</span> <span class="variable">objA</span> <span class="operator">=</span> obj.getObjectA();</span><br><span class="line">        money = objA.getMoney() * obj.getNormalMoneryA();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj.getType == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="type">ObjectB</span> <span class="variable">objB</span> <span class="operator">=</span> obj.getObjectB();</span><br><span class="line">        money = objB.getMoney() * obj.getNormalMoneryB() + <span class="number">1000</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重构后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">getPayAmount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> getObj();</span><br><span class="line">    <span class="keyword">if</span> (obj.getType == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> getType1Money(obj);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj.getType == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> getType2Money(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">double</span> <span class="title function_">getType1Money</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">    <span class="type">ObjectA</span> <span class="variable">objA</span> <span class="operator">=</span> obj.getObjectA();</span><br><span class="line">    <span class="keyword">return</span> objA.getMoney() * obj.getNormalMoneryA();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">double</span> <span class="title function_">getType2Money</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">    <span class="type">ObjectB</span> <span class="variable">objB</span> <span class="operator">=</span> obj.getObjectB();</span><br><span class="line">    <span class="keyword">return</span> objB.getMoney() * obj.getNormalMoneryB() + <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用的重构方法是：<strong>把<code>if-else</code>内的代码都封装成一个内部函数</strong>。内部函数的好处是屏蔽内部实现，缩短<code>if-else</code>分支的代码。代码结构和逻辑上清晰，能一下看出来每一个条件下实现的功能。</p>
+<h2 id="实例二：用多态取代条件表达式"><a href="#实例二：用多态取代条件表达式" class="headerlink" title="实例二：用多态取代条件表达式"></a>实例二：用多态取代条件表达式</h2><p>针对状态处理的代码，一种优雅的做法是「<em>《重构》推荐做法</em>」<strong>用多态取代条件表达式</strong>。</p>
+<blockquote>
+<p>你手上有个条件表达式，它根据对象类型的不同而选择不同的行为。将这个表达式的每个分支放进一个子类内的覆写函数中，然后将原始函数声明为抽象函数。</p>
+</blockquote>
+<p>重构前：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">getSpeed</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (_type) &#123;</span><br><span class="line">        <span class="keyword">case</span> EUROPEAN:</span><br><span class="line">            <span class="keyword">return</span> getBaseSpeed();</span><br><span class="line">        <span class="keyword">case</span> AFRICAN:</span><br><span class="line">            <span class="keyword">return</span> getBaseSpeed() - getLoadFactor() * _numberOfCoconuts;</span><br><span class="line">        <span class="keyword">case</span> NORWEGIAN_BLUE:</span><br><span class="line">            <span class="keyword">return</span> (_isNailed) ? <span class="number">0</span> : getBaseSpeed(_voltage);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重构后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Bird</span> &#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="type">double</span> <span class="title function_">getSpeed</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">European</span> <span class="keyword">extends</span> <span class="title class_">Bird</span> &#123;</span><br><span class="line">    <span class="type">double</span> <span class="title function_">getSpeed</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> getBaseSpeed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">African</span> <span class="keyword">extends</span> <span class="title class_">Bird</span> &#123;</span><br><span class="line">    <span class="type">double</span> <span class="title function_">getSpeed</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> getBaseSpeed() - getLoadFactor() * _numberOfCoconuts;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NorwegianBlue</span> <span class="keyword">extends</span> <span class="title class_">Bird</span> &#123;</span><br><span class="line">    <span class="type">double</span> <span class="title function_">getSpeed</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (_isNailed) ? <span class="number">0</span> : getBaseSpeed(_voltage);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，使用多态后直接没有了<code>if-else</code>，但使用多态对原本代码修改过大，需要下一番功夫才行。最好在设计之初就使用多态方式。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p><code>if-else</code>代码是每一个程序员最容易写出的代码，同时也是最容易被写烂的代码，稍不注意，就产生一堆难以维护和逻辑混乱的代码。</p>
+<p>针对条件型代码重构时刻把握一个原则：</p>
+<p><strong>尽可能地维持正常流程代码在最外层，保持主干流程是正常核心流程。</strong></p>
+<p>为维持这个原则，合并条件表达式可以有效地减少<code>if</code>语句数目，减少嵌套能减少深层次逻辑，异常条件先退出自然而然主干流程就是正常流程。</p>
+<p>针对状态处理型重构方法有两种：一种是把不同状态的操作封装成内部函数，简短<code>if-else</code>内代码行数；另一种是利用面向对象多态特性直接干掉了条件判断。</p>
+<p>现在回头看看自己的代码，犯了哪些典型错误，赶紧运用这些重构方法重构代码吧！</p>
+<hr>
+<p><strong>非常感谢你的阅读，辛苦了！</strong></p>
+<hr>
+<p>本文转自CSDN博主「yinnnnnnn」的文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35440678/article/details/77939999">6个实例详解如何把if-else代码重构成高质量代码</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">Java</a><a class="post-meta__tags" href="/tags/develop/">开发</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/481fb0c75300.html" title="Java函数式编程学习笔记（三）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java函数式编程学习笔记（三）</div></div></a></div><div class="next-post pull-right"><a href="/posts/21df300fabde.html" title="git rebase VS git merge？更优雅的Git合并方式值得拥有"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">git rebase VS git merge？更优雅的Git合并方式值得拥有</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/a798ff4a2a23.html" title="Java函数式编程学习笔记（一）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-20</div><div class="title">Java函数式编程学习笔记（一）</div></div></a></div><div><a href="/posts/481fb0c75300.html" title="Java函数式编程学习笔记（三）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-30</div><div class="title">Java函数式编程学习笔记（三）</div></div></a></div><div><a href="/posts/6ccb0645c089.html" title="Java函数式编程学习笔记（二）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-27</div><div class="title">Java函数式编程学习笔记（二）</div></div></a></div><div><a href="/posts/d8ee8d867c5e.html" title="Java函数式编程学习笔记（四）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-28</div><div class="title">Java函数式编程学习笔记（四）</div></div></a></div><div><a href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-25</div><div class="title">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</div></div></a></div><div><a href="/posts/6a03ebbdc425.html" title="初识MyBatis-Plus"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-30</div><div class="title">初识MyBatis-Plus</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">贞宪</div><div class="author-info__description">晚来天欲雪，能饮一杯无？</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:474663082@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://github.com/Xe-Persistent" target="_blank" title="GitHub"><i class="fab fa-github"></i></a><a class="social-icon" href="https://twitter.com/Xe_Persistent" target="_blank" title="X"><i class="fab fa-x-twitter"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E5%86%99%E7%9A%84%E4%BB%A3%E7%A0%81%E9%83%BD%E6%98%AFif-else%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">为什么我们写的代码都是if-else？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81if-else%E4%BB%A3%E7%A0%81%E5%A4%AA%E5%A4%9A%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">代码if-else代码太多有什么缺点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E6%9C%89%E5%A5%BD%E7%9A%84%E6%96%B9%E6%B3%95%E4%BC%98%E5%8C%96%EF%BC%9F%E5%A6%82%E4%BD%95%E9%87%8D%E6%9E%84%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">是否有好的方法优化？如何重构？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E9%80%BB%E8%BE%91%E5%A4%84%E7%90%86%E5%9E%8B%E9%87%8D%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">异常逻辑处理型重构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%80%EF%BC%9A%E5%90%88%E5%B9%B6%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">实例一：合并条件表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E4%BA%8C%EF%BC%9A%E7%A7%BB%E9%99%A4%E4%B8%B4%E6%97%B6%E5%8F%98%E9%87%8F"><span class="toc-number">2.2.</span> <span class="toc-text">实例二：移除临时变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%89%EF%BC%9A%E6%9D%A1%E4%BB%B6%E5%8F%96%E5%8F%8D%E5%88%A4%E6%96%AD"><span class="toc-number">2.3.</span> <span class="toc-text">实例三：条件取反判断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%9B%9B%EF%BC%9A%E5%87%8F%E5%B0%91if-else%E5%B5%8C%E5%A5%97"><span class="toc-number">2.4.</span> <span class="toc-text">实例四：减少if-else嵌套</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%A4%84%E7%90%86%E5%9E%8B%E9%87%8D%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">状态处理型重构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%80%EF%BC%9A%E5%B0%81%E8%A3%85%E6%88%90%E5%86%85%E9%83%A8%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">实例一：封装成内部函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E4%BA%8C%EF%BC%9A%E7%94%A8%E5%A4%9A%E6%80%81%E5%8F%96%E4%BB%A3%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">实例二：用多态取代条件表达式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/d6312cf2a1a8.html" title="拉威尔《波莱罗（Bolero）》音乐特征与配器分析">拉威尔《波莱罗（Bolero）》音乐特征与配器分析</a><time datetime="2024-03-06T02:00:50.000Z" title="发表于 2024-03-06 10:00:50">2024-03-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/3033685adfef.html" title="如何禁用或移除Windows Defender？">如何禁用或移除Windows Defender？</a><time datetime="2023-10-16T06:32:36.000Z" title="发表于 2023-10-16 14:32:36">2023-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/79c746af1ae0.html" title="实战pgBackRest">实战pgBackRest</a><time datetime="2023-05-11T08:21:50.000Z" title="发表于 2023-05-11 16:21:50">2023-05-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/808dabf0f098.html" title="PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚">PO、VO、DAO、BO、POJO一脸懵？一张图给你解释清楚</a><time datetime="2023-04-25T08:37:07.000Z" title="发表于 2023-04-25 16:37:07">2023-04-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a68cfe88e8ff.html" title="实战PostgreSQL分区表">实战PostgreSQL分区表</a><time datetime="2023-04-20T07:31:47.000Z" title="发表于 2023-04-20 15:31:47">2023-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: #4E0E69"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 贞宪</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.31/twikoo.all.min.js').then(init)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
