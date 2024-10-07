@@ -6,6 +6,7 @@ tags:
     - 开发
 categories: 经验分享
 keywords: "Java, if, else, 重构"
+description: if-else语句是计算机编程语言当中一种条件分支语句，在项目开发中频繁使用，但是它的滥用会导致代码可读性的下降，这篇文章会用几种典型案例告诉你如何用if-else写出易于维护的优雅高效代码
 copyright: false
 ---
 # 为什么我们写的代码都是if-else？

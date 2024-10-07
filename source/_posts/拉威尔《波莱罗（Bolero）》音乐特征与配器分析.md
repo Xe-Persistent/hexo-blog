@@ -4,6 +4,7 @@ date: 2024-03-06 10:00:50
 tags: 杂记
 categories: 杂谈
 keywords: "拉威尔, 波莱罗, bolero"
+description: 本文以《波莱罗》这部管弦乐作品中的配器、结构和表现手法作为研究对象，从谱面分析、音响结构两个方面，结合拉威尔所处的时代，深入探究拉威尔自身风格的艺术理想和美学追求，让各位读者感受这位伟大作曲家在晚年时的思想与心境
 copyright: false
 ---
 <iframe style="border-style:none;width:330px;height:86px;" src="//music.163.com/outchain/player?type=2&id=32680467&auto=0&height=66"></iframe>

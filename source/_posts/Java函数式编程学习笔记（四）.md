@@ -6,6 +6,7 @@ tags:
     - 开发
 categories: 学习笔记
 keywords: "Java, Stream"
+description: 本文记录了我使用Java的Lambda表达式对数据进行统计的案例，属于高级用法
 ---
 # 前言
 前段时间，我参与了一些Java统计程序的编写，同时开发了获取这些统计结果的接口。在这些逻辑中，我大量使用`Stream`流对数据进行分类、筛选、整理和统计，使用到了和之前有所不同的`Stream`操作，在这里进行总结。

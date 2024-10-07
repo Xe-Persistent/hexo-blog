@@ -6,6 +6,7 @@ tags:
     - 开发
 categories: 学习笔记
 keywords: "Java, Stream"
+description: 本文详细介绍了Java 8当中Lambda表达式这一新特性的具体用法，在文章结尾提供了一个案例以演示lambda表达式的典型用法
 ---
 # 前言
 上次我们谈到，在Java代码中使用`Lambda`可以显著减少代码量，提高开发效率。那么在Java项目开发过程中，还有一个非常好用的接口：`Stream Api`，我们叫它`Stream`流。

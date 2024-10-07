@@ -4,6 +4,7 @@ date: 2023-10-16 14:32:36
 tags: 杂记
 categories: 经验分享
 keywords: "禁用, 移除, Windows, Defender"
+description: 这篇文章用于汇总从搜索引擎上收集的禁用和卸载Windows Defender的零散方法
 ---
 # 写在前面
 这篇文章用于汇总从搜索引擎上收集的禁用Windows Defender的零散方法。由于Windows Defender杀毒效果一般，其实时保护功能有时会占用非常多的系统资源，我在每次重装系统后第一时间都会将其禁用和卸载。

@@ -6,6 +6,7 @@ tags:
     - 数据库
 categories: 学习笔记
 keywords: "Java, MyBatis-Plus"
+description: 本文介绍了MyBatis-Plus的用法，在文章的最后记录了一些面向数据库基本的CRUD操作的示例
 ---
 # 前言
 在前面的Java学习笔记中，我提到过两次`MyBatis-Plus`，可能大家已经对这个名词有些耳熟。我对它的定义是：一个方便的操作数据库功能的工具包。

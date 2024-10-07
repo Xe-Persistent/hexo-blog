@@ -6,6 +6,7 @@ tags:
     - 数据库
 categories: 经验分享
 keywords: "PostgreSQL, pgBackRest, 备份"
+description: 本文介绍了如何在实际项目中部署pgBackRest这款数据库备份还原工具
 ---
 pgBackRest是一款开源的备份还原工具，目标旨在为备份和还原提供可靠易用的备份。
 

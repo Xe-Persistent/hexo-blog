@@ -5,6 +5,7 @@ tags:
     - Git
 categories: 经验分享
 keywords: "Git, rebase, merge"
+description: 本文介绍了git merge与git rebase两种git常用操作之间的区别
 copyright: false
 ---
 # 写在前面

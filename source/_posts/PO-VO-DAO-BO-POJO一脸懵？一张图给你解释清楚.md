@@ -5,6 +5,7 @@ tags:
     - Java
 categories: 经验分享
 keywords: "PO, VO, DAO, BO, POJO, Java, Bean"
+description: 从《阿里巴巴Java开发规范》中摘选了有关领域模型的定义和它们之间的区别以及联系
 copyright: false
 ---
 # 前言
