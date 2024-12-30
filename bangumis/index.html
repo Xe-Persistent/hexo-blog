@@ -58,7 +58,6 @@
         if (!false && key.startsWith('pjax')) return
         const globalFn = parent.globalFn || {}
         globalFn[key] = globalFn[key] || {}
-        if (name && globalFn[key][name]) return
         globalFn[key][name || Object.keys(globalFn[key]).length] = fn
         parent.globalFn = globalFn
       }
@@ -123,7 +122,6 @@
   algolia: undefined,
   localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
   translate: undefined,
-  noticeOutdate: undefined,
   highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
   copy: {
     success: '复制成功',
@@ -163,8 +161,8 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2024-10-22 21:22:00'
-}</script><link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/pixelmap.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">贞宪的博客</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">我的番剧收藏</h1></header><main class="layout" id="content-inner"><div id="page"><div class="page-title">我的番剧收藏</div><div id="article-container">
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/pixelmap.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://gcore.jsdelivr.net/gh/Xe-Persistent/CDN-source/image/background/chisato.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">贞宪的博客</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/life/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂谈</span></a></li><li><a class="site-page child" href="/bangumis/"><i class="fa-fw fas fa-film"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">我的番剧收藏</h1></header><main class="layout" id="content-inner"><div id="page"><div class="page-title">我的番剧收藏</div><div class="container" id="article-container">
 
 <style>
     .bangumi-tabs{margin-bottom:15px;margin-top:15px}.bangumi-tab{padding:5px}a.bangumi-tab{text-decoration:none}.bangumi-active{background:#657b83;color:#fff}.bangumi-item{position:relative;clear:both;padding:10px 0;border-bottom:1px solid #ddd;min-height:180px}@media screen and (max-width:600px){.bangumi-item{width:100%}}.bangumi-picture{position:absolute;left:0;top:10px;width:110px}.bangumi-picture img{margin:10px 0}.bangumi-info{padding-left:120px;margin-top:10px;min-height:160px}.bangumi-meta{font-size:12px;padding-right:10px;height:45px}.bangumi-summary{font-size:12px;margin-top:10px}.bangumi-summary>p{word-break:break-all;text-overflow:ellipsis;overflow:hidden;white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}.bangumi-comments{font-size:12px}.bangumi-pagination{margin-top:15px;text-align:center;margin-bottom:10px}.bangumi-button{padding:5px}.bangumi-button:hover{background:#657b83;color:#fff}.bangumi-hide{display:none}.bangumi-show{display:block}.bangumi-title{font-size:18px;font-weight:700}.bangumi-title a{line-height:1;text-decoration:none}.bangumi-info-items{font-size:12px;color:#2fd8d8;padding-top:10px;line-height:1;float:left;width:100%}.bangumi-info-item{display:inline-block;width:13%;border-right:1px solid #2fd8d8;text-align:center;height:34px}.bangumi-info-label{display:block;line-height:12px}.bangumi-info-item em{display:block;padding-top:6px;line-height:17px;font-style:normal;font-weight:700}.bangumi-info-total{padding-top:11px;display:block;line-height:12px;font-weight:700}.bangumi-info-item-score{border-right:1px solid #0000;width:50px}.bangumi-info-label-em{color:transparent;opacity:0;visibility:hidden;line-height:6px!important;padding:0!important}@media (max-width:650px){.bangumi-coin,.bangumi-type{display:none}.bangumi-info-item{width:16%}}@media (max-width:590px){.bangumi-danmaku,.bangumi-wish{display:none}.bangumi-info-item{width:19%}}@media (max-width:520px){.bangumi-doing,.bangumi-play{display:none}.bangumi-info-item{width:24%}}@media (max-width:480px){.bangumi-collect,.bangumi-follow{display:none}.bangumi-info-item{width:30%}}@media (max-width:400px){.bangumi-area{display:none}.bangumi-info-item{width:45%}}.bangumi-my-comments{border:1px dashed #8f8f8f;padding:3px;border-radius:5px}.bangumi-starstop{background:url(https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.7.9/lib/img/rate_star_2x.png) 100% 100%/10px 19.5px repeat-x;height:10px;width:50px;display:inline-block;float:none}.bangumi-starlight{background:url(https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.7.9/lib/img/rate_star_2x.png) 0 0/10px 19.5px repeat-x;height:10px;display:block;width:100%}.bangumi-starlight.stars1{width:5px}.bangumi-starlight.stars2{width:10px}.bangumi-starlight.stars3{width:15px}.bangumi-starlight.stars4{width:20px}.bangumi-starlight.stars5{width:25px}.bangumi-starlight.stars6{width:30px}.bangumi-starlight.stars7{width:35px}.bangumi-starlight.stars8{width:40px}.bangumi-starlight.stars9{width:45px}.bangumi-starlight.stars10{width:50px}.bangumi-info .bangumi-progress{width:100%;height:24px;background-color:#f2f2f2;border-radius:5px;overflow:hidden;font-size:16px;text-align:center;position:relative}.bangumi-info .bangumi-progress-text{z-index:100;position:relative;color:#3c4858;line-height:24px}.bangumi-info .bangumi-progress .progress-bar{z-index:50;height:100%;background-color:#007bffad;border-radius:5px;position:absolute;top:0}
@@ -179,7 +177,7 @@
         (1)</a>
     <a class="bangumi-tab" id="bangumi-tab3" href="javascript:;" rel="external" target="_self" onclick="return false">
         已看
-        (107)</a>
+        (109)</a>
 </div>
 <div>
     <div id="bangumi-item1">
@@ -208,7 +206,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        21239
+                        22317
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -251,12 +249,12 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        25925
+                        27443
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
                     <span class="bangumi-info-label">评分</span>
-                    <em>7.5</em>
+                    <em>7.4</em>
                 </span>
             </span>
         </div>
@@ -296,7 +294,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        8853
+                        9405
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -343,12 +341,12 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        7288
+                        7619
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
                     <span class="bangumi-info-label">评分</span>
-                    <em>7.3</em>
+                    <em>7.2</em>
                 </span>
             </span>
         </div>
@@ -390,7 +388,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        1952
+                        1989
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -435,7 +433,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        7929
+                        8324
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -491,7 +489,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        18472
+                        19260
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -525,6 +523,116 @@
         
         
         <div class="bangumi-item">
+    <div class="bangumi-picture"><img src="https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.2.0/lib/img/loading.gif"  data-src="https://lain.bgm.tv/r/400/pic/cover/l/59/8d/90880_NYUDd.jpg" referrerPolicy="no-referrer" width="110" style="width:110px;margin:20px auto;" />
+    </div>
+    <div class="bangumi-info">
+        <div class="bangumi-title">
+            <a target="_blank" href="https://bangumi.tv/subject/90880">玉子爱情故事</a>
+        </div>
+        <div class="bangumi-meta">
+            <span class="bangumi-info-items" style="color:#7E2AA2;">
+                
+                    <span class="bangumi-info-item">
+                        <span class="bangumi-info-total">全1话</span><em
+                                class="bangumi-info-label-em">0</em>
+                        </span>
+                
+                <span class="bangumi-info-item bangumi-type">
+                    <span class="bangumi-info-label">类型</span> <em>动画</em>
+                </span>
+                <span class="bangumi-info-item bangumi-tag">
+                    <span class="bangumi-info-label">标签</span> <em>京阿尼</em>
+                </span>
+                <span class="bangumi-info-item bangumi-info-item-follow">
+                    <span class="bangumi-info-label">关注</span> <em>
+                        21392
+                    </em>
+                </span>
+                <span class="bangumi-info-item bangumi-info-item-score">
+                    <span class="bangumi-info-label">评分</span>
+                    <em>7.9</em>
+                </span>
+            </span>
+        </div>
+        
+        <div class="bangumi-summary" >
+            <p>
+                简介：时已入春，已经进入高中三年级的北白川玉子仍然总是想着打糕的事情。
+春天傍晚的放学路上，玉子好友四人组谈论着关于将来出路的事情。大家虽然对此感到不安，但似乎对将来的事情都有好好地考虑过。玉子也无意中说出自己将来想要继承家业。
+同时，住在玉...
+            </p>
+        </div>
+    </div>
+    
+    <div class="bangumi-comments" >
+            <div class="bangumi-my-comments">
+                我的评分：
+                    
+                        <span class="bangumi-starstop"><span
+                                class="bangumi-starlight stars8"></span></span>
+                        
+                                <br>
+                                我的评价：比tv动画节奏更紧凑，也更精彩
+            </div>
+    </div>
+</div>
+
+        
+        <div class="bangumi-item">
+    <div class="bangumi-picture"><img src="https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.2.0/lib/img/loading.gif"  data-src="https://lain.bgm.tv/r/400/pic/cover/l/f8/7f/55113_TR5Is.jpg" referrerPolicy="no-referrer" width="110" style="width:110px;margin:20px auto;" />
+    </div>
+    <div class="bangumi-info">
+        <div class="bangumi-title">
+            <a target="_blank" href="https://bangumi.tv/subject/55113">玉子市场</a>
+        </div>
+        <div class="bangumi-meta">
+            <span class="bangumi-info-items" style="color:#7E2AA2;">
+                
+                    <span class="bangumi-info-item">
+                        <span class="bangumi-info-total">全12话</span><em
+                                class="bangumi-info-label-em">0</em>
+                        </span>
+                
+                <span class="bangumi-info-item bangumi-type">
+                    <span class="bangumi-info-label">类型</span> <em>动画</em>
+                </span>
+                <span class="bangumi-info-item bangumi-tag">
+                    <span class="bangumi-info-label">标签</span> <em>京阿尼</em>
+                </span>
+                <span class="bangumi-info-item bangumi-info-item-follow">
+                    <span class="bangumi-info-label">关注</span> <em>
+                        21648
+                    </em>
+                </span>
+                <span class="bangumi-info-item bangumi-info-item-score">
+                    <span class="bangumi-info-label">评分</span>
+                    <em>7.2</em>
+                </span>
+            </span>
+        </div>
+        
+        <div class="bangumi-summary" >
+            <p>
+                简介：座落某个小镇的兔子商店街上，有一间日式饼店，住着一位十分喜欢饼类小吃的高中一年级女生——玉子。除了偶尔在店铺协助父亲，以及钻研新口味的饼类小吃外，她亦有跟学校的朋友参与羽毛球部活动。而饼店对面是同行的竞争对手，两边的父亲经常都因生意问题...
+            </p>
+        </div>
+    </div>
+    
+    <div class="bangumi-comments" >
+            <div class="bangumi-my-comments">
+                我的评分：
+                    
+                        <span class="bangumi-starstop"><span
+                                class="bangumi-starlight stars8"></span></span>
+                        
+                                <br>
+                                我的评价：轻松愉快的日常系作品
+            </div>
+    </div>
+</div>
+
+        
+        <div class="bangumi-item">
     <div class="bangumi-picture"><img src="https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.2.0/lib/img/loading.gif"  data-src="https://lain.bgm.tv/r/400/pic/cover/l/e4/dc/464376_NsZRw.jpg" referrerPolicy="no-referrer" width="110" style="width:110px;margin:20px auto;" />
     </div>
     <div class="bangumi-info">
@@ -543,16 +651,16 @@
                     <span class="bangumi-info-label">类型</span> <em>动画</em>
                 </span>
                 <span class="bangumi-info-item bangumi-tag">
-                    <span class="bangumi-info-label">标签</span> <em>A-1Pictures</em>
+                    <span class="bangumi-info-label">标签</span> <em>恋爱</em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        22735
+                        28029
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
                     <span class="bangumi-info-label">评分</span>
-                    <em>8.1</em>
+                    <em>8</em>
                 </span>
             </span>
         </div>
@@ -606,7 +714,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        30382
+                        31894
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -660,7 +768,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        37080
+                        38910
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -714,7 +822,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        26821
+                        28112
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -774,7 +882,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        4436
+                        5070
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -831,7 +939,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        25724
+                        26843
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -886,7 +994,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        14961
+                        15617
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -947,12 +1055,12 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        3356
+                        3526
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
                     <span class="bangumi-info-label">评分</span>
-                    <em>6.3</em>
+                    <em>6.2</em>
                 </span>
             </span>
         </div>
@@ -1001,12 +1109,12 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        8152
+                        8983
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
                     <span class="bangumi-info-label">评分</span>
-                    <em>7.3</em>
+                    <em>7.2</em>
                 </span>
             </span>
         </div>
@@ -1055,7 +1163,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        42424
+                        45150
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1109,7 +1217,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        15271
+                        16259
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1165,7 +1273,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        7574
+                        7834
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1221,7 +1329,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        28993
+                        32056
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1280,7 +1388,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        8918
+                        9325
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1339,7 +1447,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        8211
+                        8644
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1396,7 +1504,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        14775
+                        15340
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1452,7 +1560,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        22949
+                        23876
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1506,7 +1614,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        29859
+                        30980
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1560,7 +1668,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        7555
+                        7861
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1614,7 +1722,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        5552
+                        6062
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1671,7 +1779,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        10373
+                        10976
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1730,7 +1838,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        26581
+                        28065
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1787,7 +1895,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        21566
+                        22436
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1841,7 +1949,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        17680
+                        18358
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1895,7 +2003,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        11013
+                        11556
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -1950,7 +2058,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        18766
+                        19536
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2005,7 +2113,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        20474
+                        21549
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2059,7 +2167,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        13414
+                        14080
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2113,7 +2221,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        9280
+                        9826
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2170,7 +2278,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        6151
+                        6441
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2224,7 +2332,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        24971
+                        26262
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2278,7 +2386,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        30594
+                        31923
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2334,7 +2442,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        24526
+                        25590
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2388,7 +2496,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        9484
+                        9823
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2442,7 +2550,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        5364
+                        5611
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2496,7 +2604,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        17494
+                        18469
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2552,7 +2660,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        8347
+                        8781
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2607,7 +2715,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        7394
+                        7636
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2662,7 +2770,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        21232
+                        22351
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2717,7 +2825,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        4410
+                        4914
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2771,7 +2879,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        13538
+                        14253
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2826,7 +2934,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        23241
+                        24637
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2880,7 +2988,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        5616
+                        6004
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2934,7 +3042,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        17159
+                        18028
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -2991,7 +3099,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        12382
+                        13014
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3050,7 +3158,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        16114
+                        16812
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3104,7 +3212,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        13252
+                        13767
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3160,7 +3268,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        5481
+                        5710
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3214,7 +3322,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        4300
+                        4517
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3268,7 +3376,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        8568
+                        9004
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3322,7 +3430,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        7458
+                        7732
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3380,7 +3488,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        24682
+                        25749
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3440,7 +3548,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        22658
+                        23704
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3476,7 +3584,7 @@
     </div>
     <div class="bangumi-info">
         <div class="bangumi-title">
-            <a target="_blank" href="https://bangumi.tv/subject/109375">剧场版 Fate/stay night [Heaven&#39;s Feel] I.presage flower</a>
+            <a target="_blank" href="https://bangumi.tv/subject/109375">剧场版 Fate/stay night [天之杯] I.恶兆之花</a>
         </div>
         <div class="bangumi-meta">
             <span class="bangumi-info-items" style="color:#7E2AA2;">
@@ -3494,7 +3602,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        14676
+                        16760
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3530,7 +3638,7 @@
     </div>
     <div class="bangumi-info">
         <div class="bangumi-title">
-            <a target="_blank" href="https://bangumi.tv/subject/175599">剧场版 Fate/stay night [Heaven&#39;s Feel] II.lost butterfly</a>
+            <a target="_blank" href="https://bangumi.tv/subject/175599">剧场版 Fate/stay night [天之杯] II.迷失之蝶</a>
         </div>
         <div class="bangumi-meta">
             <span class="bangumi-info-items" style="color:#7E2AA2;">
@@ -3548,7 +3656,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        14106
+                        16179
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3585,7 +3693,7 @@
     </div>
     <div class="bangumi-info">
         <div class="bangumi-title">
-            <a target="_blank" href="https://bangumi.tv/subject/175600">剧场版 Fate/stay night [Heaven&#39;s Feel] III.spring song</a>
+            <a target="_blank" href="https://bangumi.tv/subject/175600">剧场版 Fate/stay night [天之杯] III.春之歌</a>
         </div>
         <div class="bangumi-meta">
             <span class="bangumi-info-items" style="color:#7E2AA2;">
@@ -3603,7 +3711,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        12256
+                        14009
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3660,7 +3768,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        18542
+                        19502
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3718,7 +3826,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        9189
+                        9700
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3774,7 +3882,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        9928
+                        10425
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3831,7 +3939,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        30409
+                        31955
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3886,7 +3994,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        24004
+                        25227
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3940,7 +4048,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        15545
+                        16491
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -3994,7 +4102,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        29168
+                        30755
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4051,7 +4159,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        15609
+                        16513
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4108,7 +4216,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        16319
+                        17119
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4164,7 +4272,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        16209
+                        17150
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4221,7 +4329,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        12582
+                        13295
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4276,7 +4384,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        11245
+                        12000
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4336,7 +4444,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        3921
+                        4498
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4390,7 +4498,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        5880
+                        6346
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4446,7 +4554,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        32854
+                        34513
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4500,7 +4608,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        6833
+                        7897
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4556,7 +4664,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        28758
+                        30313
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4612,7 +4720,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        26839
+                        28438
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4668,7 +4776,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        10118
+                        10945
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4726,7 +4834,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        28784
+                        30397
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4783,7 +4891,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        13508
+                        14260
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4837,7 +4945,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        12526
+                        13343
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4891,7 +4999,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        13098
+                        13503
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -4945,7 +5053,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        20777
+                        21540
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5000,7 +5108,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        17387
+                        18126
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5054,7 +5162,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        9350
+                        9746
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5111,7 +5219,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        2641
+                        2896
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5165,7 +5273,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        9321
+                        9754
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5219,7 +5327,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        6914
+                        7164
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5273,7 +5381,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        15011
+                        15500
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5329,7 +5437,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        34119
+                        35607
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5383,7 +5491,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        5642
+                        5792
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5437,7 +5545,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        15208
+                        15955
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5491,7 +5599,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        1215
+                        1281
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5545,7 +5653,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        6129
+                        6336
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5599,12 +5707,12 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        6147
+                        6322
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
                     <span class="bangumi-info-label">评分</span>
-                    <em>7.5</em>
+                    <em>7.6</em>
                 </span>
             </span>
         </div>
@@ -5654,7 +5762,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        3159
+                        3216
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5708,7 +5816,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        7933
+                        8226
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5762,7 +5870,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        1902
+                        1951
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5816,7 +5924,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        32096
+                        33389
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5870,7 +5978,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        21395
+                        22392
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5924,7 +6032,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        37566
+                        39614
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -5981,7 +6089,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        20501
+                        21772
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6041,7 +6149,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        15408
+                        16436
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6098,7 +6206,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        8921
+                        9394
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6156,7 +6264,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        13114
+                        13673
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6189,7 +6297,7 @@
 
         
         <div class="bangumi-item">
-    <div class="bangumi-picture"><img src="https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.2.0/lib/img/loading.gif"  data-src="https://lain.bgm.tv/r/400/pic/cover/l/80/d9/362575_5yQR2.jpg" referrerPolicy="no-referrer" width="110" style="width:110px;margin:20px auto;" />
+    <div class="bangumi-picture"><img src="https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.2.0/lib/img/loading.gif"  data-src="https://lain.bgm.tv/r/400/pic/cover/l/80/d9/362575_v9kT3.jpg" referrerPolicy="no-referrer" width="110" style="width:110px;margin:20px auto;" />
     </div>
     <div class="bangumi-info">
         <div class="bangumi-title">
@@ -6211,7 +6319,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        5672
+                        6264
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6267,7 +6375,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        3520
+                        3672
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6321,7 +6429,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        2974
+                        3274
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6376,7 +6484,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        25386
+                        26585
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6430,7 +6538,7 @@
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-follow">
                     <span class="bangumi-info-label">关注</span> <em>
-                        23983
+                        24890
                     </em>
                 </span>
                 <span class="bangumi-info-item bangumi-info-item-score">
@@ -6492,7 +6600,10 @@ const g="undefined"==typeof pagenumsPre?m[b].parentNode.siblings().length:pagenu
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/study/"><span class="card-category-list-name">学习笔记</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/life/"><span class="card-category-list-name">杂谈</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/share/"><span class="card-category-list-name">经验分享</span><span class="card-category-list-count">7</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/database/" style="font-size: 1.3em; color: #99a1ac">数据库</a> <a href="/tags/diary/" style="font-size: 1.2em; color: #999da3">杂记</a> <a href="/tags/java/" style="font-size: 1.5em; color: #99a9bf">Java</a> <a href="/tags/git/" style="font-size: 1.3em; color: #99a1ac">Git</a> <a href="/tags/develop/" style="font-size: 1.4em; color: #99a5b6">开发</a> <a href="/tags/blog/" style="font-size: 1.1em; color: #999">博客</a> <a href="/tags/server/" style="font-size: 1.2em; color: #999da3">服务器</a></div></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">15</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2022-05-11T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">33.3k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-10-22T13:22:00.818Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 贞宪</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.5em; color: #99a9bf">Java</a> <a href="/tags/server/" style="font-size: 1.2em; color: #999da3">服务器</a> <a href="/tags/diary/" style="font-size: 1.2em; color: #999da3">杂记</a> <a href="/tags/develop/" style="font-size: 1.4em; color: #99a5b6">开发</a> <a href="/tags/git/" style="font-size: 1.3em; color: #99a1ac">Git</a> <a href="/tags/database/" style="font-size: 1.3em; color: #99a1ac">数据库</a> <a href="/tags/blog/" style="font-size: 1.1em; color: #999">博客</a></div></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">15</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2022-05-11T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">33.3k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-12-30T02:37:56.044Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 贞宪</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
   const getCount = () => {
     const countELement = document.getElementById('twikoo-count')
     if(!countELement) return
@@ -6508,22 +6619,38 @@ const g="undefined"==typeof pagenumsPre?m[b].parentNode.siblings().length:pagenu
     })
   }
 
-  const init = () => {
-    twikoo.init(Object.assign({
-      el: '#twikoo-wrap',
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
       envId: 'https://twikoo.dongzhenxian.com/.netlify/functions/twikoo',
       region: '',
       onCommentLoaded: () => {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
-      }
-    }, null))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
 
     
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
   }
 
-  const loadTwikoo = () => {
-    if (typeof twikoo === 'object') setTimeout(init,0)
-    else btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.39/twikoo.all.min.js').then(init)
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.40/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
   }
 
   if ('Twikoo' === 'Twikoo' || !false) {
