@@ -1,6 +1,6 @@
 {
   "name": "hexo-blog-xe",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "private": true,
   "scripts": {
     "build": "hexo generate",
